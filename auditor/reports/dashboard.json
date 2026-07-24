@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-23T22:46:28Z",
+  "generated_at": "2026-07-24T22:47:11Z",
   "since": null,
   "summary": {
     "total_repos": 280,
@@ -313,7 +313,7 @@
     },
     {
       "repo": "LukeRenton/explore-claude-code",
-      "status": "contributed",
+      "status": "complete",
       "stars": 237,
       "score": 89,
       "security": "REVIEW",
@@ -2797,7 +2797,7 @@
     },
     {
       "repo": "fcakyon/claude-codex-settings",
-      "status": "contributed",
+      "status": "complete",
       "stars": 590,
       "score": 79,
       "security": "REVIEW",
@@ -5154,6 +5154,19 @@
         "status_check": 6,
         "classifications_emitted": 1,
         "finding_outcome": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-07-24",
+      "counts": {
+        "finding_outcome": 7,
+        "status_check": 5,
+        "classifications_emitted": 1,
+        "finding_verified": 44,
+        "finding_introduced": 11,
+        "no_narrative": 2,
         "report_generated": 1
       }
     }
