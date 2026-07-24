@@ -30,10 +30,10 @@
       "self_false_positive": 4,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 22,
-      "verified_persists": 6,
-      "verify_rate": 0.7857142857142857,
-      "introduced_since_audit": 40,
+      "verified_fixed": 23,
+      "verified_persists": 15,
+      "verify_rate": 0.6052631578947368,
+      "introduced_since_audit": 44,
       "state": "healthy"
     },
     "R33": {
@@ -142,10 +142,10 @@
       "self_false_positive": 1,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 11,
+      "verified_fixed": 12,
       "verified_persists": 0,
       "verify_rate": 1.0,
-      "introduced_since_audit": 90,
+      "introduced_since_audit": 91,
       "state": "healthy"
     },
     "R14": {
@@ -169,10 +169,10 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 1,
-      "verified_persists": 1,
-      "verify_rate": 0.5,
+      "verified_persists": 4,
+      "verify_rate": 0.2,
       "introduced_since_audit": 26,
-      "state": "healthy"
+      "state": "noisy"
     },
     "R20": {
       "total_hits": 38,
@@ -233,9 +233,9 @@
       "self_false_positive": 1,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 4,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 46,
       "state": "healthy"
     },
@@ -285,10 +285,10 @@
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 20,
+      "verified_fixed": 25,
       "verified_persists": 0,
       "verify_rate": 1.0,
-      "introduced_since_audit": 202,
+      "introduced_since_audit": 203,
       "state": "healthy"
     },
     "R09": {
@@ -298,10 +298,10 @@
       "self_false_positive": 1,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 11,
-      "verified_persists": 5,
-      "verify_rate": 0.6875,
-      "introduced_since_audit": 128,
+      "verified_fixed": 15,
+      "verified_persists": 7,
+      "verify_rate": 0.6818181818181818,
+      "introduced_since_audit": 133,
       "state": "healthy"
     },
     "UNCLASSIFIED": {
@@ -312,8 +312,8 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 85,
-      "verified_persists": 0,
-      "verify_rate": 1.0,
+      "verified_persists": 1,
+      "verify_rate": 0.9883720930232558,
       "introduced_since_audit": 52,
       "state": "healthy"
     },
@@ -442,8 +442,8 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 3,
-      "verified_persists": 0,
-      "verify_rate": 1.0,
+      "verified_persists": 3,
+      "verify_rate": 0.5,
       "introduced_since_audit": 14,
       "state": "healthy"
     },
@@ -455,8 +455,8 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 1,
-      "verified_persists": 8,
-      "verify_rate": 0.1111111111111111,
+      "verified_persists": 12,
+      "verify_rate": 0.07692307692307693,
       "introduced_since_audit": 7,
       "state": "noisy"
     },
@@ -584,9 +584,9 @@
       "self_false_positive": 1,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 1,
+      "verified_fixed": 2,
       "verified_persists": 1,
-      "verify_rate": 0.5,
+      "verify_rate": 0.6666666666666666,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -1347,13 +1347,13 @@
     "BUG-hardcoded-path": {
       "total_hits": 4,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 1,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 1,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -5030,22 +5030,22 @@
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
-      "verified_persists": 0,
-      "verify_rate": null,
+      "verified_fixed": 2,
+      "verified_persists": 1,
+      "verify_rate": 0.6666666666666666,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
     "SEC-bypass-permissions": {
       "total_hits": 1,
-      "led_to_merged_pr": 0,
+      "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
-      "verified_fixed": 0,
+      "verified_fixed": 1,
       "verified_persists": 0,
-      "verify_rate": null,
+      "verify_rate": 1.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -5057,8 +5057,8 @@
       "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
-      "verified_persists": 0,
-      "verify_rate": null,
+      "verified_persists": 1,
+      "verify_rate": 0.0,
       "introduced_since_audit": 0,
       "state": "healthy"
     },
@@ -5535,7 +5535,7 @@
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 2,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 2,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
       "verified_persists": 0,
@@ -5550,9 +5550,9 @@
     "total_events": 16,
     "total_audits": 10,
     "total_prs_submitted": 321,
-    "total_prs_merged": 114,
-    "total_prs_rejected": 59,
+    "total_prs_merged": 115,
+    "total_prs_rejected": 60,
     "total_prs_applied_separately": 24,
-    "updated_at": "2026-07-23T22:20:20.632869Z"
+    "updated_at": "2026-07-24T22:22:21.160987Z"
   }
 }
