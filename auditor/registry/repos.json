@@ -3969,7 +3969,7 @@
           "rule_ids": [
             "BUG-undeclared-tool"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 47,
@@ -3988,7 +3988,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 48,
@@ -4007,7 +4007,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 41,
@@ -4036,7 +4036,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 43,
