@@ -6623,7 +6623,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 81,
@@ -6640,7 +6640,7 @@
           "rule_ids": [
             "SEC-credential-in-url"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 82,
@@ -6657,7 +6657,7 @@
           "rule_ids": [
             "SEC-unpinned-semver"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 83,
@@ -6674,7 +6674,7 @@
           "rule_ids": [
             "SEC-path-traversal"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -6776,7 +6776,7 @@
             "CC-terminology-drift",
             "CC-terminology-drift"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 1362,
@@ -6793,7 +6793,7 @@
           "rule_ids": [
             "BUG-broken-reference"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 1363,
@@ -6812,7 +6812,7 @@
             "BUG-broken-reference",
             "BUG-broken-reference"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -7100,7 +7100,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 47,
@@ -7119,7 +7119,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 45,
@@ -7140,7 +7140,7 @@
             "SEC-network-deploy-public",
             "SEC-path-delimiter-injection"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
