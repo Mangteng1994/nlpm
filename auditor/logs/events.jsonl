@@ -3653,3 +3653,4 @@
 {"timestamp":"2026-07-25T20:32:10Z","workflow":"track","event":"status_check","run_id":"30173412208","run_number":591,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
 {"timestamp":"2026-07-25T22:17:13Z","workflow":"daily-report","event":"report_generated","run_id":"30177271143","run_number":113,"data":{"total_repos":280}}
 {"timestamp":"2026-07-25T22:46:31Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"30178202703","run_number":69,"data":{"repos":280,"findings":5283,"advisories":22}}
+{"timestamp":"2026-07-26T00:22:55Z","workflow":"suppressions","event":"scan_complete","run_id":"30181054639","run_number":14,"data":{"candidates":2,"emitted":2,"skipped_self":1,"skipped_dup":0,"skipped_no_overrides":0,"search_ok":true}}
