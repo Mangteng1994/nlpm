@@ -3665,3 +3665,4 @@
 {"timestamp":"2026-07-26T09:44:07Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"30196980022","run_number":17,"data":{"proposals":0,"skipped_existing_open":1}}
 {"timestamp":"2026-07-26T12:38:51Z","workflow":"track","event":"status_check","run_id":"30202110461","run_number":595,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
 {"timestamp":"2026-07-26T16:32:58Z","workflow":"track","event":"status_check","run_id":"30210311551","run_number":596,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
+{"timestamp":"2026-07-26T20:33:51Z","workflow":"track","event":"status_check","run_id":"30218863279","run_number":597,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
