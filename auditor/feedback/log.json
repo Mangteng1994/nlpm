@@ -193,7 +193,7 @@
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
-      "downstream_suppressions": 8,
+      "downstream_suppressions": 9,
       "verified_fixed": 0,
       "verified_persists": 0,
       "verify_rate": null,
@@ -1349,7 +1349,7 @@
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 1,
       "verified_persists": 0,
@@ -5553,6 +5553,6 @@
     "total_prs_merged": 115,
     "total_prs_rejected": 63,
     "total_prs_applied_separately": 24,
-    "updated_at": "2026-07-25T22:17:13.655549Z"
+    "updated_at": "2026-07-26T22:19:04.651033Z"
   }
 }
