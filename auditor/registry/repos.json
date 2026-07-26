@@ -4274,7 +4274,7 @@
           "rule_ids": [
             "BUG-broken-reference"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 51,
@@ -4291,7 +4291,7 @@
           "rule_ids": [
             "BUG-broken-reference"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 52,
@@ -4308,7 +4308,7 @@
           "rule_ids": [
             "SEC-path-traversal"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 53,
@@ -4329,7 +4329,7 @@
             "SEC-unpinned-semver",
             "SEC-unpinned-semver"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
