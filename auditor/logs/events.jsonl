@@ -3673,3 +3673,4 @@
 {"timestamp":"2026-07-27T05:29:45Z","workflow":"track","event":"status_check","run_id":"30239486440","run_number":599,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
 {"timestamp":"2026-07-27T07:05:15Z","workflow":"discover","event":"search_complete","run_id":"30244750925","run_number":37,"data":{"candidates":160,"new":52,"worthy":0,"oversized":63}}
 {"timestamp":"2026-07-27T09:22:53Z","workflow":"track","event":"status_check","run_id":"30252894176","run_number":600,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
+{"timestamp":"2026-07-27T13:18:13Z","workflow":"track","event":"status_check","run_id":"30268874664","run_number":601,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
