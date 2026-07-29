@@ -2922,7 +2922,7 @@
             "BUG-missing-frontmatter",
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 1053,
@@ -2941,7 +2941,7 @@
             "BUG-hardcoded-path",
             "SEC-hardcoded-developer-path"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
