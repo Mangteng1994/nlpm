@@ -858,7 +858,7 @@
           "rule_ids": [
             "SEC-outbound-network-call"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
