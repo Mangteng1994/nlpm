@@ -3701,3 +3701,4 @@
 {"timestamp":"2026-07-29T22:46:56Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"30497322727","run_number":73,"data":{"repos":280,"findings":5283,"advisories":22}}
 {"timestamp":"2026-07-30T00:42:04Z","workflow":"track","event":"finding_outcome","run_id":"30503218863","run_number":616,"data":{"pr":"gemini-cli-extensions/conductor#175","pr_state":"merged","fingerprints":[],"rule_ids":[]}}
 {"timestamp":"2026-07-30T00:47:44Z","workflow":"track","event":"status_check","run_id":"30503218863","run_number":616,"data":{"contributed":57,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
+{"timestamp":"2026-07-30T04:34:21Z","workflow":"classify","event":"classifications_emitted","run_id":"30514189845","run_number":101,"data":{"classifications":0,"invalid":0,"no_dissent":true}}
