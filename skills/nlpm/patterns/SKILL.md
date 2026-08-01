@@ -19,9 +19,9 @@ Write agent and skill descriptions with 3+ specific trigger phrases rather than 
 **Good:**
 ```yaml
 description: |
-  Lints NL artifacts for quality issues. Use this agent when scoring plugin
-  components, running static analysis on prompts, checking command completeness,
-  or auditing skill descriptions for vagueness.
+  Scores NL artifacts and reports findings. Use this agent when scoring plugin
+  artifacts, checking prompts for quality findings, checking command
+  completeness, or auditing skill descriptions for vagueness.
 ```
 
 **Bad:**
@@ -274,7 +274,7 @@ A single unstructured block of instructions — no headings, no sections, no num
 
 ### A6: Rules Duplicating Linters (R24)
 
-If eslint, ruff, clippy, or another static analysis tool already catches a code-level issue, a Claude rule that re-states it is redundant noise. Rules should cover intent, architecture, and NL artifact quality — things linters can't check.
+If eslint, ruff, clippy, or another static analysis tool already catches a code-level finding, a Claude rule that re-states it is redundant noise. Rules should cover intent, architecture, and NL artifact quality — things linters can't check.
 
 **Fix:** Reference the tool instead: "Run `ruff check` before committing — it enforces all formatting rules."
 

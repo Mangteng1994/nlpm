@@ -17,6 +17,8 @@ version: 0.2.0
 Bad: "Use appropriate error handling."
 Good: "Return `Result<T, AppError>` from all API handlers. Map errors to HTTP status codes via the `From<AppError> for StatusCode` impl."
 
+Mention versus use: a vague term presented as a literal token that the clause explicitly instructs a reader or tool to detect, flag, or replace is data, not an instruction, and is not counted (see the exclusion note in `nlpm:scoring`). Backticks alone do not qualify.
+
 <!-- nlpm-exemplar-citation:begin -->
 > Real-world example: [AgriciDaniel-claude-ads](../../../auditor/exemplars/AgriciDaniel-claude-ads.md), [ChromeDevTools-chrome-devtools-mcp](../../../auditor/exemplars/ChromeDevTools-chrome-devtools-mcp.md), [Graphify-Labs-graphify](../../../auditor/exemplars/Graphify-Labs-graphify.md), [Xquik-dev-x-twitter-scraper](../../../auditor/exemplars/Xquik-dev-x-twitter-scraper.md), [blader-humanizer](../../../auditor/exemplars/blader-humanizer.md), [coreyhaines31-marketingskills](../../../auditor/exemplars/coreyhaines31-marketingskills.md), [earthtojake-text-to-cad](../../../auditor/exemplars/earthtojake-text-to-cad.md), [google-labs-code-stitch-skills](../../../auditor/exemplars/google-labs-code-stitch-skills.md), [greensock-gsap-skills](../../../auditor/exemplars/greensock-gsap-skills.md), [kazukinagata-shinkoku](../../../auditor/exemplars/kazukinagata-shinkoku.md), [krodak-clickup-cli](../../../auditor/exemplars/krodak-clickup-cli.md), [larksuite-cli](../../../auditor/exemplars/larksuite-cli.md), [nexu-io-open-design](../../../auditor/exemplars/nexu-io-open-design.md), [prompt-security-clawsec](../../../auditor/exemplars/prompt-security-clawsec.md), [realrossmanngroup-no_ai_slop_writing_rules](../../../auditor/exemplars/realrossmanngroup-no_ai_slop_writing_rules.md), [slavingia-skills](../../../auditor/exemplars/slavingia-skills.md), [tintinweb-pi-subagents](../../../auditor/exemplars/tintinweb-pi-subagents.md)
 <!-- nlpm-exemplar-citation:end -->
@@ -144,7 +146,7 @@ Good: `<example>\nContext: Developer refactoring auth module before PR\nuser: "C
 
 **R19. `user-invocable: false` is mandatory.** Without it, the partial appears as a user command.
 
-*Does not apply to:* standalone commands, including commands whose body is a single unconditional message. `user-invocable: false` is only required for fragments designed to be imported by other commands — not for executable commands that happen to be simple. A command that issues one unconditional instruction is a command, not a shared partial.
+*Does not apply to:* standalone commands, including commands whose body is a single unconditional message. `user-invocable: false` is only required for shared partials designed to be imported by other commands — not for executable commands that happen to be simple. A command that issues one unconditional instruction is a command, not a shared partial.
 
 **R20. `description` must state purpose.** What the partial does, which commands use it.
 

@@ -181,7 +181,7 @@ SECTION_CATEGORIES: list[tuple[str, str]] = [
     (r"^security\s+fixes?\b", "security"),
     (r"^bugs?\b", "bug"),
     (r"^quality\s+issues?\b", "nl_quality"),
-    (r"^cross[-\s]?component", "cross_component"),
+    (r"^cross[-\s]?(?:component|artifact)", "cross_component"),
 ]
 
 
@@ -303,7 +303,8 @@ COLUMN_ROLES: list[tuple[str, str]] = [
     (r"\bfiles?\b|\bartifacts?\b", "file"),
     (r"\btypes?\b", "type"),
     (r"\bscores?\b", "score"),
-    (r"\bissues?\b|\bdescription\b|\btop\s+issue\b|\btop\s+penalty\b",
+    (r"\bissues?\b|\bfindings?\b|\bdescription\b|\btop\s+issue\b"
+     r"|\btop\s+finding\b|\btop\s+penalty\b",
      "issue"),
     (r"\bimpact\b", "impact"),
     (r"\bpenalt(?:y|ies)\b", "penalty"),
@@ -404,7 +405,7 @@ FILE_LINE_RE = re.compile(
     r"^\s*\*\*Files?:\*\*\s*(.+)$", re.IGNORECASE
 )
 ISSUE_LINE_RE = re.compile(
-    r"^\s*\*\*Issue:\*\*\s*(.+)$", re.IGNORECASE
+    r"^\s*\*\*(?:Issue|Finding):\*\*\s*(.+)$", re.IGNORECASE
 )
 SEVERITY_LINE_RE = re.compile(
     r"^\s*\*\*Severity:\*\*\s*(.+)$", re.IGNORECASE

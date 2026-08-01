@@ -90,7 +90,7 @@ Duplicate-name skills across scopes are NOT merged — both appear in selectors,
 ```
 
 **Required fields:** `name` (kebab-case), `version` (semver), `description`.
-**Optional component paths** (all relative `./` paths only): `skills`, `mcpServers`, `apps`, `hooks`.
+**Optional artifact paths** (all relative `./` paths only): `skills`, `mcpServers`, `apps`, `hooks`.
 **Optional identity fields (added 2026-06):** `author` (`{name, email, url}`), `homepage`, `repository`, `license`, `keywords`.
 **Optional UI block** `interface`:
 - `displayName`, `shortDescription`, `longDescription`, `developerName`, `category`, `capabilities`
@@ -234,7 +234,7 @@ Repos relying on the removed built-in MCPs will silently regress under 0.131+. n
 This skill covers Codex CLI conventions. It does NOT cover:
 - Universal SKILL.md spec → `nlpm:conventions`
 - Penalty tables → `nlpm:scoring`
-- Cross-component validation → invoked by `agents/checker.md`
+- Cross-artifact check → invoked by `agents/checker.md`
 
 **Resolved in the 2026-06-07 refresh:**
 - `child_agents_md` feature flag — **not found** in any current doc (config-reference, config-advanced, agents-md). Treat as removed/never-shipped; do not score against it.
