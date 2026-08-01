@@ -12,7 +12,7 @@
       <h1>NLPM Framework Reference</h1>
       <p class="proj">All rules, principles, and vocabulary concepts linked from reports.
         <span class="muted">·</span>
-        <span class="muted">2026-07-31T22:47:04Z</span>
+        <span class="muted">2026-08-01T22:46:02Z</span>
       </p>
     </div>
     <div class="hdr-right">
@@ -37,6 +37,7 @@
       <p class="hint">R01 through R51. Findings in the report link to the specific rule that triggered them.</p>
       <section class="rule" id="R01"><h3><a href="#R01" class="anchor">#</a> R01 — No vague quantifiers without criteria</h3><p>&quot;appropriate&quot;, &quot;relevant&quot;, &quot;as needed&quot;, &quot;sufficient&quot;, &quot;adequate&quot;, &quot;reasonable&quot;, &quot;properly&quot;, &quot;correctly&quot;, &quot;some&quot;, &quot;several&quot;, &quot;various&quot; are meaningless without specifics. Replace with measurable criteria. Penalty: -2 each, cap -20.</p>
 <p>Bad: &quot;Use appropriate error handling.&quot; Good: &quot;Return <code>Result&lt;T, AppError&gt;</code> from all API handlers. Map errors to HTTP status codes via the <code>From&lt;AppError&gt; for StatusCode</code> impl.&quot;</p>
+<p>Mention versus use: a vague term presented as a literal token that the clause explicitly instructs a reader or tool to detect, flag, or replace is data, not an instruction, and is not counted (see the exclusion note in <code>nlpm:scoring</code>). Backticks alone do not qualify.</p>
 <p>&lt;!-- nlpm-exemplar-citation:begin --&gt;</p>
 <blockquote>
 <p>Real-world example: <a href="../../../auditor/exemplars/AgriciDaniel-claude-ads.md">AgriciDaniel-claude-ads</a>, <a href="../../../auditor/exemplars/ChromeDevTools-chrome-devtools-mcp.md">ChromeDevTools-chrome-devtools-mcp</a>, <a href="../../../auditor/exemplars/Graphify-Labs-graphify.md">Graphify-Labs-graphify</a>, <a href="../../../auditor/exemplars/Xquik-dev-x-twitter-scraper.md">Xquik-dev-x-twitter-scraper</a>, <a href="../../../auditor/exemplars/blader-humanizer.md">blader-humanizer</a>, <a href="../../../auditor/exemplars/coreyhaines31-marketingskills.md">coreyhaines31-marketingskills</a>, <a href="../../../auditor/exemplars/earthtojake-text-to-cad.md">earthtojake-text-to-cad</a>, <a href="../../../auditor/exemplars/google-labs-code-stitch-skills.md">google-labs-code-stitch-skills</a>, <a href="../../../auditor/exemplars/greensock-gsap-skills.md">greensock-gsap-skills</a>, <a href="../../../auditor/exemplars/kazukinagata-shinkoku.md">kazukinagata-shinkoku</a>, <a href="../../../auditor/exemplars/krodak-clickup-cli.md">krodak-clickup-cli</a>, <a href="../../../auditor/exemplars/larksuite-cli.md">larksuite-cli</a>, <a href="../../../auditor/exemplars/nexu-io-open-design.md">nexu-io-open-design</a>, <a href="../../../auditor/exemplars/prompt-security-clawsec.md">prompt-security-clawsec</a>, <a href="../../../auditor/exemplars/realrossmanngroup-no_ai_slop_writing_rules.md">realrossmanngroup-no_ai_slop_writing_rules</a>, <a href="../../../auditor/exemplars/slavingia-skills.md">slavingia-skills</a>, <a href="../../../auditor/exemplars/tintinweb-pi-subagents.md">tintinweb-pi-subagents</a></p>
@@ -146,7 +147,7 @@
 </blockquote>
 <p>&lt;!-- nlpm-exemplar-citation:end --&gt;</p></section>
 <section class="rule" id="R19"><h3><a href="#R19" class="anchor">#</a> R19 — `user-invocable: false` is mandatory</h3><p>Without it, the partial appears as a user command.</p>
-<p><em>Does not apply to:</em> standalone commands, including commands whose body is a single unconditional message. <code>user-invocable: false</code> is only required for fragments designed to be imported by other commands — not for executable commands that happen to be simple. A command that issues one unconditional instruction is a command, not a shared partial.</p></section>
+<p><em>Does not apply to:</em> standalone commands, including commands whose body is a single unconditional message. <code>user-invocable: false</code> is only required for shared partials designed to be imported by other commands — not for executable commands that happen to be simple. A command that issues one unconditional instruction is a command, not a shared partial.</p></section>
 <section class="rule" id="R20"><h3><a href="#R20" class="anchor">#</a> R20 — `description` must state purpose</h3><p>What the partial does, which commands use it.</p></section>
 <section class="rule" id="R21"><h3><a href="#R21" class="anchor">#</a> R21 — Bold imperative + rationale</h3><p>Three parts: what to do, what goes wrong without it, why. <code>**Use X.** Without it, Y breaks because Z.</code></p>
 <p>Bad: <code>Don&#39;t use any.</code> Good: <code>**Use specific types instead of any.** Without specific types, TypeScript&#39;s compiler can&#39;t catch type errors at build time, and refactoring becomes unsafe because callers and callees disagree silently.</code></p>
@@ -450,6 +451,14 @@
 <tr><td><code>manifest</code></td><td><code>plugin.json</code> or <code>marketplace.json</code></td><td><code>.claude-plugin/plugin.json</code></td></tr>
 <tr><td><code>frontmatter</code></td><td>YAML block delimited by <code>---</code> at the top of a Markdown file</td><td>every command, agent, skill</td></tr>
 </tbody></table>
+<p><strong>Sanctioned homonyms</strong> (distinct senses, not drift — the drift scanner should not cluster these against the canonical nouns above):</p>
+<table>
+<thead><tr><th>Term</th><th>Sanctioned sense</th><th>Where</th></tr></thead>
+<tbody>
+<tr><td><code>component</code></td><td>a structural part of the <em>scored project&#39;s</em> codebase — code modules, directories, services; may not be NL artifacts at all</td><td>R35/R49 rule text (&quot;component map&quot;), <code>skills/nlpm/scoring/SKILL.md</code> R35 row</td></tr>
+<tr><td><code>issue</code></td><td>a GitHub issue — the platform object the auditor opens, tracks, and closes</td><td>auditor scope: workflows, <code>auditor-rule-review.yml</code>, AGENTS.md auditor pipeline prose</td></tr>
+</tbody></table>
+<p>Everywhere else, <code>component</code> naming plugin pieces (command/agent/skill/hook) and <code>issue</code> naming a detected problem are drift: the canonical nouns are <code>artifact</code> and <code>finding</code>.</p>
 <h5>Implementation-role nouns (P2/P3 — agent names ride alongside command verbs)</h5>
 <table>
 <thead><tr><th>Role-noun</th><th>Paired verb</th><th>File</th></tr></thead>
@@ -621,7 +630,7 @@
 </ul>
 <p><strong>Tool-specific memory-file extensions</strong> (e.g., Claude Code&#39;s <code>@</code>-import syntax, Gemini&#39;s <code>@{path}</code> injection, Codex&#39;s <code>project_doc_fallback_filenames</code>) live in the per-tool overlays.</p>
 <h5>Agent workflow programs (recognized variant, no penalty rubric yet)</h5>
-<p>Some repos ship a single project-root Markdown file that drives an autonomous agent loop — imperative numbered steps with output formats and error paths, sitting between a memory file (AGENTS.md-shaped context) and a slash command (workflow with verifiable side effects). Karpathy&#39;s <code>program.md</code> in <a href="https://github.com/karpathy/autoresearch"><code>karpathy/autoresearch</code></a> is the canonical example (audited 2026-05-28 at score ~90; see <a href="../../../auditor/exemplars/karpathy-autoresearch.md"><code>auditor/exemplars/karpathy-autoresearch.md</code></a>). The README explicitly frames it as natural-language programming: &quot;you are programming the <code>program.md</code> Markdown files that provide context to the AI agents.&quot;</p>
+<p>An agent workflow program is a single project-root Markdown file that drives an autonomous agent loop — imperative numbered steps with output formats and error paths, sitting between a memory file (AGENTS.md-shaped context) and a slash command (workflow with verifiable side effects). Karpathy&#39;s <code>program.md</code> in <a href="https://github.com/karpathy/autoresearch"><code>karpathy/autoresearch</code></a> is the canonical example (audited 2026-05-28 at score ~90; see <a href="../../../auditor/exemplars/karpathy-autoresearch.md"><code>auditor/exemplars/karpathy-autoresearch.md</code></a>). The README explicitly frames it as natural-language programming: &quot;you are programming the <code>program.md</code> Markdown files that provide context to the AI agents.&quot;</p>
 <p>nlpm recognizes the pattern but does not yet have a dedicated penalty rubric — the universal floor (R01 vague quantifiers, R03 positive framing, R09 prompt layers) + the command rules (R14–R17) + the memory-file rules (R33–R39) cover it adequately as a hybrid. A standalone rubric is deferred until N≥3 examples surface, per the same &quot;don&#39;t build for an empty corpus&quot; discipline applied to multi-tool discovery.</p>
 <p>---</p></section>
 <section class="artifact-type" id="artifact-general-prompt-engineering"><h3><a href="#artifact-general-prompt-engineering" class="anchor">#</a> General Prompt Engineering</h3><p>Universal patterns applicable to any NL artifact (commands, agents, skills, prompts) regardless of tool.</p>
@@ -655,9 +664,9 @@
 <tr><td>Skill references</td><td><code>plugin-name:skill-name</code></td><td><code>nlpm:conventions</code>, <code>tdd-guardian:rules</code></td></tr>
 <tr><td>Rule files (ordered)</td><td><code>NN-kebab.md</code></td><td><code>01-formatting.md</code></td></tr>
 <tr><td>Environment variables</td><td>SCREAMING_SNAKE</td><td><code>OPENAI_API_KEY</code>, <code>CLAUDE_PLUGIN_ROOT</code></td></tr>
-<tr><td>Plugin directory env vars</td><td><code>&lt;TOOL&gt;_PLUGIN_ROOT</code></td><td><code>CLAUDE_PLUGIN_ROOT</code>, <code>CODEX_PLUGIN_ROOT</code></td></tr>
+<tr><td>Plugin directory env vars</td><td>tool-specific (no universal <code>&lt;TOOL&gt;_PLUGIN_ROOT</code> pattern)</td><td>Claude: <code>CLAUDE_PLUGIN_ROOT</code>. Codex: <code>PLUGIN_ROOT</code> / <code>PLUGIN_DATA</code> (also mirrors <code>CLAUDE_PLUGIN_ROOT</code> for compat — there is <strong>no</strong> <code>CODEX_PLUGIN_ROOT</code>)</td></tr>
 </tbody></table>
-<p><strong>Portable paths:</strong> Within a plugin, always reference files via the tool&#39;s plugin-root environment variable (e.g., <code>${CLAUDE_PLUGIN_ROOT}</code> for Claude, equivalent for Codex). Hardcoded absolute paths break portability.</p>
+<p><strong>Portable paths:</strong> Within a plugin, always reference files via the tool&#39;s plugin-root environment variable — <code>${CLAUDE_PLUGIN_ROOT}</code> in Claude Code, <code>${PLUGIN_ROOT}</code> in Codex (Codex additionally sets <code>CLAUDE_PLUGIN_ROOT</code> / <code>CLAUDE_PLUGIN_DATA</code> for compatibility with existing plugin hooks). Hardcoded absolute paths break portability.</p>
 <p>Tool-specific naming details (e.g., the exact <code>CLAUDE_PLUGIN_ROOT</code> semantics) live in the per-tool overlays.</p>
 <p>---</p></section>
 <section class="artifact-type" id="artifact-rule-overrides-claude-nlpm-local-md-or-equivalent"><h3><a href="#artifact-rule-overrides-claude-nlpm-local-md-or-equivalent" class="anchor">#</a> Rule Overrides (`.claude/nlpm.local.md` or equivalent)</h3><p>The override system is universal. The configuration file path is per-tool:</p>
