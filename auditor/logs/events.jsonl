@@ -3739,3 +3739,4 @@
 {"timestamp":"2026-08-02T22:17:50Z","workflow":"daily-report","event":"report_generated","run_id":"30769783214","run_number":121,"data":{"total_repos":280}}
 {"timestamp":"2026-08-02T22:46:30Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"30770835425","run_number":77,"data":{"repos":280,"findings":5283,"advisories":22}}
 {"timestamp":"2026-08-03T00:52:50Z","workflow":"track","event":"status_check","run_id":"30775102917","run_number":640,"data":{"contributed":57,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
+{"timestamp":"2026-08-03T04:44:13Z","workflow":"classify","event":"classifications_emitted","run_id":"30785181323","run_number":105,"data":{"classifications":0,"invalid":0,"no_dissent":true}}
