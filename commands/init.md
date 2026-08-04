@@ -1,6 +1,6 @@
 ---
 name: init
-description: "Initialize NLPM for this project — detect artifacts, set strictness, capture baseline trend snapshot"
+description: "Prepare NLPM for this project — detect artifacts, set strictness, capture baseline trend snapshot"
 allowed-tools: Read, Write, Glob, Bash, AskUserQuestion, Task
 ---
 
@@ -67,7 +67,7 @@ If Step 2 found zero artifacts, skip this step — there is nothing to score and
 ### Step 7: Confirm
 
 ```
-NLPM initialized for this project.
+NLPM is ready for this project.
   Strictness: {standard}
   Threshold: {70}/100
   Artifacts found: {N}
