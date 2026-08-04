@@ -12,7 +12,7 @@
       <h1>NLPM Framework Reference</h1>
       <p class="proj">All rules, principles, and vocabulary concepts linked from reports.
         <span class="muted">·</span>
-        <span class="muted">2026-08-03T22:47:05Z</span>
+        <span class="muted">2026-08-04T22:48:25Z</span>
       </p>
     </div>
     <div class="hdr-right">
@@ -86,7 +86,7 @@
 </blockquote>
 <p>&lt;!-- nlpm-exemplar-citation:end --&gt;</p></section>
 <section class="rule" id="R09"><h3><a href="#R09" class="anchor">#</a> R09 — `&lt;example&gt;` blocks are mandatory</h3><p>Minimum 2. Each: Context (what user is doing) + user message + assistant response. Without them, triggering is unreliable.</p>
-<p>Bad: <code>&lt;example&gt;\nContext: User needs help\nuser: &quot;help me&quot;\nassistant: &quot;I&#39;ll help.&quot;\n&lt;/example&gt;</code> Good: <code>&lt;example&gt;\nContext: Developer refactoring auth module before PR\nuser: &quot;Check if the auth changes have any security issues before I merge&quot;\nassistant: &quot;I&#39;ll dispatch the security-reviewer to audit the auth changes for vulnerabilities.&quot;\n&lt;/example&gt;</code></p>
+<p>Bad: <code>&lt;example&gt;\nContext: User needs help\nuser: &quot;help me&quot;\nassistant: &quot;I&#39;ll help.&quot;\n&lt;/example&gt;</code> Good: <code>&lt;example&gt;\nContext: Developer refactoring auth module before PR\nuser: &quot;Check if the auth changes have any security vulnerabilities before I merge&quot;\nassistant: &quot;I&#39;ll dispatch the security-reviewer to audit the auth changes for vulnerabilities.&quot;\n&lt;/example&gt;</code></p>
 <p>&lt;!-- nlpm-exemplar-citation:begin --&gt;</p>
 <blockquote>
 <p>Real-world example: <a href="../../../auditor/exemplars/data-goblin-power-bi-agentic-development.md">data-goblin-power-bi-agentic-development</a>, <a href="../../../auditor/exemplars/matt1398-claude-devtools.md">matt1398-claude-devtools</a>, <a href="../../../auditor/exemplars/nicknisi-claude-plugins.md">nicknisi-claude-plugins</a>, <a href="../../../auditor/exemplars/ooiyeefei-ccc.md">ooiyeefei-ccc</a>, <a href="../../../auditor/exemplars/xiaolai-codex-toolkit-for-claude.md">xiaolai-codex-toolkit-for-claude</a>, <a href="../../../auditor/exemplars/xiaolai-grill-for-claude.md">xiaolai-grill-for-claude</a></p>
@@ -546,10 +546,10 @@
       <section id="score-bands"><h3><a href="#score-bands" class="anchor">#</a> Score bands</h3><table>
 <thead><tr><th>Range</th><th>Label</th><th>Meaning</th></tr></thead>
 <tbody>
-<tr><td>90–100</td><td>Excellent</td><td>Production-ready; minor or no issues</td></tr>
+<tr><td>90–100</td><td>Excellent</td><td>Production-ready; minor or no findings</td></tr>
 <tr><td>80–89</td><td>Good</td><td>Solid; one or two non-critical gaps</td></tr>
 <tr><td>70–79</td><td>Adequate</td><td>Meets threshold; noticeable gaps to address</td></tr>
-<tr><td>60–69</td><td>Weak</td><td>Below threshold; significant issues</td></tr>
+<tr><td>60–69</td><td>Weak</td><td>Below threshold; significant findings</td></tr>
 <tr><td>&lt;60</td><td>Rewrite</td><td>Fundamental problems; recommend rewriting from scratch</td></tr>
 </tbody></table>
 <p><strong>Default pass threshold:</strong> 70. Configurable in <code>.claude/nlpm.local.md</code>.</p>
