@@ -9713,10 +9713,13 @@
       "stars": 130536,
       "artifacts": 146,
       "description": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 96,
       "audit_issue": 757,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "779e9f9bcf87fa8cd95870a438b70b84e47d3173"
     },
     "calesthio/OpenMontage": {
       "discovered": "2026-08-05T02:07:37Z",
