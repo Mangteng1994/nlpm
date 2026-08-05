@@ -19,7 +19,7 @@
       "state": "healthy"
     },
     "R01": {
-      "total_hits": 595,
+      "total_hits": 601,
       "repos": [
         "slavingia/skills",
         "deanpeters/Product-Manager-Skills",
@@ -500,7 +500,7 @@
       "state": "healthy"
     },
     "BUG-broken-reference": {
-      "total_hits": 128,
+      "total_hits": 130,
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 3,
       "self_false_positive": 0,
@@ -539,7 +539,7 @@
       "state": "healthy"
     },
     "SEC-unpinned-semver": {
-      "total_hits": 145,
+      "total_hits": 146,
       "led_to_merged_pr": 2,
       "led_to_rejected_pr": 7,
       "self_false_positive": 1,
@@ -578,7 +578,7 @@
       "state": "healthy"
     },
     "CC-terminology-drift": {
-      "total_hits": 73,
+      "total_hits": 74,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 1,
@@ -604,7 +604,7 @@
       "state": "healthy"
     },
     "SEC-curl-pipe-sh": {
-      "total_hits": 70,
+      "total_hits": 73,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 12,
@@ -656,7 +656,7 @@
       "state": "noisy"
     },
     "SEC-shell-true": {
-      "total_hits": 35,
+      "total_hits": 36,
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
       "self_false_positive": 5,
@@ -669,7 +669,7 @@
       "state": "healthy"
     },
     "SEC-postinstall-script": {
-      "total_hits": 35,
+      "total_hits": 39,
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 0,
       "self_false_positive": 5,
@@ -1436,7 +1436,7 @@
       "state": "healthy"
     },
     "SEC-shell-injection": {
-      "total_hits": 23,
+      "total_hits": 26,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 1,
       "self_false_positive": 0,
@@ -5542,6 +5542,32 @@
       "verify_rate": null,
       "introduced_since_audit": 0,
       "state": "healthy"
+    },
+    "SEC-eval-with-input": {
+      "total_hits": 1,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
+    },
+    "SEC-broad-mcp-permission": {
+      "total_hits": 1,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
     }
   },
   "metadata": {
@@ -5553,6 +5579,6 @@
     "total_prs_merged": 116,
     "total_prs_rejected": 63,
     "total_prs_applied_separately": 24,
-    "updated_at": "2026-08-04T22:28:17.703334Z"
+    "updated_at": "2026-08-05T22:22:37.794348Z"
   }
 }
