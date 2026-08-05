@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-08-04T22:48:25Z",
+  "generated_at": "2026-08-05T22:46:53Z",
   "since": null,
   "summary": {
-    "total_repos": 280,
-    "total_findings": 5283,
-    "high_findings": 1765,
+    "total_repos": 286,
+    "total_findings": 5306,
+    "high_findings": 1787,
     "total_advisories": 22,
     "high_advisories": 3,
     "repos_with_drift": 3,
-    "repos_blocked": 71
+    "repos_blocked": 72
   },
   "repo_rows": [
     {
@@ -968,6 +968,18 @@
       "total_findings": 24,
       "high_findings": 0,
       "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "Shubhamsaboo/awesome-llm-apps",
+      "status": "audited",
+      "stars": 130536,
+      "score": 96,
+      "security": "BLOCKED",
+      "total_findings": 23,
+      "high_findings": 22,
+      "medium_findings": 1,
       "vocab_drift_count": 0,
       "vocab_drift_high": 0
     },
@@ -2652,6 +2664,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "calesthio/OpenMontage",
+      "status": "discovered",
+      "stars": 45129,
+      "score": null,
+      "security": null,
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "caliber-ai-org/ai-setup",
       "status": "complete",
       "stars": 698,
@@ -2916,11 +2940,35 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "hoangsonww/Claude-Code-Agent-Monitor",
+      "status": "discovered",
+      "stars": 870,
+      "score": null,
+      "security": null,
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "htdt/godogen",
       "status": "tracked",
       "stars": 2839,
       "score": 91,
       "security": "CLEAR",
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "indranilbanerjee/digital-marketing-pro",
+      "status": "discovered",
+      "stars": 705,
+      "score": null,
+      "security": null,
       "total_findings": 0,
       "high_findings": 0,
       "medium_findings": 0,
@@ -2957,6 +3005,18 @@
       "stars": 27150,
       "score": 77,
       "security": "REVIEW",
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "microsoft/skills",
+      "status": "discovered",
+      "stars": 2861,
+      "score": null,
+      "security": null,
       "total_findings": 0,
       "high_findings": 0,
       "medium_findings": 0,
@@ -3029,6 +3089,18 @@
       "stars": null,
       "score": 93,
       "security": "REVIEW",
+      "total_findings": 0,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "phuryn/pm-skills",
+      "status": "discovered",
+      "stars": 24853,
+      "score": null,
+      "security": null,
       "total_findings": 0,
       "high_findings": 0,
       "medium_findings": 0,
@@ -3375,8 +3447,8 @@
   "rule_distribution": [
     {
       "rule_id": "R01",
-      "total": 595,
-      "repos_affected": 69
+      "total": 601,
+      "repos_affected": 70
     },
     {
       "rule_id": "R09",
@@ -3425,8 +3497,8 @@
     },
     {
       "rule_id": "SEC-unpinned-semver",
-      "total": 145,
-      "repos_affected": 83
+      "total": 146,
+      "repos_affected": 84
     },
     {
       "rule_id": "R22",
@@ -3435,8 +3507,8 @@
     },
     {
       "rule_id": "BUG-broken-reference",
-      "total": 128,
-      "repos_affected": 49
+      "total": 130,
+      "repos_affected": 50
     },
     {
       "rule_id": "R15",
@@ -3465,18 +3537,18 @@
     },
     {
       "rule_id": "CC-terminology-drift",
+      "total": 74,
+      "repos_affected": 57
+    },
+    {
+      "rule_id": "SEC-curl-pipe-sh",
       "total": 73,
-      "repos_affected": 56
+      "repos_affected": 31
     },
     {
       "rule_id": "CC-orphan-component",
       "total": 71,
       "repos_affected": 55
-    },
-    {
-      "rule_id": "SEC-curl-pipe-sh",
-      "total": 70,
-      "repos_affected": 30
     },
     {
       "rule_id": "BUG-undeclared-tool",
@@ -5277,6 +5349,21 @@
       "counts": {
         "status_check": 6,
         "classifications_emitted": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-05",
+      "counts": {
+        "status_check": 6,
+        "search_complete": 1,
+        "classifications_emitted": 1,
+        "scorer_drift_check": 1,
+        "findings_aggregated": 1,
+        "repo_report_rendered": 1,
+        "audit_complete": 1,
+        "manual_disclosure_pending": 1,
         "report_generated": 1
       }
     }
