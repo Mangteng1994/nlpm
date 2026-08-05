@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "last_discovery": "2026-07-20T08:43:07Z",
+    "last_discovery": "2026-08-05T02:07:37Z",
     "total_audited": 12,
     "total_contributed": 6,
-    "total_discovered": 266
+    "total_discovered": 272
   },
   "repos": {
     "0xNyk/council-of-high-intelligence": {
@@ -9707,6 +9707,66 @@
       "stars": 5411,
       "status": "complete",
       "strategy": "single"
+    },
+    "Shubhamsaboo/awesome-llm-apps": {
+      "discovered": "2026-08-05T02:07:37Z",
+      "stars": 130536,
+      "artifacts": 146,
+      "description": "100+ AI Agents, Agent Skills and RAG Apps - Free and Open Source.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 757,
+      "prs": []
+    },
+    "calesthio/OpenMontage": {
+      "discovered": "2026-08-05T02:07:37Z",
+      "stars": 45129,
+      "artifacts": 627,
+      "description": "World's first open-source, agentic video production system. 12 production pipelines, 100+ tools, 700+ agent skill and production-knowledge files. Turn your AI coding assistant into a full video production studio.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 758,
+      "prs": []
+    },
+    "hoangsonww/Claude-Code-Agent-Monitor": {
+      "discovered": "2026-08-05T02:07:37Z",
+      "stars": 870,
+      "artifacts": 131,
+      "description": "🚀 A real-time monitoring dashboard for Claude Code & Codex, built with SQLite3, Node.js, Express, React, Vite, TailwindCSS, & WebSockets. It tracks sessions, agent activity, tool usage, and subagent orchestration, providing live analytics, a Kanban status board, status notifications, a cute buddy, & an interactive web UI/MacOS/Windows native app.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 759,
+      "prs": []
+    },
+    "indranilbanerjee/digital-marketing-pro": {
+      "discovered": "2026-08-05T02:07:37Z",
+      "stars": 705,
+      "artifacts": 203,
+      "description": "Open-source AI marketing plugin for agencies & in-house teams — 158 skills, 25 specialist agents, 12-Part Strategy Flow, Cowork team-persistent, EU AI Act Article 50 ready, 6-platform AEO/GEO incl. Google AI Mode. Installs on Claude Code, Cowork, Codex, Cursor, Copilot CLI, Antigravity. MIT-licensed.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 760,
+      "prs": []
+    },
+    "microsoft/skills": {
+      "discovered": "2026-08-05T02:07:37Z",
+      "stars": 2861,
+      "artifacts": 226,
+      "description": "Skills, MCP servers, Custom Agents, Agents.md for SDKs to ground Coding Agents",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 761,
+      "prs": []
+    },
+    "phuryn/pm-skills": {
+      "discovered": "2026-08-05T02:07:37Z",
+      "stars": 24853,
+      "artifacts": 120,
+      "description": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 762,
+      "prs": []
     }
   }
 }
