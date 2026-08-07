@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-07T00:26:36Z",
+  "generated_at": "2026-08-07T22:43:39Z",
   "since": null,
   "summary": {
-    "total_repos": 286,
-    "total_findings": 5306,
-    "high_findings": 1787,
+    "total_repos": 287,
+    "total_findings": 5311,
+    "high_findings": 1792,
     "total_advisories": 22,
     "high_advisories": 3,
     "repos_with_drift": 3,
@@ -2112,6 +2112,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "Vincentwei1021/video-shotcraft",
+      "status": "contributed",
+      "stars": null,
+      "score": 100,
+      "security": "REVIEW",
+      "total_findings": 5,
+      "high_findings": 5,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "YishenTu/claudian",
       "status": "tracked",
       "stars": 12895,
@@ -3491,14 +3503,14 @@
       "repos_affected": 39
     },
     {
+      "rule_id": "SEC-unpinned-semver",
+      "total": 148,
+      "repos_affected": 85
+    },
+    {
       "rule_id": "R12",
       "total": 147,
       "repos_affected": 38
-    },
-    {
-      "rule_id": "SEC-unpinned-semver",
-      "total": 146,
-      "repos_affected": 84
     },
     {
       "rule_id": "R22",
@@ -3566,9 +3578,9 @@
       "repos_affected": 43
     },
     {
-      "rule_id": "BUG-name-mismatch",
-      "total": 53,
-      "repos_affected": 5
+      "rule_id": "SEC-network-call",
+      "total": 54,
+      "repos_affected": 27
     }
   ],
   "drift_network": {
@@ -5378,7 +5390,17 @@
     {
       "day": "2026-08-07",
       "counts": {
-        "report_generated": 1
+        "report_generated": 2,
+        "dashboard_rendered": 1,
+        "status_check": 5,
+        "classifications_emitted": 1,
+        "scorer_drift_check": 1,
+        "findings_aggregated": 1,
+        "repo_report_rendered": 1,
+        "audit_complete": 1,
+        "report_artifact_uploaded": 1,
+        "prs_submitted": 1,
+        "finding_outcome": 1
       }
     }
   ],
