@@ -9770,6 +9770,13 @@
       "score": null,
       "audit_issue": 762,
       "prs": []
+    },
+    "Vincentwei1021/video-shotcraft": {
+      "status": "audited",
+      "score": 100,
+      "strategy": "single",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "0022ec45d28800cecb5b16624a3179093c93f4e9"
     }
   }
 }

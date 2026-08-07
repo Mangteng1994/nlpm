@@ -1,0 +1,129 @@
+{
+  "project": "Vincentwei1021/video-shotcraft",
+  "score_threshold": 70,
+  "r51_enabled": false,
+  "summary": {
+    "total_files": 3,
+    "average_score": 100,
+    "pass_count": 0,
+    "fail_count": 0
+  },
+  "files": [
+    {
+      "path": "gallery/app.js",
+      "type": "?",
+      "score": null,
+      "findings": [
+        {
+          "rule": "SEC-unescaped-attribute-interpolation",
+          "severity": "medium",
+          "line": 152,
+          "message": "style.media.url interpolated directly into a data-src attribute with no HTML-escaping in the gif branch of mediaMarkup()"
+        },
+        {
+          "rule": "SEC-unescaped-attribute-interpolation",
+          "severity": "medium",
+          "line": 158,
+          "message": "style.media.url interpolated directly into a data-src attribute with no HTML-escaping in the video branch of mediaMarkup()"
+        }
+      ]
+    },
+    {
+      "path": "gallery/fetch-media.sh",
+      "type": "?",
+      "score": null,
+      "findings": [
+        {
+          "rule": "SEC-network-call",
+          "severity": "low",
+          "line": 7,
+          "message": "Script fetches release assets over the network via the gh CLI; repo and pattern are hardcoded, no user-controlled input"
+        }
+      ]
+    },
+    {
+      "path": "template/package.json",
+      "type": "?",
+      "score": null,
+      "findings": [
+        {
+          "rule": "SEC-unpinned-semver",
+          "severity": "low",
+          "line": 17,
+          "message": "devDependency @types/react uses a caret (unpinned) version range"
+        },
+        {
+          "rule": "SEC-unpinned-semver",
+          "severity": "low",
+          "line": 18,
+          "message": "devDependency typescript uses a caret (unpinned) version range"
+        }
+      ]
+    }
+  ],
+  "history": [
+    {
+      "timestamp": "2026-08-07T06:30:00Z",
+      "average_score": 100,
+      "kind": "initial_audit"
+    }
+  ],
+  "cross_component": {
+    "nodes": [],
+    "edges": []
+  },
+  "vocabulary": null,
+  "vocab_drift": {
+    "candidates": []
+  },
+  "findings": [
+    {
+      "rule": "SEC-unescaped-attribute-interpolation",
+      "severity": "medium",
+      "confidence": "high",
+      "file": "gallery/app.js",
+      "line": 152,
+      "message": "style.media.url interpolated directly into a data-src attribute with no HTML-escaping in the gif branch of mediaMarkup() — data-src=\"${style.media.url}\" is not wrapped in escapeHtml(), while the adjacent title/sourceUrl values in the same file are"
+    },
+    {
+      "rule": "SEC-unescaped-attribute-interpolation",
+      "severity": "medium",
+      "confidence": "high",
+      "file": "gallery/app.js",
+      "line": 158,
+      "message": "style.media.url interpolated directly into a data-src attribute with no HTML-escaping in the video branch of mediaMarkup() — data-src=\"${style.media.url}\" is not wrapped in escapeHtml() in the <video> branch either"
+    },
+    {
+      "rule": "SEC-network-call",
+      "severity": "low",
+      "confidence": "high",
+      "file": "gallery/fetch-media.sh",
+      "line": 7,
+      "message": "Script fetches release assets over the network via the gh CLI; repo and pattern are hardcoded, no user-controlled input — gh release download gallery-media --repo Vincentwei1021/video-shotcraft --dir media --pattern '*.mp4' --clobber"
+    },
+    {
+      "rule": "SEC-unpinned-semver",
+      "severity": "low",
+      "confidence": "high",
+      "file": "template/package.json",
+      "line": 17,
+      "message": "devDependency @types/react uses a caret (unpinned) version range — \"@types/react\": \"^19.2.17\" uses a caret range while runtime deps (react, remotion) are exact-pinned"
+    },
+    {
+      "rule": "SEC-unpinned-semver",
+      "severity": "low",
+      "confidence": "high",
+      "file": "template/package.json",
+      "line": 18,
+      "message": "devDependency typescript uses a caret (unpinned) version range — \"typescript\": \"^6.0.3\" uses a caret range while runtime deps (react, remotion) are exact-pinned"
+    }
+  ],
+  "repo_meta": {
+    "status": null,
+    "stars": null,
+    "security": "REVIEW",
+    "audit_report_path": "auditor/audits/Vincentwei1021-video-shotcraft.md"
+  },
+  "generated_at": "2026-08-07T06:30:31Z",
+  "schema_version": 1
+}
