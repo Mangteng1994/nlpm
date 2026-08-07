@@ -539,7 +539,7 @@
       "state": "healthy"
     },
     "SEC-unpinned-semver": {
-      "total_hits": 146,
+      "total_hits": 148,
       "led_to_merged_pr": 2,
       "led_to_rejected_pr": 7,
       "self_false_positive": 1,
@@ -1111,7 +1111,7 @@
       "state": "healthy"
     },
     "SEC-network-call": {
-      "total_hits": 53,
+      "total_hits": 54,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 2,
@@ -5568,6 +5568,19 @@
       "verify_rate": null,
       "introduced_since_audit": 0,
       "state": "healthy"
+    },
+    "SEC-unescaped-attribute-interpolation": {
+      "total_hits": 2,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
     }
   },
   "metadata": {
@@ -5575,10 +5588,10 @@
     "last_updated": "2026-04-10",
     "total_events": 16,
     "total_audits": 10,
-    "total_prs_submitted": 321,
+    "total_prs_submitted": 322,
     "total_prs_merged": 116,
     "total_prs_rejected": 63,
     "total_prs_applied_separately": 24,
-    "updated_at": "2026-08-07T00:00:16.283808Z"
+    "updated_at": "2026-08-07T22:10:46.687792Z"
   }
 }
