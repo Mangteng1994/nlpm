@@ -5249,7 +5249,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix(huggingface-vision-trainer): correct stale skill references",
-          "updatedAt": "2026-07-05T02:48:32Z",
+          "updatedAt": "2026-08-07T13:44:55Z",
           "createdAt": "2026-07-05T02:48:32Z",
           "outcome": "open",
           "fingerprints": [
@@ -5268,7 +5268,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix(huggingface-community-evals): correct stale skill references",
-          "updatedAt": "2026-07-05T02:49:28Z",
+          "updatedAt": "2026-08-07T13:44:55Z",
           "createdAt": "2026-07-05T02:49:28Z",
           "outcome": "open",
           "fingerprints": [
@@ -9779,7 +9779,29 @@
       "commit_sha_at_audit": "0022ec45d28800cecb5b16624a3179093c93f4e9",
       "pipeline_prs": [
         30
-      ]
+      ],
+      "prs": [
+        {
+          "number": 30,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: escape media.url in gallery data-src attributes",
+          "updatedAt": "2026-08-07T12:19:47Z",
+          "createdAt": "2026-08-07T12:19:47Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:fe9bcce17b04db042b1843e383c797e9f8c507d99e5377e649272db1bbf664c5",
+            "sha256:feb1039c429e3ace708ddb25e1cb7d9238d2c588b33843a9785be78a245d7a57"
+          ],
+          "rule_ids": [
+            "SEC-unescaped-attribute-interpolation",
+            "SEC-unescaped-attribute-interpolation"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
+      "rule_adopted": false
     }
   }
 }
