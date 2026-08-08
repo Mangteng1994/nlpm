@@ -3803,3 +3803,4 @@
 {"timestamp":"2026-08-08T16:17:43Z","workflow":"track","event":"status_check","run_id":"31266229274","run_number":674,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
 {"timestamp":"2026-08-08T20:18:25Z","workflow":"track","event":"status_check","run_id":"31276170621","run_number":675,"data":{"contributed":58,"tracked":37,"case_study_ready":42,"rule_adopted":2}}
 {"timestamp":"2026-08-08T22:06:28Z","workflow":"daily-report","event":"report_generated","run_id":"31280901198","run_number":127,"data":{"total_repos":287}}
+{"timestamp":"2026-08-08T22:41:04Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"31282255420","run_number":83,"data":{"repos":287,"findings":5311,"advisories":22}}
