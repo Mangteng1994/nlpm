@@ -193,7 +193,7 @@
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
       "maintainer_rejected": 0,
-      "downstream_suppressions": 10,
+      "downstream_suppressions": 11,
       "verified_fixed": 0,
       "verified_persists": 0,
       "verify_rate": null,
@@ -5591,7 +5591,7 @@
     "total_prs_submitted": 322,
     "total_prs_merged": 116,
     "total_prs_rejected": 63,
-    "total_prs_applied_separately": 24,
-    "updated_at": "2026-08-08T22:06:27.925845Z"
+    "total_prs_applied_separately": 25,
+    "updated_at": "2026-08-09T22:06:33.875029Z"
   }
 }
