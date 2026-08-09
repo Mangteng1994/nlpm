@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T22:41:04Z",
+  "generated_at": "2026-08-09T22:41:57Z",
   "since": null,
   "summary": {
     "total_repos": 287,
@@ -2113,7 +2113,7 @@
     },
     {
       "repo": "Vincentwei1021/video-shotcraft",
-      "status": "contributed",
+      "status": "tracked",
       "stars": null,
       "score": 100,
       "security": "REVIEW",
@@ -5408,6 +5408,18 @@
       "counts": {
         "status_check": 6,
         "classifications_emitted": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-09",
+      "counts": {
+        "scan_complete": 1,
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "proposals_prepared": 1,
+        "finding_outcome": 1,
         "report_generated": 1
       }
     }
