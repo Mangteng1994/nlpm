@@ -3820,3 +3820,7 @@
 {"timestamp":"2026-08-10T04:09:35Z","workflow":"classify","event":"classifications_emitted","run_id":"31354573971","run_number":112,"data":{"classifications":0,"invalid":0,"no_dissent":true}}
 {"timestamp":"2026-08-10T04:44:30Z","workflow":"track","event":"status_check","run_id":"31355878662","run_number":683,"data":{"contributed":57,"tracked":38,"case_study_ready":43,"rule_adopted":2}}
 {"timestamp":"2026-08-10T06:26:36Z","workflow":"discover","event":"search_complete","run_id":"31361874235","run_number":40,"data":{"candidates":162,"new":54,"worthy":1,"oversized":18}}
+{"timestamp":"2026-08-10T06:38:56Z","workflow":"audit","event":"scorer_drift_check","run_id":"31362198277","run_number":756,"data":{"repo":"elementalsouls/Claude-OSINT","sidecar":"auditor/audits/elementalsouls-Claude-OSINT.findings.jsonl","drifts":0,"exit_code":0,"total_findings":17,"missing_confidence":0}}
+{"timestamp":"2026-08-10T06:38:56Z","workflow":"audit","event":"findings_aggregated","run_id":"31362198277","run_number":756,"data":{"repo":"elementalsouls/Claude-OSINT","findings":17,"invalid_lines":0,"self_false_positives":0}}
+{"timestamp":"2026-08-10T06:38:57Z","workflow":"audit","event":"repo_report_rendered","run_id":"31362198277","run_number":756,"data":{"repo":"elementalsouls/Claude-OSINT","html":"auditor/reports/elementalsouls-Claude-OSINT.html"}}
+{"timestamp":"2026-08-10T06:38:57Z","workflow":"audit","event":"audit_complete","run_id":"31362198277","run_number":756,"data":{"repo":"elementalsouls/Claude-OSINT","score":97,"artifacts":10,"strategy":"single"}}
