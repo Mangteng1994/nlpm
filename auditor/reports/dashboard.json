@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-09T22:41:57Z",
+  "generated_at": "2026-08-10T22:43:33Z",
   "since": null,
   "summary": {
-    "total_repos": 287,
-    "total_findings": 5311,
-    "high_findings": 1792,
+    "total_repos": 288,
+    "total_findings": 5328,
+    "high_findings": 1808,
     "total_advisories": 22,
     "high_advisories": 3,
     "repos_with_drift": 3,
@@ -1388,6 +1388,18 @@
       "total_findings": 17,
       "high_findings": 0,
       "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "elementalsouls/Claude-OSINT",
+      "status": "audited",
+      "stars": 2257,
+      "score": 97,
+      "security": "REVIEW",
+      "total_findings": 17,
+      "high_findings": 16,
+      "medium_findings": 1,
       "vocab_drift_count": 0,
       "vocab_drift_high": 0
     },
@@ -3459,8 +3471,8 @@
   "rule_distribution": [
     {
       "rule_id": "R01",
-      "total": 601,
-      "repos_affected": 70
+      "total": 602,
+      "repos_affected": 71
     },
     {
       "rule_id": "R09",
@@ -3479,18 +3491,18 @@
     },
     {
       "rule_id": "UNCLASSIFIED",
-      "total": 250,
-      "repos_affected": 40
+      "total": 252,
+      "repos_affected": 41
+    },
+    {
+      "rule_id": "R05",
+      "total": 184,
+      "repos_affected": 34
     },
     {
       "rule_id": "R07",
       "total": 177,
       "repos_affected": 34
-    },
-    {
-      "rule_id": "R05",
-      "total": 176,
-      "repos_affected": 33
     },
     {
       "rule_id": "R06",
@@ -3559,8 +3571,8 @@
     },
     {
       "rule_id": "CC-orphan-component",
-      "total": 71,
-      "repos_affected": 55
+      "total": 72,
+      "repos_affected": 56
     },
     {
       "rule_id": "BUG-undeclared-tool",
@@ -3579,8 +3591,8 @@
     },
     {
       "rule_id": "SEC-network-call",
-      "total": 54,
-      "repos_affected": 27
+      "total": 57,
+      "repos_affected": 28
     }
   ],
   "drift_network": {
@@ -5420,6 +5432,21 @@
         "classifications_emitted": 1,
         "proposals_prepared": 1,
         "finding_outcome": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-10",
+      "counts": {
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "search_complete": 1,
+        "scorer_drift_check": 1,
+        "findings_aggregated": 1,
+        "repo_report_rendered": 1,
+        "audit_complete": 1,
+        "finding_outcome": 5,
         "report_generated": 1
       }
     }
