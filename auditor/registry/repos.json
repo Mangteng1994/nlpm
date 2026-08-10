@@ -9815,7 +9815,9 @@
       "prs": [],
       "strategy": "single",
       "security": "REVIEW",
-      "commit_sha_at_audit": "7d1516291f24a48696a1db7f86ecb15c75249754"
+      "commit_sha_at_audit": "7d1516291f24a48696a1db7f86ecb15c75249754",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/elementalsouls-Claude-OSINT.md"
     }
   }
 }
