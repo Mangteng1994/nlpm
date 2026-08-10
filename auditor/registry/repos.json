@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "last_discovery": "2026-08-05T02:07:37Z",
+    "last_discovery": "2026-08-10T06:26:33Z",
     "total_audited": 12,
     "total_contributed": 6,
-    "total_discovered": 272
+    "total_discovered": 273
   },
   "repos": {
     "0xNyk/council-of-high-intelligence": {
@@ -9803,6 +9803,16 @@
       ],
       "rule_adopted": false,
       "case_study_candidate": true
+    },
+    "elementalsouls/Claude-OSINT": {
+      "discovered": "2026-08-10T06:26:33Z",
+      "stars": 2257,
+      "artifacts": 10,
+      "description": "8 Claude skills · 100+ recon capabilities · 80 secret-regex patterns · 80+ dorks · 9 read-only credential validators · 27 attack-path templates · ~10,000 lines of structured tradecraft. Drop-in SKILL.md files that turn Claude into a god-mode external recon operator for authorized red-team and bug-bounty engagements.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 827,
+      "prs": []
     }
   }
 }
