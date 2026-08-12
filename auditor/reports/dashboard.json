@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T22:44:30Z",
+  "generated_at": "2026-08-12T22:44:01Z",
   "since": null,
   "summary": {
     "total_repos": 288,
@@ -397,7 +397,7 @@
     },
     {
       "repo": "arpitg1304/robotics-agent-skills",
-      "status": "contributed",
+      "status": "complete",
       "stars": 308,
       "score": 74,
       "security": "REVIEW",
@@ -5456,6 +5456,17 @@
       "counts": {
         "status_check": 6,
         "classifications_emitted": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-12",
+      "counts": {
+        "status_check": 5,
+        "classifications_emitted": 1,
+        "no_narrative": 1,
+        "finding_outcome": 7,
         "report_generated": 1
       }
     }
