@@ -398,22 +398,22 @@
     "CC-stale-count": {
       "total_hits": 58,
       "led_to_merged_pr": 1,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 2,
       "self_false_positive": 0,
-      "maintainer_rejected": 4,
+      "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 2,
       "verified_persists": 0,
       "verify_rate": 1.0,
       "introduced_since_audit": 2,
-      "state": "disputed"
+      "state": "healthy"
     },
     "CC-orphan-component": {
       "total_hits": 72,
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 1,
-      "maintainer_rejected": 1,
+      "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 2,
       "verified_persists": 1,
@@ -504,7 +504,7 @@
       "led_to_merged_pr": 1,
       "led_to_rejected_pr": 3,
       "self_false_positive": 0,
-      "maintainer_rejected": 3,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 8,
       "verified_persists": 1,
@@ -530,7 +530,7 @@
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 0,
       "self_false_positive": 0,
-      "maintainer_rejected": 1,
+      "maintainer_rejected": 0,
       "downstream_suppressions": 0,
       "verified_fixed": 1,
       "verified_persists": 0,
@@ -543,13 +543,13 @@
       "led_to_merged_pr": 2,
       "led_to_rejected_pr": 7,
       "self_false_positive": 1,
-      "maintainer_rejected": 6,
+      "maintainer_rejected": 5,
       "downstream_suppressions": 0,
       "verified_fixed": 10,
       "verified_persists": 0,
       "verify_rate": 1.0,
       "introduced_since_audit": 0,
-      "state": "disputed"
+      "state": "healthy"
     },
     "R30": {
       "total_hits": 12,
@@ -2090,7 +2090,7 @@
       "led_to_merged_pr": 0,
       "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 22,
       "verified_persists": 0,
@@ -3648,9 +3648,9 @@
     "BUG-missing-manifest-entry": {
       "total_hits": 4,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0,
+      "led_to_rejected_pr": 1,
       "self_false_positive": 0,
-      "maintainer_rejected": 0,
+      "maintainer_rejected": 1,
       "downstream_suppressions": 0,
       "verified_fixed": 0,
       "verified_persists": 0,
@@ -5602,9 +5602,9 @@
     "total_events": 16,
     "total_audits": 10,
     "total_prs_submitted": 322,
-    "total_prs_merged": 116,
-    "total_prs_rejected": 63,
-    "total_prs_applied_separately": 25,
-    "updated_at": "2026-08-11T22:14:43.963490Z"
+    "total_prs_merged": 119,
+    "total_prs_rejected": 64,
+    "total_prs_applied_separately": 27,
+    "updated_at": "2026-08-12T22:14:29.681621Z"
   }
 }
