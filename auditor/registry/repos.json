@@ -6294,7 +6294,7 @@
       "commit_sha_at_audit": "HEAD-at-2026-05-11",
       "exemplar_path": "auditor/exemplars/mattpocock-skills.md",
       "exemplar_published": true,
-      "issue_filed_reason": "mattpocock/skills does not accept PRs; 4 BUG-unregistered-skill findings filed as issue per repo policy",
+      "issue_filed_reason": "mattpocock/skills does not accept PRs; 4 BUG-missing-manifest-entry findings filed as issue per repo policy",
       "issue_filed_url": "https://github.com/mattpocock/skills/issues/164",
       "prs": [],
       "rule_adopted": false,
