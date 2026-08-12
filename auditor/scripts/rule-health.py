@@ -262,6 +262,30 @@ def main() -> int:
         for fp in d.get("fingerprints", []) or []:
             rejected_by_fp[fp].append(d)
 
+    # Issue-lane dissent — records keyed on `issue` rather than `pr`, per
+    # SCHEMAS §Issue-lane variant. These arrive when the target repo accepts
+    # no external PRs, so the findings were filed as an issue and no PR
+    # exists to track. auditor-track.yml polls pull requests only, so an
+    # issue-lane fingerprint never gets a finding_outcome event and would
+    # otherwise land in maintainer_rejected while leaving `contributed` at
+    # 0 — a denominator of zero means classify_rule's disputed branch can
+    # never fire on dissent that arrived through an issue. Map each
+    # fingerprint to its event name so a rejection can also count as a
+    # resolved-negative, the way closed_unmerged does in the PR lane;
+    # maintainer_pushback is deliberately excluded from that second use,
+    # since pushback means the objection did not end the contribution.
+    issue_lane_by_fp: dict[str, str] = {}
+    for d in disagreements:
+        event = d.get("event")
+        if event not in ("maintainer_rejected", "maintainer_pushback"):
+            continue
+        if not d.get("issue"):
+            continue
+        for fp in d.get("fingerprints", []) or []:
+            # A rejection outranks a pushback on the same fingerprint.
+            if issue_lane_by_fp.get(fp) != "maintainer_rejected":
+                issue_lane_by_fp[fp] = event
+
     suppressions_by_rule: dict[str, list[dict]] = defaultdict(list)
     for d in disagreements:
         if d.get("event") != "downstream_suppression":
@@ -323,7 +347,10 @@ def main() -> int:
     rule_metrics: dict[str, dict] = {}
     for rid, fs in findings_by_rule.items():
         unique_fps = {f["fingerprint"] for f in fs if f.get("fingerprint")}
-        contributed = sum(1 for fp in unique_fps if fp in outcome_by_fp)
+        issue_lane_fps = {fp for fp in unique_fps if fp in issue_lane_by_fp}
+        contributed = sum(
+            1 for fp in unique_fps if fp in outcome_by_fp or fp in issue_lane_fps
+        )
         merged = sum(1 for fp in unique_fps if outcome_by_fp.get(fp) == "merged")
         applied_separately = len(unique_fps & applied_separately_by_fp)
         # Don't double-count: a fingerprint marked applied_separately in
@@ -335,6 +362,15 @@ def main() -> int:
         # matching event (e.g., legacy attribution).
         closed_unmerged_fps = {
             fp for fp in unique_fps if outcome_by_fp.get(fp) == "closed_unmerged"
+        }
+        # An issue closed by the maintainer as a rejection is the issue-lane
+        # equivalent of a PR closed unmerged: the contribution is resolved
+        # and it did not land. Union, so a fingerprint carrying both a PR
+        # outcome and an issue-lane rejection counts once.
+        closed_unmerged_fps |= {
+            fp
+            for fp in issue_lane_fps
+            if issue_lane_by_fp.get(fp) == "maintainer_rejected"
         }
         closed_unmerged = len(closed_unmerged_fps - applied_separately_by_fp)
         open_count = sum(1 for fp in unique_fps if outcome_by_fp.get(fp) == "open")
