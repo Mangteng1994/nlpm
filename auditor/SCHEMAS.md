@@ -179,6 +179,18 @@ Emitted by `auditor-classify.yml` when it consumes a `pr_comments_snapshot` and 
 
 `classifier_confidence` ∈ `{high, medium, low}`. Low-confidence events are logged but weighted less in aggregation.
 
+**A record on an accepted PR is not dissent.** When the registry gives the
+record's `pr` an `outcome` of `merged` or `applied_separately`, consumers MUST
+skip it when counting rejections. The classifier reads only the comment
+thread, so "Closing in favor of the consolidated structural fix in #840" and
+"Closing to keep the queue clean" both come back as dissent — while the track
+workflow has already recorded that the finding was accepted, and in the second
+case a later re-audit emitted `finding_verified: fixed_upstream_not_merged` on
+every one of those fingerprints. Counting these penalises a rule for a win,
+and credits and penalises the same fingerprint at once. Measured 2026-08-12:
+9 of 25 fingerprinted dissent records sat on accepted PRs, which alone
+classified `CC-stale-count` and `SEC-unpinned-semver` as disputed.
+
 `classifier_model` names what produced the classification. `haiku-4-5` is the
 `auditor-classify.yml` path; `manual-backfill` marks a record a human wrote by
 reading the thread, which carries the same weight and is exempt from the

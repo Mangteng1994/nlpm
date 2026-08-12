@@ -255,11 +255,74 @@ def main() -> int:
         if d.get("event") == "self_false_positive" and d.get("fingerprint")
     }
 
+    # Registry outcome per PR. Needed before dissent is counted, because a
+    # maintainer closing our PR to land the same fix elsewhere produces a
+    # `maintainer_rejected` record that is not a rejection of the finding.
+    pr_outcome: dict[str, str] = {}
+    for slug, repo_data in registry.get("repos", {}).items():
+        for pr in repo_data.get("prs") or []:
+            number = pr.get("number")
+            outcome = pr.get("outcome")
+            if number is not None and outcome:
+                pr_outcome[f"{slug}#{number}"] = outcome
+
+    # Repos that reached the global findings log at all. Audits run before
+    # the per-audit sidecar shipped (the log's first record is dated
+    # 2026-04-25) wrote a human-readable report and nothing machine-readable,
+    # so their findings have no fingerprints anywhere — nothing to join to,
+    # and nothing a backfill could honestly reconstruct.
+    repos_with_findings = {f.get("repo") for f in findings if f.get("repo")}
+
+    # A PR the maintainer merged, or closed because the fix landed in
+    # another PR, is an accepted finding however the comment thread reads.
+    # The classifier labels "Closing as superseded by #333" as dissent with
+    # dissent_type context_missed; the registry knows better, because the
+    # track workflow recorded the outcome. Without this guard the same
+    # fingerprints are credited as applied_separately AND counted as
+    # maintainer_rejected, and the rule is penalised for a win. Measured on
+    # 2026-08-12: 9 of 25 fingerprinted dissent records sat on accepted PRs
+    # (agent-sh/agnix #828-#830, googleworkspace/cli #757-#760,
+    # tanweai/pua #154-#155), every one of them labelled context_missed.
+    ACCEPTED_OUTCOMES = {"merged", "applied_separately"}
+
+    # An append-only log cannot rewrite a record, so a hand-attributed
+    # rejection is appended alongside the empty original. Count the PR once:
+    # if any record for it carries fingerprints, the empty one is superseded
+    # and is not an outstanding gap.
+    dissent_attributed_prs = {
+        d.get("pr")
+        for d in disagreements
+        if d.get("event") in ("maintainer_rejected", "maintainer_pushback")
+        and d.get("fingerprints")
+        and d.get("pr")
+    }
+
     rejected_by_fp: dict[str, list[dict]] = defaultdict(list)
+    dissent_accepted_elsewhere = 0
+    dissent_unattributed_legacy = 0
+    dissent_unattributed_live = 0
     for d in disagreements:
         if d.get("event") not in ("maintainer_rejected", "maintainer_pushback"):
             continue
-        for fp in d.get("fingerprints", []) or []:
+        if pr_outcome.get(d.get("pr")) in ACCEPTED_OUTCOMES:
+            dissent_accepted_elsewhere += 1
+            continue
+        fingerprints = d.get("fingerprints", []) or []
+        if not fingerprints and d.get("pr") in dissent_attributed_prs:
+            continue
+        if not fingerprints:
+            # Split the blind spot by whether recovery is even possible, so
+            # the pre-sidecar backlog can't hide a live attribution bug.
+            # `live` means the repo HAS findings in the log and this record
+            # still carries none — that is a break in the metadata block or
+            # the classifier, and it is actionable today.
+            slug = (d.get("pr") or d.get("issue") or "").rsplit("#", 1)[0]
+            if slug and slug in repos_with_findings:
+                dissent_unattributed_live += 1
+            else:
+                dissent_unattributed_legacy += 1
+            continue
+        for fp in fingerprints:
             rejected_by_fp[fp].append(d)
 
     # Issue-lane dissent — records keyed on `issue` rather than `pr`, per
@@ -520,6 +583,13 @@ def main() -> int:
         "acceptance_rate": f"{accepted / resolved * 100:.0f}%" if resolved else "N/A",
         "merge_only_rate": f"{len(merged_prs) / resolved * 100:.0f}%" if resolved else "N/A",
         "rule_adopted_repos": rule_adopted,
+        # Dissent that never reached a rule. Reported rather than silently
+        # dropped: a shrinking `live` count is the signal that attribution
+        # is working, and a non-zero one is a bug to chase. `legacy` is the
+        # pre-sidecar backlog and is expected to stay fixed.
+        "dissent_accepted_elsewhere": dissent_accepted_elsewhere,
+        "dissent_unattributed_legacy": dissent_unattributed_legacy,
+        "dissent_unattributed_live": dissent_unattributed_live,
         "top_rules": [(rid, m["hits"]) for rid, m in top_rules],
         "rule_metrics": rule_metrics,
         "dormant_rules": dormant_rules,
