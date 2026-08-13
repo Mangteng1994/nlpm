@@ -86,9 +86,14 @@ jobs:
           DIST="$GITHUB_WORKSPACE/site/.vitepress/dist"
           [ -d "$DIST" ] || { echo "::error::dist missing at $DIST"; exit 1; }
 
-          # Fetch gh-pages so we can worktree it.
-          git fetch origin gh-pages:gh-pages 2>/dev/null || \
-            git branch gh-pages origin/gh-pages 2>/dev/null || true
+          # Bootstrap gh-pages on the first deploy; later runs fetch its
+          # existing history for the deployment worktree.
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git fetch origin gh-pages:gh-pages
+          else
+            git branch gh-pages "$GITHUB_SHA"
+            git push origin gh-pages
+          fi
 
           # Build a deterministic deploy commit on a worktree of gh-pages.
           # We replace contents wholesale — the dist tree IS the site.
