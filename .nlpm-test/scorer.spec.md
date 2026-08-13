@@ -1,5 +1,5 @@
 ---
-artifact: agents/scorer.md
+artifact: .codex/agents/scorer.toml
 type: agent
 min_score: 90
 ---

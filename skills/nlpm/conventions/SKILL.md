@@ -13,7 +13,7 @@ The cross-tool floor for all artifact schemas. Use this skill when scoring or wr
 - `nlpm:conventions-codex` — Codex CLI artifacts (`.codex/`, `.agents/`, `AGENTS.md`)
 - `nlpm:conventions-antigravity` — Antigravity (and legacy Gemini CLI) artifacts (`.gemini/`, `.agent/`)
 
-The scorer loads the matching overlay per tier classification — see `agents/scorer.md` step 3.
+The scorer loads the matching overlay per tier classification — see `.codex/agents/scorer.toml` step 3.
 
 **Design rationale:** `analysis/multi-tool-design-2026-05.md`.
 
@@ -87,7 +87,9 @@ project-root/
 └── .gemini/settings.json  # set context.fileName: ["AGENTS.md"]
 ```
 
-This is exactly how nlpm itself is structured (`CLAUDE.md` → `@AGENTS.md`).
+This compatibility shim is appropriate for multi-runtime repositories. NLPM's
+own distributable runtime is Codex-only and therefore ships `AGENTS.md`
+without Claude or Gemini memory shims.
 
 **Body conventions** (universal):
 - Open with a one-line project description.
@@ -157,7 +159,7 @@ Tool-specific naming details (e.g., the exact `CLAUDE_PLUGIN_ROOT` semantics) li
 
 ---
 
-## 6. Rule Overrides (`.claude/nlpm.local.md` or equivalent)
+## 6. Rule Overrides (`.codex/nlpm.local.md` or static tool equivalent)
 
 The override system is universal. The configuration file path is per-tool:
 

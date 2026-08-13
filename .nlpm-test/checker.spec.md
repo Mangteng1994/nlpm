@@ -1,5 +1,5 @@
 ---
-artifact: agents/checker.md
+artifact: .codex/agents/checker.toml
 type: agent
 min_score: 85
 ---

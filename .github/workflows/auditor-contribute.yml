@@ -143,13 +143,8 @@ jobs:
           # cla/google: FAILURE) so the gate doesn't grow on speculation.
           CLA_REQUIRED_OWNERS=(google google-gemini googleworkspace google-labs-code googleapis googlecloudplatform)
 
-          # Resolve CLA author identity — required for CLA-covered orgs
-          # because claude-code-action's default commit identity is `claude[bot]
-          # <claude[bot]@users.noreply.github.com>`, which can never sign a CLA.
-          # Even with CLA_SIGNED=true, commits authored by the bot identity
-          # leave the cla/google check on FAILURE. The configure-author step
-          # below uses these vars to set the global git author identity to a
-          # CLA-covered human BEFORE claude-code-action makes any commits.
+          # Resolve CLA author identity before Codex makes any commit. A bot
+          # identity cannot satisfy a human contributor license agreement.
           CLA_AUTHOR_EMAIL="${{ vars.CONTRIBUTE_AUTHOR_EMAIL || '' }}"
           CLA_AUTHOR_NAME="${{ vars.CONTRIBUTE_AUTHOR_NAME || '' }}"
 
@@ -290,7 +285,7 @@ jobs:
           TARGET_NAME=$(echo "$TARGET_REPO" | cut -d/ -f2)
           echo "target_name=$TARGET_NAME" >> "$GITHUB_OUTPUT"
 
-      # Enrich the per-audit sidecar with fingerprints so Claude can stamp
+      # Enrich the per-audit sidecar with fingerprints so Codex can stamp
       # each PR body with the fingerprints of findings it addresses. The
       # fingerprint formula lives in auditor/scripts/compute-fingerprint.sh
       # — sourced here and by auditor-audit.yml's aggregate step, so drift
@@ -310,7 +305,7 @@ jobs:
           : > "$OUT"
 
           if [ ! -f "$SIDECAR" ]; then
-            # Legacy audits predating the sidecar step won't have one. Claude
+            # Legacy audits predating the sidecar step won't have one. Codex
             # will still submit PRs, but the metadata block will be empty —
             # track.yml handles empty arrays gracefully.
             echo "No sidecar at $SIDECAR — PRs will carry an empty metadata block."
@@ -403,11 +398,8 @@ jobs:
           fi
 
       - name: Configure commit author identity
-        # Set the global git author identity BEFORE claude-code-action runs.
-        # Without this, claude-code-action commits under its default bot
-        # identity (claude[bot] <claude[bot]@users.noreply.github.com>),
-        # which is fine for repos that don't enforce CLAs but fatal for
-        # Google-org repos where every PR is gated by `cla/google`. The
+        # Set the global git author identity BEFORE Codex Action runs. A bot
+        # identity is fatal for Google-org repos gated by `cla/google`. The
         # contribute-step's CLA gate above ensures both vars are set
         # whenever the target is in CLA_REQUIRED_OWNERS, so this step is
         # idempotent: when the vars are missing (non-Google audits with
@@ -427,7 +419,7 @@ jobs:
           echo "Configured commit author: $AUTHOR_NAME <$AUTHOR_EMAIL>"
 
       - name: No high-confidence findings — mark audit issue and exit cleanly
-        # When the confidence gate drops everything, we don't run Claude.
+        # When the confidence gate drops everything, we don't run Codex.
         # Update the audit issue's labels so it doesn't sit with
         # contribute-approved indefinitely, and leave a short note.
         if: |
@@ -463,36 +455,32 @@ jobs:
           git add auditor/registry/repos.json
           bash auditor/scripts/commit-via-pr.sh "contribute: $TARGET_REPO — no high-confidence findings"
 
-      - name: Contribute with Claude Code
+      - name: Contribute with Codex
         if: |
           steps.pushback_gate.outputs.gated != 'true' &&
           steps.sidecar.outputs.skip_contribute != 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
           FORK_TOKEN: ${{ secrets.PAT_TOKEN }}
           CONTRIBUTE_AUTHOR_EMAIL: ${{ vars.CONTRIBUTE_AUTHOR_EMAIL }}
           CONTRIBUTE_AUTHOR_NAME: ${{ vars.CONTRIBUTE_AUTHOR_NAME }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
-          show_full_output: true
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # Defense-in-depth against prompt-injection exfiltration: contribute
           # processes target-repo content (audit findings + target files +
           # maintainer quotes) while holding PAT_TOKEN with cross-org write
           # scope. Block direct network-exfil Bash channels + WebFetch/WebSearch.
           # This is layer 1; the structural fix (patch-only LLM + token-bearing
           # shell step) is queued for a dedicated session. See AUTH-LEAK.md.
-          claude_args: |
-            --allowedTools Read,Glob,Grep,Write,Edit,Bash
-            --disallowedTools "Bash(curl:*)" "Bash(wget:*)" "Bash(nc:*)" "Bash(ncat:*)" "Bash(socat:*)" "Bash(telnet:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(sftp:*)" "Bash(rsync:*)" WebFetch WebSearch
+          sandbox: danger-full-access
           prompt: |
             IMPORTANT: Before running any `gh` command, first run:
             export GH_TOKEN="$FORK_TOKEN"
             This ensures you use the PAT with fork permissions, not the default GitHub App token.
 
             You are submitting PRs to fix bugs you have personally
-            reproduced in a Claude Code plugin repo.
+            reproduced in an NL artifact repository.
 
             ## Operating principles (read these before doing anything)
 
@@ -611,7 +599,7 @@ jobs:
                d. Make the minimal fix matching repo style.
 
                e. Commit with conventional message. Add this trailer:
-                  `Co-Authored-By: Claude Code <noreply@anthropic.com>`
+                  `Generated-With: OpenAI Codex`
 
                f. Push to fork.
 

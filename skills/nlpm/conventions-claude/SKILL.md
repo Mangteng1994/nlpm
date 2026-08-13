@@ -6,7 +6,7 @@ version: 0.3.0
 
 # Claude Code Conventions
 
-Tool-specific overlay for Claude Code plugin artifacts. Loaded by the scorer and checker when an artifact is classified as **Tier 2-Claude** (per `agents/scorer.md` step 3). The universal floor lives in `nlpm:conventions`; this overlay adds Claude-Code-specific schemas on top.
+Static audit overlay for Claude Code plugin artifacts. Codex scorer/checker roles load it for **Tier 2-Claude** input (see `.codex/agents/scorer.toml`); it is not a runtime dependency.
 
 **Primary authoritative sources:**
 - <https://code.claude.com/docs/en/claude_code_docs_map.md>

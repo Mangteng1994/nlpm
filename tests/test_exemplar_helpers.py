@@ -51,7 +51,8 @@ class LoadExemplarsByRule(unittest.TestCase):
     def test_missing_dir_returns_empty(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            # Windows file watchers can briefly retain a handle after cwd leaves.
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 # EXEMPLARS_DIR is relative to cwd; missing → empty dict
                 self.assertEqual(self.mod.load_exemplars_by_rule(), {})
@@ -61,7 +62,7 @@ class LoadExemplarsByRule(unittest.TestCase):
     def test_parses_multi_rule_exemplar(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 d = Path("auditor/exemplars")
                 d.mkdir(parents=True)
@@ -91,7 +92,7 @@ exemplifies:
     def test_multiple_exemplars_aggregate_per_rule(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 d = Path("auditor/exemplars")
                 d.mkdir(parents=True)
@@ -111,7 +112,7 @@ exemplifies:
     def test_missing_exemplifies_silently_skipped(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 d = Path("auditor/exemplars")
                 d.mkdir(parents=True)
@@ -134,7 +135,7 @@ class BatchProcessRegistryHelpers(unittest.TestCase):
     def test_registry_score_present(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 reg = Path("auditor/registry")
                 reg.mkdir(parents=True)
@@ -151,7 +152,7 @@ class BatchProcessRegistryHelpers(unittest.TestCase):
     def test_registry_score_handles_malformed(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 reg = Path("auditor/registry")
                 reg.mkdir(parents=True)
@@ -163,7 +164,7 @@ class BatchProcessRegistryHelpers(unittest.TestCase):
     def test_registry_exemplar_published_flag(self):
         cwd = os.getcwd()
         try:
-            with tempfile.TemporaryDirectory() as td:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as td:
                 os.chdir(td)
                 reg = Path("auditor/registry")
                 reg.mkdir(parents=True)

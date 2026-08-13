@@ -56,7 +56,7 @@ Write rules as "**Do X** because Y" not "Don't do Z". The Pink Elephant effect: 
 
 **Good:**
 ```markdown
-**Use `${CLAUDE_PLUGIN_ROOT}` for all intra-plugin file references.**
+**Use `${PLUGIN_ROOT}` for Codex intra-plugin file references.**
 
 Because absolute paths break when the plugin is installed by different users
 or on different machines, portable path variables ensure the plugin works
@@ -243,7 +243,7 @@ Words like "appropriate", "relevant", "as needed", "sufficient", "adequate", "re
 "Don't use X" without explaining what to use instead violates P3 and leaves the reader with no actionable path.
 
 **Fix:** Always pair a prohibition with an alternative:
-- "Don't hardcode paths" → "Use `${CLAUDE_PLUGIN_ROOT}` instead of absolute paths, because..."
+- "Don't hardcode paths" → "Use `${PLUGIN_ROOT}` instead of absolute paths, because..."
 - "Don't use passive voice" → "Use imperative verbs (Use, Run, Check, Return) because they reduce ambiguity"
 
 ---
@@ -303,7 +303,7 @@ Absolute paths in hooks, scripts, or plugin configs break when:
 - The project is moved
 - CI/CD runs in a container
 
-**Fix:** Use `${CLAUDE_PLUGIN_ROOT}` for paths within a plugin. Use relative paths where the base is well-defined.
+**Fix:** Use `${PLUGIN_ROOT}` for paths within a Codex plugin. Use relative paths where the base is well-defined.
 
 ---
 

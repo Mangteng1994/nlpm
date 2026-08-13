@@ -31,7 +31,7 @@ features:
     title: 100-point scoring
     details: |
       Deterministic, penalty-based quality scoring for every NL artifact —
-      skills, agents, commands, rules, hooks, CLAUDE.md. Anchored in 51
+      skills, agents, commands, rules, hooks, and project instructions. Anchored in 51
       rules with bright-line definitions and bad/good examples.
   - icon:
       src: /icons/compass.svg
@@ -41,7 +41,7 @@ features:
     details: |
       Opt-in controlled-vocabulary enforcement. Bootstrap a registry
       from your corpus, declare canonical noun/verb pairs, and let
-      `/nlpm:check` flag drift. Registry-free `/nlpm:vocab-drift`
+      `$nlpm-check` flag drift. Registry-free `$nlpm-vocab-drift`
       runs as a no-commitment health check.
   - icon:
       src: /icons/link-2.svg
@@ -59,8 +59,7 @@ features:
       height: 32
     title: Auditor pipeline
     details: |
-      Continuous audits of public Claude Code plugins (Codex and
-      Antigravity discovery coming next). Findings, vocabulary drift,
+      Continuous audits of public NL artifact repositories. Findings, vocabulary drift,
       security signals — all on one cross-repo dashboard.
   - icon:
       src: /icons/terminal.svg
@@ -69,7 +68,7 @@ features:
     title: Standalone CLI
     details: |
       `bin/nlpm-check` is a single-file Python (stdlib only). Drop into
-      pre-commit hooks or CI without Claude Code installed.
+      pre-commit hooks or CI without an agent runtime installed.
   - icon:
       src: /icons/book-open.svg
       width: 32
@@ -83,7 +82,7 @@ features:
 
 ## What NLPM does, in one paragraph
 
-It treats natural-language artifacts as code. A 100-point rubric, 51 rules anchored in primary sources, cross-component manifest-vs-disk checks, opt-in vocabulary discipline (R51) backed by a six-principle framework derived from OntoClean, DDD, ISO 25964, and BPMN/Event Storming. Everything runs locally as Claude Code slash commands, and there's a continuous auditor pipeline that scores public plugins and feeds findings back into the rulebook.
+It treats natural-language artifacts as code. A 100-point rubric, 51 rules anchored in primary sources, cross-component manifest-vs-disk checks, and opt-in vocabulary discipline (R51) backed by a six-principle framework derived from OntoClean, DDD, ISO 25964, and BPMN/Event Storming. Interactive workflows run as Codex skills, and a continuous Auditor pipeline feeds public-repository findings back into the rulebook.
 
 ## Quick links
 

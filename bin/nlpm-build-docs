@@ -7,7 +7,7 @@ Reads:
   - skills/nlpm/vocabulary/SKILL.md       → #vocab-* anchors
   - skills/nlpm/scoring/SKILL.md          → #score-bands, #severity-levels
   - skills/nlpm/conventions/SKILL.md      → #artifact-types + #artifact-<kind>
-  - agents/vocab-drift-scanner.md         → #disposition-criteria, #confidence-criteria
+  - .codex/agents/vocab-drift-scanner.toml → #disposition-criteria, #confidence-criteria
 
 Output: <out>/index.html  (self-contained except for ./assets/ + ./vendor/)
 
@@ -18,7 +18,7 @@ gets rendered as a paragraph.
 
 Usage:
   python3 bin/nlpm-build-docs --out auditor/reports/docs/
-  python3 bin/nlpm-build-docs --out .claude/nlpm-reports/docs/
+  python3 bin/nlpm-build-docs --out .codex/nlpm-reports/docs/
 """
 from __future__ import annotations
 
@@ -456,7 +456,7 @@ def build(out_dir: Path) -> Path:
     vocab_md = read_text(ROOT / "skills" / "nlpm" / "vocabulary" / "SKILL.md")
     scoring_md = read_text(ROOT / "skills" / "nlpm" / "scoring" / "SKILL.md")
     conventions_md = read_text(ROOT / "skills" / "nlpm" / "conventions" / "SKILL.md")
-    scanner_md = read_text(ROOT / "agents" / "vocab-drift-scanner.md")
+    scanner_md = read_text(ROOT / ".codex" / "agents" / "vocab-drift-scanner.toml")
 
     rules_html = emit_rules(rules_md)
     warrant_html = emit_warrant_table(rules_md)

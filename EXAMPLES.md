@@ -530,7 +530,7 @@ function UserCardContainer({ userId }: { userId: string }) {
 
 ## Example 4: Cross-Component Check Catches a Bug
 
-Running `/nlpm:check` on a plugin produces this output:
+Running `$nlpm-check` on a plugin produces this output:
 
 ```
 NLPM Cross-Component Check
@@ -597,7 +597,7 @@ CLAUDE.md says `npm test` while a rules file says `pnpm test`. The project uses 
 + Run tests with pnpm test
 ```
 
-After fixing all four issues, `/nlpm:check` reports clean:
+After fixing all four issues, `$nlpm-check` reports clean:
 
 ```
 NLPM Cross-Component Check
@@ -610,7 +610,7 @@ All clear.
 
 ## Example 5: Trend Report Catches Regression
 
-Running `/nlpm:trend` after a week of work on a plugin:
+Running `$nlpm-trend` after a week of work on a plugin:
 
 ```
 NLPM Trend Report
@@ -668,4 +668,4 @@ Open `.claude/rules/testing.md` and:
 3. Replace "appropriate" on line 38 with the specific criteria: "covering the happy path and each error path"
 4. Restore the rationale on rule 4: "Without a rationale, developers treat the rule as arbitrary and skip it during time pressure."
 
-After fixing, `/nlpm:score .claude/rules/testing.md` shows `70 -> 86 (+16)`, recovering past the previous high of 82.
+After fixing, `$nlpm-score .claude/rules/testing.md` shows `70 -> 86 (+16)`, recovering past the previous high of 82.

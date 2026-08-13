@@ -2,14 +2,14 @@
 
 Single source of truth for the shape of data that both report renderers consume.
 
-- **Local pipeline** (`/nlpm:report` / `bin/nlpm-report`): emits self-contained HTML using `templates/report/single.html` + vendored G6.
+- **Local pipeline** (`$nlpm-report` / `bin/nlpm-report`): emits self-contained HTML using `templates/report/single.html` + vendored G6.
 - **Online pipeline** (nlpm.com): VitePress pages mount Vue components that import G6 via ESM and render the same data.
 
 Both pipelines read the same JSON shape. Today, the data is built by these scripts:
 
 | Pipeline | Builder | Output |
 |----------|---------|--------|
-| Local | `bin/nlpm-report` (Claude Code dispatches scorer/checker/etc. via the slash command) | `<target>/.claude/nlpm-reports/data/<timestamp>.json` |
+| Local | `bin/nlpm-report` (Codex delegates scorer/checker roles through the skill) | `<target>/.codex/nlpm-reports/data/<timestamp>.json` |
 | Auditor → per-repo | `auditor/scripts/render-repo-report.py` | `auditor/reports/<slug>.json` (sidecar to `<slug>.html`) |
 | Auditor → dashboard | `auditor/scripts/render-dashboard.py` | `auditor/reports/dashboard.json` (sidecar to `dashboard.html`) |
 
@@ -19,7 +19,7 @@ The HTML/Markdown renderers are *consumers* of these JSON files. New visualizati
 
 ## `RepoReportData` (per-repo)
 
-Used by `/nlpm:report` locally and by `auditor/reports/<slug>.html` + the upcoming `/reports/<slug>` VitePress page.
+Used by `$nlpm-report` locally and by `auditor/reports/<slug>.html` plus VitePress report pages.
 
 ```jsonc
 {

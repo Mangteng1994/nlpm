@@ -1,22 +1,34 @@
 # Privacy Policy — NLPM
 
-_Last updated: 2026-05-26_
+_Last updated: 2026-08-13_
 
-NLPM analyzes natural-language artifacts inside your repository — locally. The slash-command surface (`/nlpm:*`) is delivered as a Claude Code plugin; the scoring rubric covers artifacts authored for Claude Code, Codex CLI, and Antigravity. The standalone Python validator (`bin/nlpm-check`) runs without Claude Code at all. This policy describes the data NLPM handles.
+NLPM analyzes natural-language artifacts inside your repository. Its explicit
+`$nlpm-*` workflows are delivered as a Codex plugin; the scoring rubric covers
+artifacts authored for Claude Code, Codex CLI, and Antigravity. The standalone
+Python validator (`bin/nlpm-check`) runs without an agent runtime. This policy
+describes the data NLPM handles.
 
 ## What NLPM reads
 
-The contents of files in your project (skills, agents, commands, rules, hooks, manifests) when you run any of: `/nlpm:ls`, `/nlpm:score`, `/nlpm:check`, `/nlpm:fix`, `/nlpm:test`, `/nlpm:security-scan`, `/nlpm:trend`. Also reads `.claude/nlpm.local.md` (per-project configuration) when present.
+The contents of files in your project (skills, agents, commands, rules, hooks,
+manifests, and related configuration) when you invoke an `$nlpm-*` workflow.
+NLPM reads `.codex/nlpm.local.md` when present. During a one-time migration it
+may read legacy NLPM configuration or history from `.claude/`, but never writes
+there.
 
 ## What NLPM writes
 
-`.claude/nlpm-history.json` — per-project snapshots of scores and component counts over time. Stored on your local filesystem; never transmitted. The standalone validator (`bin/nlpm-check`) reads and exits without writing.
+NLPM may write `.codex/nlpm.local.md`, `.codex/nlpm-history.json`, and
+`.codex/nlpm-reports/`. `$nlpm-fix` edits only the target artifacts selected by
+the user. These files stay in the project. The standalone validator
+(`bin/nlpm-check`) reads and exits without writing.
 
 ## What NLPM transmits
 
-**Nothing.** All scoring, checking, fixing, and testing runs locally through Claude Code. NLPM does not maintain its own backend, does not phone home, does not collect telemetry, does not register usage with any third party.
-
-When Claude Code orchestrates the agents (scorer, scanner, checker, etc.), the artifact contents are sent to Anthropic's API **by Claude Code itself** — under Anthropic's privacy terms, using your own credentials. NLPM is not in that path.
+NLPM has no backend, telemetry collector, or phone-home service. When Codex
+orchestrates a workflow, the repository context it needs is processed by
+OpenAI under the terms and controls of the user's Codex account. The standalone
+validator performs its deterministic checks locally and makes no network call.
 
 ## Third parties
 
@@ -28,7 +40,10 @@ The `auditor/` directory inside the NLPM source repo runs a separate GitHub Acti
 
 ## Data deletion
 
-There is no centralized data to delete on the maintainer's side. To remove local data: delete `.claude/nlpm-history.json` and `.claude/nlpm.local.md` from your projects, then `claude plugin uninstall nlpm@xiaolai`.
+There is no centralized NLPM service data to delete. To remove local NLPM
+state, delete `.codex/nlpm-history.json`, `.codex/nlpm.local.md`, and
+`.codex/nlpm-reports/` from your projects, then run
+`codex plugin remove nlpm`.
 
 ## Contact
 

@@ -12,7 +12,7 @@ in concrete evidence from the wild.
 
 Used by `auditor-exemplar.yml` when an audit issue is labeled
 `case-study-clean`. Callers render this template by substituting the
-tokens below before passing the file to `claude-code-action`:
+tokens below before passing the file to `openai/codex-action`:
 
 | Token | Purpose |
 |-------|---------|

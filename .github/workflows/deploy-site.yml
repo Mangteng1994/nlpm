@@ -29,11 +29,12 @@ on:
       - 'skills/nlpm/scoring/SKILL.md'
       - 'skills/nlpm/conventions/SKILL.md'
       - 'analysis/vocabulary-design-principles.md'
-      - 'agents/vocab-drift-scanner.md'
-      # Plugin surface — commands + agents drive the how-to-use-it page
-      # tables; renaming a command should redeploy automatically.
-      - 'commands/**'
-      - 'agents/**'
+      - '.codex/agents/vocab-drift-scanner.toml'
+      # Codex plugin surface — command skills + subagents drive the
+      # how-to-use-it page tables.
+      - 'skills/nlpm/*/SKILL.md'
+      - '.codex/agents/**'
+      - '.codex-plugin/**'
       # Auditor outputs the site mirrors as static passthrough
       - 'auditor/reports/**'
       - 'auditor/exemplars/**'

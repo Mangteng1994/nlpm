@@ -6,7 +6,7 @@ version: 0.1.0
 
 # Antigravity Conventions (with Gemini CLI legacy)
 
-Tool-specific overlay for Google Antigravity CLI artifacts, including legacy Gemini CLI paths during the transition window. Loaded by the scorer and checker when an artifact is classified as **Tier 2-Antigravity** (per `agents/scorer.md` step 3). The universal floor lives in `nlpm:conventions`.
+Static audit overlay for Google Antigravity artifacts, including legacy Gemini paths. Codex scorer/checker roles load it for **Tier 2-Antigravity** input (see `.codex/agents/scorer.toml`).
 
 **Status:** Antigravity 2.0 was announced at Google I/O 2026 on **2026-05-19** (six days before this file was written). The directory layout is still settling, the official Antigravity-specific spec doc is sparse, and two authoritative research passes disagreed on `.agent/` (singular) vs `.agents/` (plural) as the canonical skills path. This skill is **advisory-only** for Antigravity-specific artifacts. PR-B verification trigger conditions are recorded in `analysis/multi-tool-design-2026-05.md`.
 

@@ -1,7 +1,7 @@
 name: Classify PR Dissent
 
 # Consumes pr_comments_snapshot events and emits maintainer_rejected
-# classifications via Haiku. Dedup by comments_hash so a snapshot is
+# classifications via Codex at low reasoning effort. Dedup by comments_hash so a snapshot is
 # classified exactly once even across retries and manual re-runs.
 #
 # Input:  auditor/disagreements.jsonl events of type pr_comments_snapshot
@@ -16,12 +16,6 @@ on:
 
 permissions:
   contents: write
-  # claude-code-action requires OIDC for authentication (it fetches a
-  # short-lived token via GitHub's OIDC endpoint rather than embedding
-  # a long-lived secret in the runner). Without `id-token: write` the
-  # action fails immediately with "Could not fetch an OIDC token".
-  # Observed: 5 consecutive daily failures (2026-04-26 through -04-30)
-  # silently dropped every maintainer comment from being classified.
   id-token: write
 
 concurrency:
@@ -64,21 +58,19 @@ jobs:
           echo "unseen=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Unclassified snapshots: $COUNT"
 
-      - name: Classify with Haiku
+      - name: Classify with Codex
         if: steps.scan.outputs.unseen != '0'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # Defense-in-depth against prompt-injection exfiltration: classify
           # reads maintainer quotes from arbitrary upstream repos via
           # disagreements.jsonl. Block direct network-exfil Bash channels +
           # WebFetch/WebSearch. Does NOT block git/gh (needed for legit ops)
           # nor python/node (sophisticated attackers can still pivot through
           # those — defense is layered, not absolute). See AUTH-LEAK.md.
-          claude_args: |
-            --allowedTools Read,Write,Edit,Bash --model claude-haiku-4-5-20251001
-            --disallowedTools "Bash(curl:*)" "Bash(wget:*)" "Bash(nc:*)" "Bash(ncat:*)" "Bash(socat:*)" "Bash(telnet:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(sftp:*)" "Bash(rsync:*)" WebFetch WebSearch
+          effort: low
+          sandbox: workspace-write
           prompt: |
             You are a classifier for GitHub PR rejection comment threads. You
             process a JSONL batch and emit one classification per thread.

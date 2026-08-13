@@ -5,14 +5,15 @@
 
 PROTECTED_PATHS=(
   "skills/"
-  "agents/"
-  "commands/"
-  "hooks/"
-  "CLAUDE.md"
+  ".codex/agents/"
+  ".codex/hooks.json"
+  ".codex/config.toml"
+  ".codex-plugin/"
+  ".agents/plugins/"
+  "AGENTS.md"
   "README.md"
   "RULES.md"
   "EXAMPLES.md"
-  ".claude-plugin/"
   ".nlpm-test/"
 )
 

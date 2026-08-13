@@ -1,5 +1,5 @@
 ---
-artifact: agents/vague-scanner.md
+artifact: .codex/agents/vague-scanner.toml
 type: agent
 min_score: 85
 ---

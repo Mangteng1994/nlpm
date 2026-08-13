@@ -406,21 +406,19 @@ jobs:
           print(f"Rendered re-audit prompt: {len(template)} bytes")
           PYEOF
 
-      - name: Re-audit — score with Claude Code
+      - name: Re-audit — score with Codex
         id: rescore
         if: steps.skipcheck.outputs.skip != 'true' && steps.reclone.outputs.skip != 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         continue-on-error: true
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
-          show_full_output: true
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: "Read the prompt file at /tmp/re-audit-prompt.md and follow all instructions in it."
-          claude_args: "--allowedTools Read,Glob,Grep,Write"
+          sandbox: workspace-write
 
       - name: Re-audit — extract scores, diff, emit events
         # Gated on rescore.outcome == 'success' AND rescore actually emitted a
-        # report file. Without this guard, a failed Claude run left an empty
+        # report file. Without this guard, a failed Codex run left an empty
         # sidecar behind which the diff classified as "all findings
         # fixed_upstream_not_merged", flooding events.jsonl with false
         # finding_verified records and corrupting rule-health metrics.
@@ -795,19 +793,16 @@ jobs:
           - /tmp/case-study-summary.txt: one-line summary for the issue comment
           PROMPT_EOF
 
-      - name: Write with Claude Code
+      - name: Write with Codex
         if: steps.skipcheck.outputs.skip != 'true' && steps.gate.outputs.write_article == 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: "Read the prompt file at /tmp/case-study-prompt.md and follow all instructions in it."
           # Defense-in-depth: case-study reads target-repo content while
           # holding git push perms. Block network-exfil Bash channels +
           # WebFetch/WebSearch. See AUTH-LEAK.md.
-          claude_args: |
-            --allowedTools Read,Glob,Grep,Write,Bash
-            --disallowedTools "Bash(curl:*)" "Bash(wget:*)" "Bash(nc:*)" "Bash(ncat:*)" "Bash(socat:*)" "Bash(telnet:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(sftp:*)" "Bash(rsync:*)" WebFetch WebSearch
+          sandbox: workspace-write
 
       # ================================================================
       # STEP A: Self-Review — 6 perspectives (replaces external Codex review)
@@ -870,14 +865,13 @@ jobs:
           sed -i "s/SLUG_PLACEHOLDER/$SLUG/g" /tmp/self-review-prompt.md 2>/dev/null || \
           sed -i '' "s/SLUG_PLACEHOLDER/$SLUG/g" /tmp/self-review-prompt.md
 
-      - name: Self-review with Claude Code
+      - name: Self-review with Codex
         if: steps.skipcheck.outputs.skip != 'true' && steps.gate.outputs.write_article == 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: "Read the prompt file at /tmp/self-review-prompt.md and follow all instructions in it."
-          claude_args: "--allowedTools Read,Glob,Grep,Write"
+          sandbox: workspace-write
 
       # ================================================================
       # STEP B: Apply review fixes
@@ -912,14 +906,13 @@ jobs:
           - Do NOT add new sections beyond what the review recommends
           FIXES_EOF
 
-      - name: Apply fixes with Claude Code
+      - name: Apply fixes with Codex
         if: steps.skipcheck.outputs.skip != 'true' && steps.gate.outputs.write_article == 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: "Read the prompt file at /tmp/apply-fixes-prompt.md and follow all instructions in it."
-          claude_args: "--allowedTools Read,Edit,Grep"
+          sandbox: workspace-write
 
       # ================================================================
       # STEP C: Verify facts against GitHub API
@@ -1032,14 +1025,13 @@ jobs:
           Use Edit tool for surgical fixes only.
           LINKS_EOF
 
-      - name: Fix links with Claude Code
+      - name: Fix links with Codex
         if: steps.skipcheck.outputs.skip != 'true' && steps.factcheck.outputs.has_errors == 'true' && steps.gate.outputs.write_article == 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: "Read the prompt file at /tmp/fix-links-prompt.md and follow all instructions in it."
-          claude_args: "--allowedTools Read,Edit,Grep"
+          sandbox: workspace-write
 
       # ================================================================
       # STEP D: Polish prose — ornate wording
@@ -1054,14 +1046,13 @@ jobs:
           # heredoc — easier to edit and review as a standalone file).
           cp auditor/prompts/polish-case-study.md /tmp/polish-prompt.md
 
-      - name: Polish with Claude Code
+      - name: Polish with Codex
         if: steps.skipcheck.outputs.skip != 'true' && steps.gate.outputs.write_article == 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: "Read the prompt file at /tmp/polish-prompt.md and follow all instructions in it."
-          claude_args: "--allowedTools Read,Edit,Grep"
+          sandbox: workspace-write
 
       # ================================================================
       # STEP E: Validate all links (final pass after polish)
@@ -1168,10 +1159,9 @@ jobs:
 
       - name: Fix mermaid errors (if any)
         if: steps.skipcheck.outputs.skip != 'true' && steps.mermaid_check.outcome == 'failure' && steps.gate.outputs.write_article == 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: |
             Mermaid syntax errors were found. Read /tmp/mermaid-errors.txt.
             Fix each broken block in the article. Common fixes:
@@ -1180,7 +1170,7 @@ jobs:
             - graph: edges use -->
             - sequenceDiagram: declare participants
             Do NOT change non-mermaid content.
-          claude_args: "--allowedTools Read,Edit,Grep"
+          sandbox: workspace-write
 
       - name: Generate and compress cover image
         if: steps.skipcheck.outputs.skip != 'true' && steps.gate.outputs.write_article == 'true'

@@ -1,5 +1,5 @@
 ---
-artifact: agents/scanner.md
+artifact: .codex/agents/scanner.toml
 type: agent
 min_score: 85
 ---

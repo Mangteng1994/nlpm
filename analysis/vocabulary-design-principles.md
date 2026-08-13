@@ -2,7 +2,7 @@
 
 > **Source.** Copied from `eou-foundry/dev-docs/04-vocabulary-principles.md`, where they were derived from first principles and battle-tested against four established frameworks: OntoClean (Guarino & Welty), Domain-Driven Design (Evans), ISO 25964 / ANSI-NISO Z39.19 warrant theory, and BPMN / Event Storming (Brandolini). This file is the operationalized form for NLPM.
 >
-> Applies to: the `skills/nlpm/vocabulary/` registry, command and agent names, rule wording in `skills/nlpm/rules/`, the verb taxonomy across `/nlpm:score` / `/nlpm:check` / `/nlpm:scan` / `/nlpm:vocab-drift`, and any project-level extension via `.claude/nlpm.local.md`.
+> Applies to the vocabulary registry, Codex skill/subagent names, rule wording, the `$nlpm-*` verb taxonomy, and project extensions through `.codex/nlpm.local.md`.
 
 ---
 
@@ -95,18 +95,18 @@ These principles were applied to NLPM itself in this order. Each entry reference
 
 **R51 wiring pass:**
 
-6. **R51 written and made opt-in** — vocabulary discipline is an available audit methodology, not mandatory. Default disabled. Projects opt in via `rule_overrides.R51.enabled: true` + `vocabulary_skill: <path>` in `.claude/nlpm.local.md`. The `enabled` override type was added to `nlpm:conventions` §13.
+6. **R51 written and made opt-in** — projects opt in through `.codex/nlpm.local.md` with `rule_overrides.R51.enabled: true` and `vocabulary_skill: <path>`.
 7. **Machine-readable sidecar** — `skills/nlpm/vocabulary/registry.yaml` exports canonical/deprecated pairs for tooling. SKILL.md remains the human-readable canonical source.
 8. **Checker and scorer agents** acknowledge R51 via `skills: [..., nlpm:vocabulary]` and per-step instructions that read the local config before applying any vocabulary checks.
 9. **Per-rule warrant tags on R01–R51** appended to the rules SKILL.md, with a retirement-test table.
 10. **Auditor workflow filename convention** declared as a sanctioned split (`auditor-<verb>` for state-changers, `auditor-<output-noun>` for artifact-producers). `auditor-batch-processor` flagged as the one outlier.
-11. **NLPM self-opts-in** via `.claude/nlpm.local.md` — the plugin dogfoods R51 at strict/90.
+11. **NLPM self-opts-in** via `.codex/nlpm.local.md` — the plugin dogfoods R51 at strict/90.
 
 **Cross-repo adoption pass:**
 
 12. **Extractor parameterized** — `--root`, `--scopes`, `--out` arguments. Any repo can produce its own warrant tables.
-13. **`/nlpm:vocab-init` command** — bootstraps a vocabulary skill in any target project: detects layout, runs the extractor, seeds canonical noun/verb tables from top extracted terms, writes the R51 opt-in stub.
-14. **`/nlpm:vocab-drift` command + `vocab-drift-scanner` agent** — registry-free drift detection. Advisory only.
+13. **`$nlpm-vocab-init` skill** — bootstraps a vocabulary skill in any target project.
+14. **`$nlpm-vocab-drift` plus the vocab-drift subagent** — registry-free advisory detection.
 15. **Adopter documentation** — `docs/for-authors.md` gained the "Vocabulary discipline (R51, opt-in)" section.
 
 **Auditor pipeline integration pass:**

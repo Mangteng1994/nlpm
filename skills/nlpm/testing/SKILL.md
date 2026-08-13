@@ -1,6 +1,6 @@
 ---
 name: testing
-description: "Use when writing test specs for NL artifacts, running /nlpm:test, or setting up TDD workflows for skills, agents, commands, rules, hooks, and prompts."
+description: "Use when writing NL artifact test specs, running $nlpm-test, or setting up TDD for skills, Codex agents, hooks, and prompts."
 version: 0.1.0
 ---
 
@@ -8,10 +8,10 @@ version: 0.1.0
 
 ```
 1. Write spec (.nlpm-test/artifact-name.spec.md)     — define expectations
-2. /nlpm:test                                         — RED: spec fails (artifact doesn't exist)
+2. $nlpm-test                                         — RED: spec fails (artifact doesn't exist)
 3. Write the artifact                                 — create the NL artifact
-4. /nlpm:test                                         — check if it passes
-5. /nlpm:score                                        — check quality score
+4. $nlpm-test                                         — check if it passes
+5. $nlpm-score                                        — check quality score
 6. Iterate until GREEN: all specs pass + score ≥ threshold
 ```
 
@@ -23,9 +23,9 @@ Filename convention: `<artifact-name>.spec.md` — matches the artifact filename
 
 ```yaml
 ---
-artifact: agents/my-agent.md          # path to the artifact being tested
+artifact: .codex/agents/my-agent.toml # path to the artifact being tested
 type: agent                           # agent | skill | command | rule | hook | prompt
-min_score: 85                         # minimum /nlpm:score threshold for this artifact
+min_score: 85                         # minimum $nlpm-score threshold for this artifact
 ---
 ```
 
@@ -126,7 +126,7 @@ NLPM Test Report
 
 Spec                              Artifact                    Result   Details
 ─────────────────────────────────────────────────────────────────────────────────
-my-agent.spec.md                  agents/my-agent.md          PASS     5/5 checks
+my-agent.spec.md                  .codex/agents/my-agent.toml PASS     5/5 checks
 my-skill.spec.md                  skills/core/SKILL.md        FAIL     3/5 checks
   ✗ Trigger: "optimize React hooks" → predicted NO trigger (expected YES)
   ✗ Score: 68/100 (min: 85)
@@ -150,14 +150,14 @@ RED items (fix these):
 
 The tester discovers specs by:
 1. Looking in `.nlpm-test/` directory
-2. Matching spec filename to artifact filename: `my-agent.spec.md` → `agents/my-agent.md` (uses the `artifact:` frontmatter field)
+2. Matching spec filename to artifact filename: `my-agent.spec.md` → `.codex/agents/my-agent.toml` (uses the `artifact:` frontmatter field)
 3. If `artifact` path doesn't exist → spec is RED by default (artifact not yet created — this is the TDD "write test first" state)
 
 ## Worked Example: TDD Cycle
 
-1. **RED — write the spec first.** Create `.nlpm-test/my-agent.spec.md` with `artifact: agents/my-agent.md` and a `triggers_on:` block listing 5 user queries the agent should match. The artifact does not exist yet — `/nlpm:test` reports RED with one failure: `artifact not found`.
+1. **RED — write the spec first.** Create `.nlpm-test/my-agent.spec.md` with `artifact: .codex/agents/my-agent.toml` and a `triggers_on:` block. The artifact does not exist yet — `$nlpm-test` reports RED.
 
-2. **GREEN — write the artifact.** Create `agents/my-agent.md` with frontmatter (name, description, model, tools) and a body. The description must be specific enough that the listed trigger queries land on it. Re-run `/nlpm:test`: the agent now exists, the tester predicts triggers, and the spec passes.
+2. **GREEN — write the artifact.** Create `.codex/agents/my-agent.toml` with `name`, `description`, and `developer_instructions`. Re-run `$nlpm-test`; the tester evaluates routing and output behavior.
 
 3. **REFACTOR — change the body, re-run the spec.** Edit the artifact's behavior. The same spec runs unchanged; if a refactor breaks a trigger query or violates a `handles_input` case, the test goes RED. Fix forward, re-run.
 

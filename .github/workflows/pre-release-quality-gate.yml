@@ -1,7 +1,7 @@
 name: Pre-Release Quality Gate
 
-# Gates release-bearing changes: when a PR bumps `.claude-plugin/plugin.json`
-# or `.codex-plugin/plugin.json` (i.e., is a release prep PR), this workflow
+# Gates release-bearing changes: when a PR bumps `.codex-plugin/plugin.json`
+# (i.e., is a release prep PR), this workflow
 # must pass before merge. Two assertions:
 #
 #   1. SCORE GATE — the NL artifacts CHANGED IN THIS PR score at least
@@ -9,7 +9,7 @@ name: Pre-Release Quality Gate
 #      bin/nlpm-check (deterministic floor — manifest parsing,
 #      manifest-vs-disk diff, frontmatter required fields, hook event-name
 #      case; runs on the whole repo) and the LLM-judged scorer (via
-#      claude-code-action) against the full Tier 2-Claude rubric (vague
+#      Codex Action) against the Tier 2-Codex rubric (vague
 #      quantifiers, instruction quality, output format, scope notes, etc.).
 #
 #      The LLM scorer runs on ONLY the NL artifacts the PR changed, not the
@@ -51,8 +51,7 @@ name: Pre-Release Quality Gate
 #   - pull_request to main — fires on EVERY PR so the `gate` check always
 #     reports a status, which lets it be a required check in branch
 #     protection without blocking non-release PRs. The first job step
-#     detects whether a release manifest (.claude-plugin/plugin.json or
-#     .codex-plugin/plugin.json) actually changed; if not, the heavy
+#     detects whether the Codex release manifest actually changed; if not, the heavy
 #     scoring steps are skipped and the job passes trivially.
 #
 # NOT triggered on push to main — by then the PR has merged. The gate
@@ -97,7 +96,7 @@ jobs:
           fi
           PR="${{ github.event.pull_request.number }}"
           if gh pr diff "$PR" --repo "$GITHUB_REPOSITORY" --name-only \
-               | grep -qE '^\.(claude|codex)-plugin/plugin\.json$'; then
+               | grep -qE '^\.codex-plugin/plugin\.json$'; then
             echo "release=true" >> "$GITHUB_OUTPUT"
             echo "::notice::Release manifest changed — running full pre-release gate."
           else
@@ -154,7 +153,7 @@ jobs:
         # deterministic floor + vocab gate above stay whole-repo. A manual
         # workflow_dispatch scores everything (deliberate full sweep).
         run: |
-          NL_PATTERN='^(commands/[^/]+\.md|commands/shared/[^/]+\.md|agents/[^/]+\.md|skills/nlpm/[^/]+/SKILL\.md|AGENTS\.md|CLAUDE\.md|GEMINI\.md)$'
+          NL_PATTERN='^(\.codex/agents/[^/]+\.toml|skills/nlpm/[^/]+/SKILL\.md|skills/nlpm/workflow-core/references/[^/]+\.md|AGENTS\.md)$'
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             git ls-files | grep -E "$NL_PATTERN" > /tmp/artifacts_to_score.txt || true
           else
@@ -174,36 +173,33 @@ jobs:
       - name: LLM-judged score + vocab drift
         if: steps.detect.outputs.release == 'true' && steps.select.outputs.count != '0'
         id: llm_gate
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # Defense-in-depth: pre-release gate reads + writes report files
           # only; no network exfil channels needed. Block them.
-          claude_args: |
-            --allowedTools Read,Glob,Grep,Bash
-            --disallowedTools "Bash(curl:*)" "Bash(wget:*)" "Bash(nc:*)" "Bash(ncat:*)" "Bash(socat:*)" "Bash(telnet:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(sftp:*)" WebFetch WebSearch
+          sandbox: workspace-write
           prompt: |
             You are the pre-release quality gate for nlpm itself. Run two
             checks against nlpm's own rubric and write the results to
             specific files so the next workflow step can assert on them.
 
             BEFORE SCORING, READ THESE OPERATING INSTRUCTIONS:
-              1. agents/scorer.md (full 5-step "Do Not Invent Findings"
+              1. .codex/agents/scorer.toml (full 5-step "Do Not Invent Findings"
                  check + known false-positive table)
               2. skills/nlpm/scoring/SKILL.md (penalty rubric v0.3.1 +
                  Known False Positive Patterns appendix)
-              3. skills/nlpm/conventions/SKILL.md + conventions-claude/SKILL.md
-                 (universal + Claude overlay — nlpm IS a Claude Code plugin,
-                 Tier 2-Claude applies)
+              3. skills/nlpm/conventions/SKILL.md + conventions-codex/SKILL.md
+                 (universal + Codex overlay — nlpm is a Codex plugin,
+                 Tier 2-Codex applies)
               4. skills/nlpm/patterns/SKILL.md (P10 anchored-vague-quantifier
                  exception, P11 paired CAN/CANNOT, etc.)
 
             === CHECK 1: SCORE GATE ===
 
-            Score every NL artifact in nlpm. Apply Tier 2-Claude. Apply
+            Score every listed NL artifact in nlpm. Apply its classified tier. Apply
             the 5-step Do-Not-Invent check before EVERY finding. Apply
             the Known False Positive Patterns table aggressively (nlpm
             authors the rubric and intentionally adopts patterns the
@@ -214,27 +210,24 @@ jobs:
             repo-relative path per line — the NL artifacts this PR changed.
             Score every listed file and NO others (do not score the whole
             corpus). Notes on the kinds you may see:
-              - commands/shared/*.md must have user-invocable: false
-              - skills/nlpm/*/SKILL.md are Claude-side (codex/skills/
-                mirrors are auto-generated and never appear in this list)
+              - skills/nlpm/workflow-core/references/*.md are shared contracts
+              - skills/nlpm/*/SKILL.md are the canonical Codex plugin skills
+              - .codex/agents/*.toml are Codex subagent definitions
               - AGENTS.md is the canonical universal memory file
-              - CLAUDE.md / GEMINI.md are one-line @AGENTS.md imports —
-                do NOT flag as missing build/test commands; content is
-                in AGENTS.md
 
             Write per-file scores to /tmp/scores.tsv with this exact
             format (tab-separated, header row, ONE line per file, score
             as integer 0-100):
 
               file\tscore
-              commands/check.md\t100
-              commands/fix.md\t100
+              skills/nlpm/check/SKILL.md\t100
+              skills/nlpm/fix/SKILL.md\t100
               ...
 
             === CHECK 2: VOCAB INTEGRITY GATE ===
 
             Run the vocab-drift-scanner against the nlpm corpus.
-            BEFORE: read agents/vocab-drift-scanner.md and
+            BEFORE: read .codex/agents/vocab-drift-scanner.toml and
             skills/nlpm/vocabulary/SKILL.md for the protocol.
 
             Use the "Write JSONL findings to {path}" alternate output

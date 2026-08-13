@@ -1,5 +1,5 @@
 ---
-artifact: agents/tester.md
+artifact: .codex/agents/tester.toml
 type: agent
 min_score: 85
 ---

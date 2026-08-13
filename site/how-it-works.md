@@ -11,13 +11,13 @@ Two pipelines, one rulebook. The **local pipeline** is what a plugin author runs
 
 ```mermaid
 flowchart TD
-  ls[/nlpm:ls/] --> score[/nlpm:score/]
-  ls --> check[/nlpm:check/]
-  score --> report[/nlpm:report/]
+  ls[$nlpm-ls] --> score[$nlpm-score]
+  ls --> check[$nlpm-check]
+  score --> report[$nlpm-report]
   check --> report
-  vocab[/nlpm:vocab-init/] -.optional.-> drift[/nlpm:vocab-drift/]
+  vocab[$nlpm-vocab-init] -.optional.-> drift[$nlpm-vocab-drift]
   drift -.advisory.-> report
-  fix[/nlpm:fix/] -.repair.-> score
+  fix[$nlpm-fix] -.repair.-> score
   report --> html[(HTML report)]
 
   classDef step fill:#d5e0ff,stroke:#2b5fff,color:#1d2433
@@ -26,7 +26,7 @@ flowchart TD
   class html out
 ```
 
-Every step writes a JSON snapshot under `.claude/nlpm-history.json` so `/nlpm:trend` and `/nlpm:report` can chart progress over time.[^1]
+Scoring steps write JSON snapshots under `.codex/nlpm-history.json` so `$nlpm-trend` and `$nlpm-report` can chart progress over time.[^1]
 
 ## Auditor pipeline (NLPM's own self-evolution loop)
 
@@ -77,12 +77,12 @@ NLPM operates in two declared scopes[^3]. The boundary is intentional: same verb
 
 | Scope | What it operates on | Where it lives |
 |-------|---------------------|----------------|
-| **internal** | NLPM's own behavior — scoring, checking, fixing your local repo | `commands/`, `agents/`, `skills/`, hooks |
+| **internal** | NLPM's own behavior — scoring, checking, fixing your local repo | `skills/`, `.codex/agents/`, Codex hooks |
 | **auditor** | External repos at scale | `.github/workflows/auditor-*.yml`, `auditor/` |
 
 Cross-scope homonyms (`scan`, `test`, `discover`) mean the same thing in both scopes. Scope-bound verbs (`audit`, `contribute`, `track`) only make sense in the auditor scope. The [vocabulary reference](/reference/vocabulary) lists every term.
 
-[^1]: Snapshots accumulate; `/nlpm:trend` reads them all to surface regressions over time. If you don't want history, delete `.claude/nlpm-history.json` between runs.
+[^1]: Snapshots accumulate; `$nlpm-trend` reads them all to surface regressions over time. If you don't want history, delete `.codex/nlpm-history.json` between runs.
 
 [^2]: This is by design — autonomous rule changes would create feedback loops between the auditor and its own rulebook. The human-gate is the cycle-breaker.
 

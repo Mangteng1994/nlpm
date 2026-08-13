@@ -61,7 +61,7 @@ The validators avoid the **cross-artifact** boundary: does the array in
 `plugin.json` enumerate every SKILL.md on disk? Does every tool in
 `allowed-tools` have a call site? Do cross-references resolve?
 
-`/nlpm:check` is, by current research, the only validator that
+`$nlpm-check` is, by current research, the only validator that
 systematically checks this layer.
 
 ## Why the gap exists
@@ -83,7 +83,7 @@ Five compounding factors keep the bug class shipping:
    their own `.claude/` directory; the runtime walks the filesystem and
    finds the skill. The bug only surfaces on a fresh install of the
    published manifest — a code path the author rarely exercises.
-5. **No install-time loud failure.** `claude plugin install` succeeds
+5. **No install-time loud failure.** A plugin can install successfully
    with an incomplete manifest. Missing skills are silently invisible.
    There is no `ImportError`-equivalent that tells the author what they
    just published is broken.
@@ -140,7 +140,7 @@ terms that satisfy the higher principles, which is why deferred terms in
 NLPM's own registry remain deferred rather than rejected.
 
 These principles power R51 — NLPM's opt-in vocabulary-drift rule — and
-the registry-free `/nlpm:vocab-drift` scan that ships alongside it.
+the registry-free `$nlpm-vocab-drift` scan that ships alongside it.
 
 ## What NLPM is, framed by the gap
 
@@ -148,9 +148,9 @@ The shape of the tool follows from the two observations above.
 
 | Component | Why it exists |
 |---|---|
-| `/nlpm:check` | Cross-artifact validation — the layer no other tool covers |
-| `/nlpm:score` (51 rules, 100-point) | Quality scoring grounded in primary-source citations, not house style |
-| `/nlpm:vocab-drift` + R51 | Vocabulary discipline; opt-in by design |
+| `$nlpm-check` | Cross-artifact validation — the layer no other tool covers |
+| `$nlpm-score` (51 rules, 100-point) | Quality scoring grounded in primary-source citations, not house style |
+| `$nlpm-vocab-drift` + R51 | Vocabulary discipline; opt-in by design |
 | `bin/nlpm-check` (stdlib-only Python) | Pre-commit / CI gate that runs without Claude Code |
 | Auditor pipeline | Continuous corpus building — the rules get refined by contact with real plugins, not by speculation |
 | Case studies + exemplars | Evidence trail; every rule cites real-world examples |

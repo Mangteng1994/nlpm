@@ -7,7 +7,7 @@ Reads (same as bin/nlpm-build-docs):
   - skills/nlpm/vocabulary/SKILL.md
   - skills/nlpm/scoring/SKILL.md
   - skills/nlpm/conventions/SKILL.md
-  - agents/vocab-drift-scanner.md
+  - .codex/agents/vocab-drift-scanner.toml
 
 Emits one .md file per topic into <out>/:
   rules.md, principles.md, vocabulary.md, scoring.md,
@@ -245,7 +245,7 @@ def emit_artifact_types() -> str:
 
 
 def emit_drift() -> str:
-    text = split_frontmatter(read_text(ROOT / "agents" / "vocab-drift-scanner.md"))
+    text = split_frontmatter(read_text(ROOT / ".codex" / "agents" / "vocab-drift-scanner.toml"))
     out = [
         "---",
         "title: Drift criteria",

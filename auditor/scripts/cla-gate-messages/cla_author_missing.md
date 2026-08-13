@@ -1,6 +1,6 @@
 ## Contribute step skipped — CLA author identity not configured
 
-`GOOGLE_CLA_SIGNED=true` is set, but `CONTRIBUTE_AUTHOR_EMAIL` and/or `CONTRIBUTE_AUTHOR_NAME` are missing. Without those, claude-code-action commits under its default bot identity (`claude[bot]@users.noreply.github.com`), which is not covered by any CLA — the `cla/google` check would fail on every PR.
+`GOOGLE_CLA_SIGNED=true` is set, but `CONTRIBUTE_AUTHOR_EMAIL` and/or `CONTRIBUTE_AUTHOR_NAME` are missing. Without those values, the workflow cannot create a commit under the CLA-signed human identity, so the `cla/google` check would fail on every PR.
 
 **To unblock**:
 

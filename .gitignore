@@ -5,8 +5,9 @@ __pycache__/
 .DS_Store
 .env
 .env.*
-.claude/*
-!.claude/nlpm.local.md
+.vmark/
+.codex/nlpm-history.json
+.codex/nlpm-reports/
 
 # VitePress site build artifacts
 site/node_modules/
@@ -34,34 +35,9 @@ site/reports/
 # at /PRIVACY.md so the policy is editable in one place.
 site/privacy.md
 
-# >>> cc-suite >>>
-# cc-suite-schema: 3
-# AI assistant local state
-.claude/settings.local.json
-.claude/CLAUDE.local.md
-.claude/*.local.*
-CLAUDE.local.md
-
-# Codex CLI — local files, keep checked-in subdirs
+# Codex CLI — ignore local state, keep shipped project configuration
 .codex/*
-!.codex/skills/
-!.codex/prompts/
 !.codex/hooks.json
-!.codex/hooks.cc-suite.json
 !.codex/config.toml
-
-# Gemini CLI — local files, keep checked-in subdirs
-.gemini/*
-!.gemini/skills/
-!.gemini/commands/
-
-# cc-suite-managed symlinks (created by bridge_skills.sh) — derived, not authored
-.claude/skills/cc-suite
-.agents/skills
-
-# cc-suite: plugin repo — keep the dev-only Codex MCP registration out of the
-# published plugin. Claude Code auto-registers a plugin-root .mcp.json, which
-# would start `codex mcp-server` for every installer. Local dev use is fine;
-# the file just stays untracked.
-.mcp.json
-# <<< cc-suite <<<
+!.codex/agents/
+!.codex/nlpm.local.md

@@ -4,45 +4,32 @@
 
 # nlpm
 
-Natural-Language Programming Manager — multi-tool (Claude Code, Codex CLI, Antigravity) NL artifact scoring, checking, fixing, and testing. Delivered as a Claude Code plugin; the scoring rubric covers all three ecosystems via tier-aware overlays (see `analysis/multi-tool-design-2026-05.md`).
+Natural-Language Programming Manager — a Codex-native tool for scoring, checking, fixing, and testing NL artifacts. The runtime is Codex-only; the rubric retains tier-aware static audit overlays for Claude Code, Codex, and Antigravity artifacts.
 
 ## Architecture
 
-Commands orchestrate agents. Agents use skills as reference knowledge.
-Each command does one thing -- no flags (except `--changed` on score).
+Explicit `$nlpm-*` skills orchestrate Codex subagents. Subagents use the canonical knowledge skills under `skills/nlpm/`. Each workflow does one thing; `$nlpm-score` additionally accepts `--changed`.
 
 ## Commands
 
-- commands/ls.md -- `/nlpm:ls` -- discover NL artifacts (dispatches scanner)
-- commands/score.md -- `/nlpm:score` -- 100-point quality scoring (dispatches scorer + vague-scanner in parallel)
-- commands/check.md -- `/nlpm:check` -- cross-artifact consistency (dispatches checker)
-- commands/fix.md -- `/nlpm:fix` -- auto-fix mechanical findings (dispatches scorer)
-- commands/trend.md -- `/nlpm:trend` -- track score history over time (dispatches scorer + vague-scanner)
-- commands/test.md -- `/nlpm:test` -- run NL-TDD specs (dispatches tester)
-- commands/init.md -- `/nlpm:init` -- init project
-- commands/security-scan.md -- `/nlpm:security-scan` -- scan plugin for security risks in executable artifacts
-- commands/vocab-init.md -- `/nlpm:vocab-init` -- init a vocabulary skill for any project (runs extractor, seeds canonical noun/verb tables, writes R51 opt-in stub). Adopter-facing entry point for vocabulary discipline.
-- commands/vocab-drift.md -- `/nlpm:vocab-drift` -- registry-free vocabulary drift scan (dispatches vocab-drift-scanner). Advisory only; no penalty. Use before/alongside R51.
-- commands/report.md -- `/nlpm:report` -- self-contained HTML report (per-file scores, trend, cross-artifact graph, vocabulary noun-verb map via AntV G6, drift candidates, findings). Output: `.claude/nlpm-reports/index.html`. file://-openable, no server.
-- commands/spec-sync.md -- `/nlpm:spec-sync` -- sync the tool overlays (conventions-claude/codex/antigravity) with upstream official specs (dispatches spec-researcher per tool in parallel; applies corrections, propagates for self-consistency, verifies via bin/nlpm-check). Never commits/pushes.
-- commands/shared/discover.md -- artifact discovery patterns (not user-invocable)
-- commands/shared/classify.md -- artifact type classification (not user-invocable)
-- commands/shared/append-history.md -- snapshot persistence to .claude/nlpm-history.json with scope marker (not user-invocable). Used by /nlpm:init, /nlpm:score, /nlpm:trend so trend data accumulates without manual upkeep.
+- `skills/nlpm/{ls,score,check,fix,trend,test,init,security-scan,vocab-init,vocab-drift,report,spec-sync}/SKILL.md` are the twelve user workflows, invoked as `$nlpm-<name>`.
+- `skills/nlpm/workflow-core/` owns discovery, classification, and atomic `.codex/nlpm-history.json` persistence.
+- `$nlpm-score --changed` uses Git changed-file discovery and runs scorer + vague-scanner subagents in parallel.
 
 ## Agents
 
-- agents/scanner.md -- haiku, mechanical artifact discovery
-- agents/scorer.md -- sonnet, 100-point quality scoring (skills: scoring, conventions, conventions-claude, conventions-codex, conventions-antigravity, vocabulary)
-- agents/checker.md -- sonnet, cross-artifact consistency (skills: conventions, conventions-claude, conventions-codex, conventions-antigravity, vocabulary)
-- agents/vague-scanner.md -- haiku, mechanical vague-word counting (no skills)
-- agents/tester.md -- sonnet, evaluates artifacts against test specs (skills: testing, conventions, scoring)
-- agents/security-scanner.md -- sonnet, security risk detection in executable artifacts (skills: security)
-- agents/vocab-drift-scanner.md -- sonnet, judgment-based clustering of likely-synonymous nouns/verbs across a corpus; no registry required (skills: vocabulary, conventions). Output is advisory only.
-- agents/spec-researcher.md -- sonnet, research-and-diff one tool's current official docs against an overlay; returns a tagged gap report (FIX/REMOVE/ADD/CONFIRM/RESOLVED) with a confidence guard. Read-only on web and repo; never edits (tools: Read, Glob, Grep, WebFetch, WebSearch).
+- `.codex/agents/scanner.toml` -- mechanical artifact discovery
+- `.codex/agents/scorer.toml` -- 100-point tier-aware scoring
+- `.codex/agents/checker.toml` -- cross-artifact consistency
+- `.codex/agents/vague-scanner.toml` -- literal vague-word counting
+- `.codex/agents/tester.toml` -- NL-TDD evaluation
+- `.codex/agents/security-scanner.toml` -- executable-surface security scanning
+- `.codex/agents/vocab-drift-scanner.toml` -- advisory synonym clustering
+- `.codex/agents/spec-researcher.toml` -- read-only official-spec research
 
 ## Skills
 
-### Auto-loaded by agents (declared in agent frontmatter `skills:`)
+### Loaded by subagent instructions
 - skills/nlpm/conventions/ -- Universal NL artifact conventions: SKILL.md open spec, AGENTS.md as canonical universal memory, vague-quantifier list, prompt engineering, naming, override system. Loaded by scanner, scorer, checker, tester.
 - skills/nlpm/conventions-claude/ -- Claude Code overlay: .claude/* paths, plugin.json, hook events, hooks.json, CLAUDE.md, LSP, monitors, settings, tool catalog. Loaded by scorer, checker for Tier 2-Claude artifacts.
 - skills/nlpm/conventions-codex/ -- Codex CLI overlay: .codex/config.toml, .codex-plugin/plugin.json, .agents/skills/ layout, AGENTS.md hierarchy, agents/openai.yaml sidecar, Codex hook events, marketplace. Loaded by scorer, checker for Tier 2-Codex artifacts.
@@ -54,26 +41,26 @@ Each command does one thing -- no flags (except `--changed` on score).
 ### Reference (loaded on demand by agents that need them, via cross-references in `nlpm:scoring`, `nlpm:conventions`, and skill scope notes)
 - skills/nlpm/rules/ -- the 50 Rules of Natural Language Programming (R01-R50) -- single source of truth, referenced by rule number from `nlpm:scoring`
 - skills/nlpm/patterns/ -- NL programming patterns + anti-patterns -- referenced by `nlpm:scoring` scope note
-- skills/nlpm/vocabulary/ -- canonical noun/verb registry for NLPM's two scopes (internal vs auditor); bright-line table for the evaluation cluster (score/check/test/scan/audit/review). SKILL.md is the human-readable source; `registry.yaml` is the machine-readable sidecar for the checker/scorer. Populated from `analysis/scripts/extract-vocabulary.py` (literary warrant per P6 of `analysis/vocabulary-design-principles.md`). Drift-detection via R51 is **opt-in** — disabled by default, enabled per-project via `rule_overrides.R51.enabled: true` in `.claude/nlpm.local.md`.
+- skills/nlpm/vocabulary/ -- canonical noun/verb registry. R51 is opt-in through `.codex/nlpm.local.md`.
 
 ### Writing Reference (loaded on demand)
 - skills/nlpm/writing-skills/ -- how to write SKILL.md files
 - skills/nlpm/writing-agents/ -- how to write agent definitions
-- skills/nlpm/writing-rules/ -- how to write .claude/rules/ files
+- skills/nlpm/writing-rules/ -- static guidance for reviewing tool-specific rule files
 - skills/nlpm/writing-prompts/ -- universal prompt engineering guide
-- skills/nlpm/writing-hooks/ -- how to write Claude Code hooks
+- skills/nlpm/writing-hooks/ -- how to write Codex hooks
 - skills/nlpm/writing-plugins/ -- how to design and build plugins
 - skills/nlpm/orchestration/ -- multi-agent workflow patterns
 
 ## Hooks
 
-- hooks/hooks.json -- PostToolUse command hook on Write|Edit|MultiEdit
-- scripts/check-artifact.sh -- classifies written file, emits advisory only for NL artifacts
+- `.codex/hooks.json` -- Codex `PostToolUse` hook for `apply_patch|Edit|Write`
+- `scripts/check-artifact.py` -- cross-platform, fail-open artifact classifier
 
 ## Standalone Author Surface (v0.8.0+)
 
 - bin/nlpm-check -- pure-Python (stdlib only) deterministic validator; the
-  subset of /nlpm:check that runs without Claude Code installed. Used in
+  subset of `$nlpm-check` that runs without an agent runtime. Used in
   pre-commit hooks, CI, and pre-publish scripts.
 - tests/test_nlpm_check.py -- unittest suite for the binary (run via
   `python3 -m unittest tests.test_nlpm_check`)
@@ -90,35 +77,36 @@ Each command does one thing -- no flags (except `--changed` on score).
 
 ## Build & Run
 
-No build step. Markdown plugin + single-file Python binary. Install with:
+No build step. Codex skills plugin + single-file Python binary. Install with:
 ```
-claude plugin install nlpm@xiaolai --scope project
+codex plugin marketplace add xiaolai/nlpm
+codex plugin add nlpm@xiaolai
 ```
 
-Test by running `/nlpm:ls` on any project with NL artifacts.
-Run `/nlpm:test` to verify agent specs pass.
+Test by running `$nlpm-ls` on any project with NL artifacts.
+Run `$nlpm-test` to verify agent specs pass.
 Run `python3 -m unittest tests.test_nlpm_check` to verify the binary.
 
 ## Prerequisites
 
-- Slash commands (/nlpm:*) -- none. Pure markdown.
+- Codex skill workflows -- no package dependencies; pure Markdown/TOML.
 - Standalone bin/nlpm-check -- Python 3.11+ (stdlib only; no pip install).
-- Auditor workflows -- CLAUDE_CODE_OAUTH_TOKEN, PAT_TOKEN, OPENAI_API_KEY secrets.
+- Auditor workflows -- `OPENAI_API_KEY`, `PAT_TOKEN`, and workflow-specific GitHub tokens.
 
 ## Development
 
 When modifying this plugin:
-- Run `/nlpm:score ./` after changes to verify quality stays above 90
-- Run `/nlpm:check` to verify cross-artifact references
-- Run `/nlpm:test` to verify agent specs pass
-- Bump version in plugin.json AND marketplace.json
+- Run `$nlpm-score ./` after changes to verify quality stays above 90
+- Run `$nlpm-check` to verify cross-artifact references
+- Run `$nlpm-test` to verify agent specs pass
+- Bump version in `.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json`
 - Push plugin repo, then update central marketplace
 
 ## Scoring
 
 100-point scale. Start at 100, apply deterministic penalties.
 Floor: 0. Ceiling: 100.
-Threshold configurable via .claude/nlpm.local.md (default: 70).
+Threshold configurable via `.codex/nlpm.local.md` (default: 70).
 Rule overrides supported (suppress, max_penalty, threshold adjustments).
 
 ## Auditor (Self-Evolution Pipeline)
@@ -138,14 +126,14 @@ The `auditor/` subdirectory contains a GitHub Actions pipeline that discovers, a
 | auditor-exemplar | Issue labeled `case-study-clean` | Write a teaching artifact from a high-scoring audit (score ≥ 90, security != BLOCKED). Output is `auditor/exemplars/<slug>.md` cited by `skills/nlpm/rules/` as a positive real-world reference. Auto-labeled by `batch-process.py phase0`. Also regenerates `auditor/exemplars/README.md` (the gallery). |
 | auditor-cite-exemplars | Weekly cron / manual | **Human-gated**: walks `auditor/exemplars/*.md`, proposes `> Real-world example:` line edits in `skills/nlpm/rules/SKILL.md` (one per rule with ≥1 exemplar), opens a PR labeled `exemplar-citation-proposal` for review. Deterministic — no LLM. |
 | auditor-daily-report | Daily cron | Pipeline state + per-rule health (healthy/noisy/dormant/disputed) |
-| auditor-classify | Daily cron / manual | Haiku classifies `pr_comments_snapshot` → `maintainer_rejected` |
+| auditor-classify | Daily cron / manual | Codex at low reasoning effort classifies `pr_comments_snapshot` → `maintainer_rejected` |
 | auditor-suppressions | Weekly cron / manual | Scan public repos for NLPM rule-override configs |
 | auditor-vocab-drift | Issue labeled `audit-ready` / manual | Registry-free vocabulary drift advisory for external repos. Runs in parallel with `auditor-audit`. Output is advisory only — never produces PRs, never gates contribute. Sidecar at `auditor/audits/<slug>.vocab-drift.{md,jsonl}`; global log at `auditor/vocab-advisories.jsonl`. |
 | auditor-render-dashboard | Daily cron / manual | Renders `auditor/reports/dashboard.html` — cross-repo HTML aggregate showing repo table, rule distribution, cross-repo vocab-drift network (AntV G6), and activity timeline. Self-contained, file://-openable. Driven by `auditor/scripts/render-dashboard.py`. |
 | auditor-repo-report | Manual dispatch only | Backfill renderer for per-repo HTML reports. Takes a `--repo` input (`owner/name` or `all`) and writes `auditor/reports/<slug>.html` using `render-repo-report.py`. The same render runs automatically at the tail of `auditor-audit` and `auditor-vocab-drift`; this workflow re-renders without re-auditing. |
 | auditor-refine-rules | Weekly cron / manual | **Human-gated**: open PR with proposed rule edits (reviewer: xiaolai) |
 | auditor-unstick-bot-prs | Every 30 min cron / manual | **Janitor** for the no-direct-push flow. Every auditor workflow now commits through `auditor/scripts/commit-via-pr.sh` (one auto-merging `auditor-bot` PR per commit); two bot PRs touching the same append-only file (events.jsonl, repos.json, findings.jsonl) conflict at merge and the second stalls. `commit-via-pr.sh`'s own reconcile loop clears conflicts that surface while its opening job is still running; this janitor clears the rest — a sibling that merges after that job exited. Deterministic (no LLM): rebases each `DIRTY` bot PR onto main with `resolve-merge-conflicts.sh` (the same per-file resolver the pre-migration direct pushes used), force-pushes, and re-asserts auto-merge; closes a PR whose commit already reached main via a sibling. Driven by `auditor/scripts/unstick-bot-prs.sh`. Without it, shared-log collisions pile up exactly as the pre-migration `track:` PRs did. |
-| pre-release-quality-gate | PR with `.claude-plugin/plugin.json` or `.codex-plugin/plugin.json` change / manual | **Release gate**: runs `bin/nlpm-check` (deterministic floor) + the LLM-judged scorer on all 38 NL artifacts + the vocab-drift scanner. Asserts every artifact scores 100/100 against nlpm's own rubric AND zero vocabulary drift clusters. Blocks the release PR from merging if either fails. Outputs per-file scores to a workflow artifact (`pre-release-gate-<pr#>`) for inspection. Add to branch protection's required checks to make the gate truly blocking. |
+| pre-release-quality-gate | PR with `.codex-plugin/plugin.json` change / manual | **Release gate**: runs `bin/nlpm-check`, registry drift, and a Codex-judged score on changed NL artifacts. Blocks release PRs on deterministic failures or scores below the configured floor. |
 
 ### Data (auditor/)
 
@@ -226,14 +214,8 @@ gates. All preserve the audit data and only skip PR creation.
 | pushback-gated | Repo has any prior `maintainer_rejected` event, **or** any `pr_comments_snapshot` event with `pr_state: closed_unmerged`, in `auditor/logs/events.jsonl` | `pushback_gated` | `policy-pushback-gated` | Append a `gate_override` counter-event to `auditor/logs/events.jsonl` with the same `pr` value and a justification — only when the maintainer has explicitly invited a follow-up. |
 
 Why three separate trigger rows: a signed CLA is required, and it does
-not by itself clear the gate. `claude-code-action`'s default commit identity is `claude[bot]
-<claude[bot]@users.noreply.github.com>`, which is not covered by any CLA.
-Even with `GOOGLE_CLA_SIGNED=true`, commits authored by the bot leave
-`cla/google` on FAILURE — confirmed by `googleworkspace/cli` #757–#760
-(bot-authored, all stuck) and `google-gemini/gemini-skills` #36–#38
-(authored by `lixiaolai@gmail.com` because the human ran the contribute
-step locally rather than via CI). The author-identity gate prevents
-future CI runs from re-creating the first failure mode.
+not by itself clear the gate. Automated commits must use the configured
+CLA-covered human identity; a bot identity cannot satisfy a personal CLA.
 
 `anthropics/*` rejected 3/3 of our PRs as a policy matter (no external
 PRs at all). Google orgs accept external PRs but only when the commit
@@ -242,11 +224,10 @@ Without these gates, the pipeline opens PRs that sit indefinitely and
 inflate "in flight" counts for rule-health.
 
 The `Configure commit author identity` workflow step (after the policy
-gates, before `Contribute with Claude Code`) sets `git config --global
+gates, before `Contribute with Codex`) sets `git config --global
 user.email` and `user.name` from the two `CONTRIBUTE_AUTHOR_*` vars
 when both are present. The contribute prompt then re-applies the same
-identity inside the target fork's working directory before any commit,
-so claude-code-action's bot identity is overridden in both places.
+identity inside the target fork's working directory before any commit.
 
 The track workflow detects the `cla_blocked` PR state by inspecting
 `statusCheckRollup` for a check whose name matches `^cla(/|$)/i` with
@@ -265,7 +246,7 @@ conclusion `FAILURE`. CLA-blocked PRs:
 | log-event.sh | Append lifecycle events to events.jsonl |
 | compute-fingerprint.sh | SCHEMAS §fingerprint formula, shared by audit + contribute + re-audit |
 | diff-findings.py | Diff a re-audit's sidecar against the original, emit finding_verified / finding_introduced events and the case-study diff report; `--self-test` cross-checks Python fingerprint vs. the shell helper |
-| guard-protected-paths.sh | Block stray edits to skills/, agents/ from automation commits |
+| guard-protected-paths.sh | Block stray edits to canonical skills, Codex subagents/config/hooks, manifests, and project instructions from automation commits |
 | resolve-merge-conflicts.sh | Auto-resolve conflicts on append-only log pushes: 3-way merge for the registry, line-union for the append-only logs, regenerate-from-disk for the exemplar gallery, `--ours` for everything else. Shared by the direct-push retry helper (`git-push-with-retry.sh`) AND the PR-flow reconcile paths (`commit-via-pr.sh`, `unstick-bot-prs.sh`). |
 | commit-via-pr.sh | Commit the staged tree via one auto-merging `auditor-bot` PR instead of pushing to main. The sole write path for every auditor workflow (nothing pushes to main directly). Commits as the bot, opens the PR, enables auto-merge, then watches briefly and — on a shared-file conflict — rebases onto latest main via `resolve-merge-conflicts.sh`, force-pushes, and re-asserts auto-merge (closing the PR if the rebase finds its commit already upstream). Fail-soft: a timeout leaves the PR for `unstick-bot-prs.sh`. |
 | unstick-bot-prs.sh | Janitor for `auditor-unstick-bot-prs.yml`: reconciles any open `auditor-bot` PR left `DIRTY` after its opening job exited — same rebase+resolve+force-push as `commit-via-pr.sh`'s in-run loop, for conflicts that surface asynchronously. |
@@ -275,7 +256,7 @@ conclusion `FAILURE`. CLA-blocked PRs:
 | rule-health.py | Run SCHEMAS §Learning query, write feedback-summary.json (consumes finding_verified for precision) |
 | compute-vocab-fingerprint.sh | SCHEMAS §vocab fingerprint formula; sole writer used by `auditor-vocab-drift.yml` |
 | render-dashboard.py | Aggregate cross-repo HTML dashboard renderer. Reads `findings.jsonl` + `vocab-advisories.jsonl` + `logs/events.jsonl` + `registry/repos.json`; emits `auditor/reports/dashboard.html` using `templates/report/` and vendored G6. |
-| render-repo-report.py | Per-repo HTML report renderer. Takes `--repo owner/name`, filters the global logs to one repo, and emits `auditor/reports/<slug>.html` using the same template as `/nlpm:report`. Runs at the tail of `auditor-audit` and `auditor-vocab-drift`; standalone backfill via `auditor-repo-report.yml`. Dashboard rows link to these via relative anchor. |
+| render-repo-report.py | Per-repo HTML report renderer. Takes `--repo owner/name`, filters the global logs to one repo, and emits `auditor/reports/<slug>.html` using the same template as `$nlpm-report`. Runs at the tail of `auditor-audit` and `auditor-vocab-drift`; standalone backfill via `auditor-repo-report.yml`. Dashboard rows link to these via relative anchor. |
 | vendor_default_filter.py | JSONL filter on stdin → stdout. Drops candidates whose owner is on the `DENY_OWNERS` list (no-external-PRs policy, e.g. `anthropics`) or `CLA_REQUIRED_OWNERS` list (Google orgs requiring CLA-signed commits). Saves API + LLM cost vs. discovering and then failing at the contribute policy gates. Used by `auditor-discover.yml` between gh-search and the artifact-probe step. |
 
 The framework-reference doc builder lives in `bin/nlpm-build-docs` and is
@@ -283,7 +264,7 @@ invoked as a side effect by all three renderers (`bin/nlpm-report`,
 `render-dashboard.py`, `render-repo-report.py`). It reads
 `skills/nlpm/{rules,vocabulary,scoring,conventions}/SKILL.md`,
 `analysis/vocabulary-design-principles.md`, and
-`agents/vocab-drift-scanner.md`, then emits a single anchored HTML guide
+`.codex/agents/vocab-drift-scanner.toml`, then emits a single anchored HTML guide
 at `<out>/docs/index.html`. Reports cross-link into it (`./docs/index.html#R06`,
 `./docs/index.html#P1`, `./docs/index.html#severity-levels`, etc.).
 Markdown→HTML conversion uses a stdlib-only subset converter (~150 lines).
@@ -319,39 +300,28 @@ Deployment is automated by `.github/workflows/deploy-site.yml` — it builds
 and publishes to the `gh-pages` branch (served at <https://nlpm.com>) on:
 - every push to `main` touching site sources or their generators (`site/**`,
   the `bin/nlpm-build-*` scripts, the canonical
-  `skills/nlpm/{rules,vocabulary,scoring,conventions}/SKILL.md`, `commands/**`,
-  `agents/**`, `auditor/reports/**`, `auditor/exemplars/**`),
+  `skills/nlpm/{rules,vocabulary,scoring,conventions}/SKILL.md`, `.codex/agents/**`,
+  `auditor/reports/**`, `auditor/exemplars/**`),
 - a daily `0 23 * * *` UTC cron, and
 - manual `workflow_dispatch`.
 
 No manual copy-into-`gh-pages` step is needed. To force an off-cycle deploy,
 run `gh workflow run deploy-site.yml`.
 
-### Model pinning
+### Model selection
 
-One workflow pins a specific Claude model ID; the rest use the
-claude-code-action default (currently Sonnet 4.6).
-
-| Workflow | Model | Why pinned |
-|----------|-------|------------|
-| auditor-classify | `claude-haiku-4-5-20251001` | Bounded-enum classification is Haiku's sweet spot and ~10× cheaper than Sonnet for the same task |
-
-When Anthropic retires the pinned model, update the ID and note the
-migration in the commit message. All other workflows pick up model
-upgrades automatically.
+Auditor workflows use the current Codex Action default model. `auditor-classify` sets `effort: low` for its bounded-enum task; no Anthropic model IDs are pinned.
 
 ## Shared Memory
 
 **Always write new instructions, rules, and memory to `AGENTS.md` only.**
 
-Never modify `CLAUDE.md` or `GEMINI.md` directly — they only import `AGENTS.md`.
-This keeps Claude Code, Codex CLI, and Gemini CLI on the same context.
-
 ## Project Structure
 
-- `commands/`, `agents/`, `skills/nlpm/`, `hooks/` — the plugin artifacts, at repo root (auto-discovered by Claude Code)
-- `.claude/` — gitignored except `.claude/nlpm.local.md` (project NLPM config)
-- `.codex/prompts/` — Codex slash-command prompts
-- `.codex/hooks.json` / `.codex/config.toml` — Codex hooks/config (optional)
-- `.gemini/skills/`, `.gemini/commands/` — Gemini skills and TOML commands
-- `.mcp.json` — dev-only MCP registration (cc-suite Codex delegation); gitignored, never shipped. Claude Code auto-registers a plugin-root `.mcp.json`, so it must stay untracked in this plugin repo.
+- `skills/nlpm/` — canonical plugin skill tree, including all twelve user workflows
+- `.agents/skills` — repository discovery link to `skills/nlpm/`
+- `.codex/agents/` — Codex subagent TOML definitions
+- `.codex/hooks.json`, `.codex/config.toml` — Codex hook and project configuration
+- `.codex/nlpm.local.md` — checked-in self-configuration; generated history/reports remain ignored
+- `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json` — delivery manifests
+- `auditor/` — preserved audit pipeline and historical data

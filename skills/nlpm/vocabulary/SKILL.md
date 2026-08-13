@@ -6,7 +6,7 @@ version: 0.1.0
 
 # NLPM Domain Vocabulary
 
-> The canonical noun-and-verb set NLPM uses to name what it does. Every artifact name, command name, agent name, rule wording, and prose description should draw from this registry. Synonyms are flagged by `/nlpm:check` and penalized by `/nlpm:score`.
+> The canonical noun-and-verb set NLPM uses. Synonyms are flagged by `$nlpm-check` and penalized by `$nlpm-score`.
 >
 > **Sister skill:** `nlpm:conventions` holds upstream Claude Code framework terms (hook events, frontmatter fields, manifest keys). This skill holds NLPM-internal domain language. If a term is from Anthropic's docs, it belongs in `conventions`. If it is from NLPM's own corpus, it belongs here.
 
@@ -24,7 +24,7 @@ NLPM has two declared scopes. A homonym across them is a **boundary**, not a col
 
 | Scope | Lives in | What it operates on |
 |-------|----------|---------------------|
-| **internal** | `commands/`, `agents/`, `skills/`, `bin/`, `scripts/`, project CLAUDE.md | NLPM's own behavior — scoring, checking, fixing, testing, listing, trending NL artifacts in the current project. |
+| **internal** | `skills/`, `.codex/agents/`, `bin/`, `scripts/`, `AGENTS.md` | NLPM's own Codex behavior. |
 | **auditor** | `.github/workflows/auditor-*.yml`, `auditor/` | The self-evolution pipeline that audits external repos, opens contribution PRs, tracks outcomes, refines rules. |
 
 A verb that appears in both scopes (`scan`, `test`, `discover`) carries the same identity criterion in both — these are sanctioned homonyms. A verb that appears in only one scope (`audit`, `contribute`, `track` in auditor; `score`, `check`, `fix`, `ls`, `trend`, `init` in internal) is scope-bound; using it in the other scope requires either renaming or declaring a second scope-specific definition.
@@ -37,14 +37,14 @@ A verb that appears in both scopes (`scan`, `test`, `discover`) carries the same
 
 | Canonical verb | Output | Judgment? | Examples in corpus |
 |----------------|--------|-----------|--------------------|
-| `score` | number + penalty list | no (deterministic) | `commands/score.md`, `agents/scorer.md` |
-| `check` | consistency violation list | no (deterministic) | `commands/check.md`, `agents/checker.md` |
-| `test` | pass/fail against named specs | no (deterministic) | `commands/test.md`, `agents/tester.md` |
-| `scan` | pattern-match findings against a signature database | no (deterministic) | `commands/security-scan.md`, `agents/vague-scanner.md`, `agents/security-scanner.md` |
-| `fix` | mutated artifact | no (mechanical) | `commands/fix.md` |
-| `ls` | inventory of artifacts | no | `commands/ls.md`, `agents/scanner.md` |
-| `trend` | history report | no | `commands/trend.md` |
-| `init` | config file | no | `commands/init.md` |
+| `score` | number + penalty list | no (deterministic) | `skills/nlpm/score/`, `.codex/agents/scorer.toml` |
+| `check` | consistency violation list | no (deterministic) | `skills/nlpm/check/`, `.codex/agents/checker.toml` |
+| `test` | pass/fail against named specs | no (deterministic) | `skills/nlpm/test/`, `.codex/agents/tester.toml` |
+| `scan` | signature findings | no (deterministic) | `skills/nlpm/security-scan/`, `.codex/agents/security-scanner.toml` |
+| `fix` | mutated artifact | no (mechanical) | `skills/nlpm/fix/` |
+| `ls` | artifact inventory | no | `skills/nlpm/ls/`, `.codex/agents/scanner.toml` |
+| `trend` | history report | no | `skills/nlpm/trend/` |
+| `init` | config file | no | `skills/nlpm/init/` |
 
 **Deprecated synonyms (do not use in internal scope):**
 - `lint`, `validate` → use `check` (structural) or `score` (quality)
@@ -73,8 +73,8 @@ A verb that appears in both scopes (`scan`, `test`, `discover`) carries the same
 
 **Cross-scope homonyms (same meaning in both scopes):**
 - `scan` — pattern-match against a signature database (used by `security-scan` command and `scan-suppressions.py`)
-- `test` — pass/fail against named specs (used by `/nlpm:test` and `auditor-integration-test.yml`)
-- `discover` — produce a candidate list (`/nlpm:ls` description text and `auditor-discover.yml`)
+- `test` — pass/fail against named specs (used by `$nlpm-test` and `auditor-integration-test.yml`)
+- `discover` — produce a candidate list (`$nlpm-ls` and `auditor-discover.yml`)
 
 ### Verbs proposed but not entered
 
@@ -108,12 +108,12 @@ Deferred terms are documented but not yet canonical. R51 does **not** flag them 
 | Canonical noun | What it is | Examples |
 |----------------|------------|----------|
 | `artifact` | any NL programming file Claude Code consumes | umbrella term |
-| `command` | `commands/*.md`, invoked via `/<plugin>:<command>` | `commands/score.md` |
-| `agent` | `agents/*.md`, invoked via Task tool with `subagent_type` | `agents/scorer.md` |
+| `command` | explicit Codex skill invoked as `$<plugin>-<command>` | `skills/nlpm/score/SKILL.md` |
+| `agent` | `.codex/agents/*.toml`, invoked through Codex delegation | `.codex/agents/scorer.toml` |
 | `skill` | `skills/<plugin>/<name>/SKILL.md`, auto-loaded by description match | `skills/nlpm/rules/SKILL.md` |
 | `rule` | a numbered item (R01–R50) inside the rules skill | inside `skills/nlpm/rules/SKILL.md` |
 | `hook` | shell script wired via `hooks.json` | `hooks/hooks.json` |
-| `manifest` | `plugin.json` or `marketplace.json` | `.claude-plugin/plugin.json` |
+| `manifest` | `plugin.json` or `marketplace.json` | `.codex-plugin/plugin.json` |
 | `frontmatter` | YAML block delimited by `---` at the top of a Markdown file | every command, agent, skill |
 
 **Sanctioned homonyms** (distinct senses, not drift — the drift scanner should
@@ -132,12 +132,12 @@ and `issue` naming a detected problem are drift: the canonical nouns are
 
 | Role-noun | Paired verb | File |
 |-----------|-------------|------|
-| `scanner` | `ls` | `agents/scanner.md` |
-| `scorer` | `score` | `agents/scorer.md` |
-| `checker` | `check` | `agents/checker.md` |
-| `tester` | `test` | `agents/tester.md` |
-| `vague-scanner` | `score` (sub-step) | `agents/vague-scanner.md` |
-| `security-scanner` | `scan` | `agents/security-scanner.md` |
+| `scanner` | `ls` | `.codex/agents/scanner.toml` |
+| `scorer` | `score` | `.codex/agents/scorer.toml` |
+| `checker` | `check` | `.codex/agents/checker.toml` |
+| `tester` | `test` | `.codex/agents/tester.toml` |
+| `vague-scanner` | `score` (sub-step) | `.codex/agents/vague-scanner.toml` |
+| `security-scanner` | `scan` | `.codex/agents/security-scanner.toml` |
 
 These are **not top-level verbs in their own right** (P3). They are role-names for sub-step agents. Treat them as nouns naming the worker, not as operations on artifacts.
 
@@ -149,7 +149,7 @@ These are **not top-level verbs in their own right** (P3). They are role-names f
 | `finding` | `score`, `check`, `scan` | one problem detected; carries a fingerprint in auditor scope |
 | `violation` | `check` | a finding specifically from cross-reference checking |
 | `penalty` | `score` | the points subtracted by a single finding |
-| `snapshot` | `score`, `trend` | a point-in-time record appended to `.claude/nlpm-history.json` |
+| `snapshot` | `score`, `trend` | a point-in-time record appended to `.codex/nlpm-history.json` |
 | `inventory` | `ls` | the list of artifacts discovered in a path |
 | `report` | `audit`, `report`, `trend` | a roll-up document |
 | `spec` | `test` | a `.nlpm-test/*.spec.md` file defining expected behavior |
@@ -201,7 +201,7 @@ Two verbs share a scope and an identity criterion ⇒ one must be retired or sco
 | Item | Why deferred | What unblocks it |
 |------|--------------|------------------|
 | Per-rule warrant tags on R01–R50 | Requires reading every rule + judging which warrant it earns its place by. User warrant data lives in `rule-health.py` outputs. | A separate `auditor-refine-rules` follow-up pass that combines rule-health data with this principle set. |
-| Adding `triage` as a `/nlpm:triage` command | P4 closure gap is real but `triage` has zero literary warrant today. User warrant is the missing evidence. | A practitioner reaching for the word unprompted in actual NLPM use. |
+| Adding `triage` as a `$nlpm-triage` skill | P4 closure gap is real but `triage` has zero literary warrant today. User warrant is the missing evidence. | A practitioner reaching for the word unprompted in actual NLPM use. |
 | Resolving the agent-name-vs-command-name shadowing (`scanner`/`ls`, `scorer`/`score`) | Already documented above as a class boundary; no rename proposed. | A confirmed case of practitioner confusion. None observed today. |
 | (resolved 2026-05-19) Workflow filename convention | Declared as sanctioned split. See "Auditor workflow filename convention" below. | — |
 

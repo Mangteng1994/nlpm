@@ -1,0 +1,25 @@
+{
+  "name": "xiaolai",
+  "interface": {
+    "displayName": "xiaolai Marketplace"
+  },
+  "plugins": [
+    {
+      "name": "nlpm",
+      "source": {
+        "source": "github",
+        "repo": "xiaolai/nlpm"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_USE"
+      },
+      "version": "2.0.0",
+      "description": "Codex-native Natural-Language Programming Manager.",
+      "category": "developer-tools",
+      "interface": {
+        "displayName": "nlpm"
+      }
+    }
+  ]
+}

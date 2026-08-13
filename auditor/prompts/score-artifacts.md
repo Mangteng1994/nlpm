@@ -9,7 +9,7 @@ produced here is the join key for every downstream learning signal — its shape
 is a hard contract, not a convention.
 
 Callers render this template by substituting the tokens below with `sed`
-before passing the file to `claude-code-action`:
+before passing the file to `openai/codex-action`:
 
 | Token | Purpose |
 |-------|---------|
@@ -103,7 +103,7 @@ required, plus optional `license`, `compatibility`, `metadata`,
   not a skill field. Don't apply it to skills.
 
 Before reporting any finding, run this 5-step check (same gate as the scorer
-agent — `agents/scorer.md`):
+agent — `.codex/agents/scorer.toml`):
 
 1. **Rubric check** — Does the penalty appear in `skills/nlpm/scoring/` for
    this artifact type? If no, drop the finding unless marked `(heuristic)`.

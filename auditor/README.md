@@ -1,8 +1,11 @@
 # nlpm-auditor
 
-*A health inspector for the Claude Code ecosystem — making the rounds so the restaurants don't have to wonder about their own kitchens.*
+*A Codex-operated health inspector for NL programming ecosystems — making the rounds so the restaurants don't have to wonder about their own kitchens.*
 
-Automated pipeline for discovering, auditing, and contributing to Claude Code plugin and skill repos across GitHub. Uses [NLPM](https://github.com/xiaolai/nlpm-for-claude) scoring (50 rules, 100-point scale) and [claude-code-action](https://github.com/anthropics/claude-code-action) for automated analysis.
+The pipeline currently discovers Claude Code plugin and skill repositories as
+static audit targets. Its execution surface is Codex-only: [NLPM](https://github.com/xiaolai/nlpm)
+provides the 100-point rubric and `openai/codex-action@v1` performs automated
+analysis.
 
 ## How It Works
 
@@ -18,7 +21,7 @@ graph LR
         H -->|close| X[Skip]
     end
 
-    subgraph "Claude Code Action"
+    subgraph "Codex Action"
         A -->|scores artifacts| Report[Audit Report]
         Report --> H2{Has real bugs?}
         H2 -->|label: contribute-approved| C[Contribute PRs]
@@ -36,12 +39,12 @@ graph LR
 
 | Workflow | Trigger | What it does |
 |----------|---------|-------------|
-| `discover.yml` | Weekly cron / manual | Trawls GitHub for Claude Code repos with 500+ stars and 5+ NL artifacts — casting the net |
-| `audit.yml` | Issue labeled `audit-ready` | Clones the repo and gives it a physical — NLPM scores every artifact, writes the diagnosis |
-| `contribute.yml` | Issue labeled `contribute-approved` | Knocks on the maintainer's door with a fix — forks, branches, PRs for verified bugs only (max 5) |
-| `track.yml` | Weekly cron | Checks the mailbox — did the maintainer merge, close, or ignore? Updates the registry |
-| `case-study.yml` | Issue labeled `case-study-ready` | Writes up the story — gathers evidence, drafts article, polishes prose, paints the cover, commits the whole thing |
-| `daily-report.yml` | Daily 22:00 UTC / manual | Takes the pulse — pipeline state, PR scorecard, rule frequency, rejection lessons, self-evolution signals |
+| `auditor-discover.yml` | Weekly cron / manual | Trawls GitHub for Claude Code repos with 500+ stars and 5+ NL artifacts — casting the net |
+| `auditor-audit.yml` | Issue labeled `audit-ready` | Clones the repo and gives it a physical — NLPM scores every artifact, writes the diagnosis |
+| `auditor-contribute.yml` | Issue labeled `contribute-approved` | Knocks on the maintainer's door with a fix — forks, branches, PRs for verified bugs only (max 5) |
+| `auditor-track.yml` | Every 4 hours / manual | Checks the mailbox — did the maintainer merge, close, or ignore? Updates the registry |
+| `auditor-case-study.yml` | Issue labeled `case-study-ready` | Writes up the story — gathers evidence, drafts article, polishes prose, paints the cover, commits the whole thing |
+| `auditor-daily-report.yml` | Daily / manual | Takes the pulse — pipeline state, PR scorecard, rule frequency, rejection lessons, self-evolution signals |
 
 ## Issue Label Lifecycle
 
@@ -79,11 +82,11 @@ Every good audit deserves a good story. When `case-study-ready` is applied, the 
 
 1. **Gathers evidence** — like a journalist assembling source material before writing a word:
    - Repo metadata, all PRs (states, timestamps, URLs), tracking issues
-   - Commits mentioning NLPM or Claude co-authorship
+   - Commits mentioning NLPM or agent co-authorship
    - Maintainer review comments — what they said matters more than what we said
    - The original audit report
 
-2. **Writes the draft** — claude-code-action follows a proven template (disclosure, audit results with mermaid charts, PRs submitted, maintainer response, timeline, limitations)
+2. **Writes the draft** — Codex Action follows a proven template (disclosure, audit results with mermaid charts, PRs submitted, maintainer response, timeline, limitations)
 
 3. **Polishes the prose** — a second pass adds literary texture: similes, metaphors, punch lines. Restraint is elegance — 8-15 touches, no more
 
@@ -135,9 +138,8 @@ Plus the operational floor:
 
 1. Create the repo on GitHub
 2. Add secrets:
-   - `CLAUDE_CODE_OAUTH_TOKEN` — for claude-code-action
+   - `OPENAI_API_KEY` — for Codex Action and OpenAI image generation
    - `PAT_TOKEN` — GitHub PAT with `public_repo` scope (for forking and PRing to other repos)
-   - `OPENAI_API_KEY` — for DALL-E cover image generation
 3. Create the issue labels listed above
 4. Run `discover.yml` manually to seed the registry
 
@@ -171,6 +173,5 @@ The feedback loop: **audit → contribute → track outcomes → update NLPM rul
 ## Prerequisites
 
 - GitHub Actions enabled
-- `CLAUDE_CODE_OAUTH_TOKEN` secret
 - `PAT_TOKEN` secret with `public_repo` scope
-- `OPENAI_API_KEY` secret (for cover images)
+- `OPENAI_API_KEY` secret (for Codex Action and cover images)

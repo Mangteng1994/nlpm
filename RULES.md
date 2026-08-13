@@ -2,7 +2,7 @@
 
 The normative reference lives in the rules skill: `skills/nlpm/rules/SKILL.md`
 
-Run `/nlpm:score` to enforce these rules. Run `/nlpm:fix` to auto-repair fixable ones. See [EXAMPLES.md](EXAMPLES.md) for before/after walkthroughs.
+Run `$nlpm-score` to enforce these rules. Run `$nlpm-fix` to auto-repair fixable ones. See [EXAMPLES.md](EXAMPLES.md) for before/after walkthroughs.
 
 ## Quick Reference
 

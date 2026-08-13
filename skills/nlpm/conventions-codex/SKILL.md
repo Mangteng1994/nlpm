@@ -6,7 +6,7 @@ version: 0.3.1
 
 # Codex CLI Conventions
 
-Tool-specific overlay for OpenAI Codex CLI artifacts. Loaded by the scorer and checker when an artifact is classified as **Tier 2-Codex** (per `agents/scorer.md` step 3). The universal floor lives in `nlpm:conventions`; this overlay adds Codex-specific schemas on top.
+Tool-specific overlay for OpenAI Codex CLI artifacts. Loaded by the scorer and checker for **Tier 2-Codex** artifacts (see `.codex/agents/scorer.toml`).
 
 **Primary authoritative sources:**
 - <https://learn.chatgpt.com/docs> (the `developers.openai.com/codex/*` tree now 308-redirects here)
@@ -241,7 +241,7 @@ Repos relying on the removed built-in MCPs will silently regress under 0.131+. n
 This skill covers Codex CLI conventions. It does NOT cover:
 - Universal SKILL.md spec → `nlpm:conventions`
 - Penalty tables → `nlpm:scoring`
-- Cross-artifact check → invoked by `agents/checker.md`
+- Cross-artifact check → delegated to `.codex/agents/checker.toml`
 
 **Resolved in the 2026-08-02 refresh:**
 - `plugin.json` required fields — only `name` is required; `version`/`description`/`author`/`interface` are optional (§3).

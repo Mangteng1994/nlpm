@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Render a single-repo NLPM HTML report.
 
-Takes a JSON data blob produced by /nlpm:report (the slash command does
+Takes a JSON data blob produced by $nlpm-report (the Codex skill does
 the smart data-gathering) and substitutes it into the templates under
 templates/report/. Stdlib-only.
 
-Output structure (under --out, default `.claude/nlpm-reports/`):
+Output structure (under --out, default `.codex/nlpm-reports/`):
 
-    .claude/nlpm-reports/
+    .codex/nlpm-reports/
     ├── vendor/g6.min.js         # copied from templates/report/vendor/
     ├── assets/                  # CSS + JS, copied from templates/report/assets/
     ├── data/<timestamp>.json    # archived data blob
@@ -113,7 +113,7 @@ def render(data: dict, project: str, out_dir: Path) -> Path:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--data", help="Path to data JSON file (default: stdin)")
-    parser.add_argument("--out", default=".claude/nlpm-reports/", help="Output directory")
+    parser.add_argument("--out", default=".codex/nlpm-reports/", help="Output directory")
     parser.add_argument("--project", default=None, help="Project name (default: cwd basename)")
     args = parser.parse_args(argv)
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pre-commit hook for Claude Code plugin authors.
+# Pre-commit hook for Codex plugin and NL artifact authors.
 #
 # Runs nlpm-check (the deterministic NLPM validator) against staged changes
 # and blocks the commit on high-confidence findings.
@@ -16,32 +16,9 @@ set -euo pipefail
 # Locate nlpm-check
 NLPM_CHECK_BIN="${NLPM_CHECK_BIN:-nlpm-check}"
 if ! command -v "$NLPM_CHECK_BIN" >/dev/null 2>&1; then
-    # Try common locations (sorted descending lexically so newest cache version wins)
+    # Prefer a repository copy, then a conventional user binary location.
     REPO_BIN="$(git rev-parse --show-toplevel 2>/dev/null)/bin/nlpm-check"
-    LATEST_CACHE_BIN=""
-    if [[ -d "$HOME/.claude/plugins/cache/xiaolai/nlpm" ]]; then
-        # Pick newest installed version. Use Python (which the binary
-        # already requires) for portable semver comparison — `sort -V`
-        # is GNU-coreutils-specific and not on BSD/macOS by default.
-        LATEST_VERSION=$(python3 - <<'PY' 2>/dev/null
-import os, re
-base = os.path.expanduser("~/.claude/plugins/cache/xiaolai/nlpm")
-try:
-    versions = [d for d in os.listdir(base) if os.path.isdir(os.path.join(base, d))]
-except OSError:
-    raise SystemExit
-def key(v):
-    return tuple(int(p) if p.isdigit() else 0 for p in re.split(r"[.\-]", v))
-versions.sort(key=key)
-if versions:
-    print(versions[-1])
-PY
-)
-        if [[ -n "$LATEST_VERSION" ]]; then
-            LATEST_CACHE_BIN="$HOME/.claude/plugins/cache/xiaolai/nlpm/$LATEST_VERSION/bin/nlpm-check"
-        fi
-    fi
-    for candidate in "$REPO_BIN" "$HOME/.local/bin/nlpm-check" "$LATEST_CACHE_BIN"; do
+    for candidate in "$REPO_BIN" "$HOME/.local/bin/nlpm-check"; do
         if [[ -n "$candidate" && -x "$candidate" ]]; then
             NLPM_CHECK_BIN="$candidate"
             break
@@ -65,8 +42,10 @@ STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
 RELEVANT=0
 while IFS= read -r file; do
     case "$file" in
-        *.claude-plugin/plugin.json|*.claude-plugin/marketplace.json) RELEVANT=1 ;;
+        *.codex-plugin/plugin.json|*.agents/plugins/marketplace.json) RELEVANT=1 ;;
+        *.claude-plugin/plugin.json|*.claude-plugin/marketplace.json) RELEVANT=1 ;; # static audit target
         *skills/*SKILL.md) RELEVANT=1 ;;
+        *.codex/agents/*.toml) RELEVANT=1 ;;
         *agents/*.md) RELEVANT=1 ;;
         *commands/*.md) RELEVANT=1 ;;
         *hooks/hooks.json|*hooks.json|*.mcp.json) RELEVANT=1 ;;

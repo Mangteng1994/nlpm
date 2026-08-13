@@ -17,7 +17,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  id-token: write  # required by claude-code-action (OIDC token exchange)
+  id-token: write
 
 concurrency:
   group: nlpm-refine-rules
@@ -63,28 +63,25 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # actions/checkout ran with persist-credentials: false, so the
-          # remote URL has no embedded token. Claude's git push step below
+          # remote URL has no embedded token. Codex's git push step below
           # needs auth — inject the GITHUB_TOKEN into the URL once here so
-          # the bot identity + auth are both set before Claude takes over.
+          # the bot identity + auth are both set before Codex takes over.
           git config user.name "nlpm-auditor[bot]"
           git config user.email "nlpm-auditor[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-      - name: Propose refinements via Claude
+      - name: Propose refinements via Codex
         if: steps.existing.outputs.open_count == '0' && steps.input.outputs.proposals != '0'
-        uses: anthropics/claude-code-action@v1
+        uses: openai/codex-action@v1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           # Defense-in-depth against prompt-injection exfiltration: refine-rules
           # reads maintainer quotes from arbitrary upstream PRs while holding
           # write perms to this repo. Block network-exfil Bash channels +
           # WebFetch/WebSearch. See AUTH-LEAK.md.
-          claude_args: |
-            --allowedTools Read,Glob,Grep,Write,Edit,Bash
-            --disallowedTools "Bash(curl:*)" "Bash(wget:*)" "Bash(nc:*)" "Bash(ncat:*)" "Bash(socat:*)" "Bash(telnet:*)" "Bash(ssh:*)" "Bash(scp:*)" "Bash(sftp:*)" "Bash(rsync:*)" WebFetch WebSearch
+          sandbox: workspace-write
           prompt: |
             You are proposing refinements to NLPM's own rule catalog based on
             observed auditor outcomes. The pipeline has flagged one or more
@@ -134,7 +131,7 @@ jobs:
             6. Create branch `refine/rules-YYYY-MM-DD` where date is UTC.
             7. Commit with:
                  Title: `refine: propose adjustments to <N> rule(s)`
-                 Trailer: `Co-Authored-By: Claude Code <noreply@anthropic.com>`
+                 Trailer: `Generated-With: OpenAI Codex`
             8. Push the branch to origin.
             9. Open a PR against `main`:
                  Title: `refine: propose adjustments to <N> rule(s)`
@@ -205,7 +202,7 @@ jobs:
           # this set-url is what the fetch/checkout/pull below rely on.
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-          # Claude's step may have checked out a refine/rules-* branch. The
+          # Codex step may have checked out a refine/rules-* branch. The
           # log commit must land on main, not the refine branch — otherwise
           # the event is trapped inside a PR that may never merge, and the
           # branch carries phantom log rows that will conflict later.

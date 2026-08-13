@@ -1,110 +1,63 @@
 ---
-title: How to install
+title: Install NLPM for Codex
 outline: [2, 3]
 ---
 
-# How to install
+# Install NLPM for Codex
 
-NLPM has two install surfaces — pick whichever fits your environment.
+NLPM is delivered as a Codex plugin. Its runtime, skills, subagent orchestration, hooks, configuration, and GitHub automation use Codex and OpenAI capabilities. Cross-tool scoring still recognizes Claude Code and Antigravity files as static input.
 
-The **slash-command plugin** ships through Claude Code. Inside Claude Code you get eleven `/nlpm:*` commands backed by six specialist agents and the reference skill catalog. The scoring rubric this plugin runs covers all three tools NLPM supports — **Claude Code, Codex CLI, and Antigravity** — via tier-aware overlays in `nlpm:conventions-claude` / `nlpm:conventions-codex` / `nlpm:conventions-antigravity`. See [the multi-tool design doc](https://github.com/xiaolai/nlpm/blob/main/analysis/multi-tool-design-2026-05.md).
-
-The **standalone binary** (`bin/nlpm-check`) has no Claude Code dependency. Use it in Codex / Antigravity projects, in any project's pre-commit hook, or in CI.
-
-## Plugin install (Claude Code)
-
-Two install paths — both reach the same code:
-
-### Via Anthropic's official community marketplace
-
-Curated; updates lag the maintainer marketplace by up to ~24h.
+## Plugin install
 
 ```bash
-claude plugin marketplace add anthropics/claude-plugins-community
-claude plugin install nlpm@claude-community --scope project   # or --scope user
+codex plugin marketplace add xiaolai/nlpm
+codex plugin add nlpm@xiaolai
 ```
 
-### Via the xiaolai marketplace
+Start Codex in a repository and invoke a skill explicitly:
 
-Latest version lands here first.
-
-```bash
-claude plugin marketplace add xiaolai/claude-plugin-marketplace
-
-# Project scope (recommended)
-claude plugin install nlpm@xiaolai --scope project
-
-# Global (all projects)
-claude plugin install nlpm@xiaolai --scope user
+```text
+$nlpm-ls
+$nlpm-score --changed
+$nlpm-check
+$nlpm-report
 ```
 
-> **"Plugin not found in marketplace 'xiaolai'"?** Your local marketplace clone is stale. Run `claude plugin marketplace update xiaolai` and retry — `plugin install` does not auto-refresh. (The community marketplace doesn't have this caveat.)
+Requirements are Codex CLI 0.147.0+ and Python 3.11+ for the standalone checker/report scripts.
 
-Then in your project:
+## Project initialization
 
-```bash
-/nlpm:ls              # discover NL artifacts
-/nlpm:score           # 100-point quality scoring
-/nlpm:check           # cross-component consistency
-/nlpm:vocab-init      # bootstrap a vocabulary skill (optional)
-/nlpm:report          # render a self-contained HTML report
+```text
+$nlpm-init
 ```
 
-## Standalone binary (Codex CLI, Antigravity, any CI, no Claude Code required)
+This creates `.codex/nlpm.local.md` and an initial `.codex/nlpm-history.json` snapshot when artifacts exist. A legacy `.claude` config or history file may be imported once, read-only; all later writes go to `.codex/`.
 
-`bin/nlpm-check` is a single-file Python 3.11+ script (stdlib only) that runs the deterministic subset of `/nlpm:check`. It validates the universal floor (the agentskills.io open spec, AGENTS.md conventions, manifest-vs-disk consistency, vague-quantifier checks) regardless of which tool authored the artifacts. Drop into pre-commit hooks or CI.
+## Standalone checker
+
+`bin/nlpm-check` is a standard-library-only Python file for deterministic pre-commit and CI checks:
 
 ```bash
 git clone https://github.com/xiaolai/nlpm
-./nlpm/bin/nlpm-check /path/to/your/plugin
+python3 nlpm/bin/nlpm-check /path/to/plugin
 ```
 
-Or copy `bin/nlpm-check` into your repo:
+Templates are available in `templates/pre-commit-nlpm.sh` and `templates/workflows/nlpm-check.yml`.
+
+## Vocabulary discipline
+
+```text
+$nlpm-vocab-init
+$nlpm-vocab-drift
+```
+
+Enable R51 in `.codex/nlpm.local.md` after reviewing the generated registry.
+
+## Update or uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check -o nlpm-check
-chmod +x nlpm-check
-./nlpm-check .
+codex plugin marketplace upgrade xiaolai
+codex plugin remove nlpm
 ```
 
-Pre-commit hook and GitHub Actions workflow templates live at:
-
-- `templates/pre-commit-nlpm.sh`
-- `templates/workflows/nlpm-check.yml`
-
-## Vocabulary discipline (R51, opt-in)
-
-After installing NLPM in your project, decide whether to enforce a canonical noun/verb registry. If yes:
-
-```bash
-/nlpm:vocab-init      # detects layout, runs the extractor, seeds tables
-```
-
-This writes `skills/<plugin>/vocabulary/SKILL.md` + `registry.yaml`. Prune the seeded tables, define `deprecated:` synonym lists, then opt into R51 by adding to `.claude/nlpm.local.md`:
-
-```yaml
-rule_overrides:
-  R51:
-    enabled: true
-    vocabulary_skill: skills/<plugin>/vocabulary/
-```
-
-Now `/nlpm:score` and `/nlpm:check` flag deprecated-synonym occurrences. See [/reference/principles](/reference/principles) for the six principles behind R51.
-
-## Updates
-
-```bash
-claude plugin update nlpm@xiaolai
-```
-
-## Uninstall
-
-```bash
-claude plugin uninstall nlpm@xiaolai
-```
-
-## See also
-
-- [/reference/](/reference/) — full framework guide
-- [Auditor dashboard](/dashboard.html) — cross-repo audit data
-- [GitHub issues](https://github.com/xiaolai/nlpm/issues) — bug reports, feature requests
+See [How to use NLPM](/how-to-use-it), [the framework reference](/reference/), and the [Auditor dashboard](/dashboard.html).

@@ -1,336 +1,106 @@
-# nlpm
+# NLPM
 
-[![Validated by NLPM](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/xiaolai/nlpm/main/nlpm-badge.json)](https://github.com/xiaolai/nlpm/blob/main/nlpm-badge.json)
+Natural-Language Programming Manager for Codex. NLPM discovers, scores, checks, fixes, tests, and reports on skills, agents, hooks, manifests, project instructions, and related NL artifacts.
 
-Natural-Language Programming Manager — score, check, fix, and test NL artifacts across **Claude Code, Codex CLI, and Antigravity**. Tier-aware scoring with per-tool overlays.
+The runtime and delivery surface is Codex-only. The rubric still recognizes Claude Code and Antigravity artifacts as static audit targets, so a Codex user can review cross-tool repositories without installing those runtimes.
 
-Part of the [xiaolai plugin marketplace](https://github.com/xiaolai/claude-plugin-marketplace).
+## Install
 
-NLPM is the only multi-tool NL artifact validator that systematically checks **manifest-vs-disk consistency** — the bug class where a SKILL.md exists on disk but is silently missing from `plugin.json` (and therefore invisible after `claude plugin install`). Verified across 8+ tools including Anthropic's official `plugin-validator` and the Linux Foundation's `skills-ref`. See [`analysis/ecosystem-gap.md`](analysis/ecosystem-gap.md) for the research.
-
-## What it does
-
-NLPM treats natural language artifacts as **programs that can be linted**. Just as ESLint scores JavaScript and ruff scores Python, NLPM scores the markdown files that drive AI behavior: skills, agents, commands, rules, hooks, prompts, CLAUDE.md, and memory files.
-
-Eight commands, each doing one thing:
-
-| Command | What it does |
-|---------|-------------|
-| `/nlpm:ls` | Discover and inventory all NL artifacts in a repo |
-| `/nlpm:score` | Score artifact quality (100-point scale) |
-| `/nlpm:check` | Cross-component consistency checks |
-| `/nlpm:fix` | Auto-fix fixable issues |
-| `/nlpm:trend` | Track quality score trends over time |
-| `/nlpm:test` | Run NL artifact tests against spec files (TDD) |
-| `/nlpm:init` | Initialize NLPM for a project |
-| `/nlpm:security-scan` | Scan plugins for security risks in executable artifacts |
-
-Slash commands ship as a Claude Code plugin. The scoring rubric covers three ecosystems (Claude Code, Codex CLI, Antigravity) via tier-aware overlays — see [`analysis/multi-tool-design-2026-05.md`](analysis/multi-tool-design-2026-05.md). The standalone Python 3.11+ validator (`bin/nlpm-check`) has no Claude Code dependency and runs in pre-commit hooks or CI on any tool's artifacts.
-
-### Beyond linting: the learning loop
-
-NLPM also runs as a self-evolving GitHub Actions pipeline that audits real plugin repos, contributes fix PRs, harvests teaching examples from clean ones, and feeds learnings back into its own rule catalog:
-
-- **Exemplar pipeline** (v0.8.17+): repos that audit clean at score ≥ 90 produce a teaching artifact under `auditor/exemplars/` — 62 published so far, covering 31 of the 50 Rules with real-world positive references. See [the gallery](auditor/exemplars/README.md).
-- **Rule-citation auto-PR** (v0.8.18+): `auditor-cite-exemplars.yml` runs weekly and opens a human-gated PR adding `> Real-world example: [<repo>]` links to `skills/nlpm/rules/SKILL.md`, so each rule documents both the bad case (in the rule body) and the good case (in a real repo).
-- **Two-stage drift detector** (v0.8.15–v0.8.16): `auditor/scripts/validate-rule-ids.py` re-validates every audit's `rule_id` against the rubric (type drift) and the rule's title keywords (semantic drift). The 2026-05-13 sweep found 990 mislabeled `rule_id`s across 128 historical audits; the validator is now wired as a soft-warn telemetry step in every new audit so future drift is caught immediately.
-- **Drift-filtered rule health**: `auditor/scripts/rule-health.py` reports `validated_hits` per rule (raw hits minus drift hits) and `exemplars_count` per rule, so the "needs attention" view is calibrated against actual rule violations rather than scorer noise.
-
-## Installation
-
-Two install paths — both reach the same code. Pick one:
-
-**Via Anthropic's official community marketplace** (curated; updates lag the maintainer's marketplace by up to ~24h):
+Add the xiaolai marketplace and install the plugin with the Codex CLI:
 
 ```bash
-claude plugin marketplace add anthropics/claude-plugins-community
-claude plugin install nlpm@claude-community --scope project   # or --scope user
+codex plugin marketplace add xiaolai/nlpm
+codex plugin add nlpm@xiaolai
 ```
 
-**Via the xiaolai marketplace** (latest version lands here first):
+For local development, clone the repository and run Codex from its root. Codex discovers the canonical skills through `.agents/skills`, project subagents through `.codex/agents`, and the advisory edit hook through `.codex/hooks.json`.
 
-```bash
-claude plugin marketplace add xiaolai/claude-plugin-marketplace
+Requirements:
 
-# Project scope (recommended)
-claude plugin install nlpm@xiaolai --scope project
+- Codex CLI 0.147.0 or newer
+- Python 3.11+ for `bin/nlpm-check` and report tooling
+- `OPENAI_API_KEY` for GitHub Actions that invoke Codex
 
-# Global (all projects)
-claude plugin install nlpm@xiaolai --scope user
+## Commands
+
+| Codex skill | Purpose |
+|---|---|
+| `$nlpm-ls` | Discover and inventory NL artifacts |
+| `$nlpm-score` | Score quality on a 100-point scale |
+| `$nlpm-check` | Check cross-artifact consistency |
+| `$nlpm-fix` | Apply safe mechanical fixes and rescore |
+| `$nlpm-trend` | Compare score history |
+| `$nlpm-test` | Run NL-TDD specifications |
+| `$nlpm-init` | Initialize `.codex/nlpm.local.md` and a baseline |
+| `$nlpm-security-scan` | Inspect executable surfaces and dependencies |
+| `$nlpm-vocab-init` | Bootstrap a controlled-vocabulary registry |
+| `$nlpm-vocab-drift` | Run registry-free drift analysis |
+| `$nlpm-report` | Render a self-contained HTML report |
+| `$nlpm-spec-sync` | Compare tool overlays with current official specifications |
+
+Examples:
+
+```text
+$nlpm-ls
+$nlpm-score
+$nlpm-score --changed
+$nlpm-score .codex/agents/scorer.toml
+$nlpm-check
+$nlpm-report
 ```
 
-> **Install fails with "Plugin not found in marketplace 'xiaolai'"?** Your local marketplace clone is stale. Run `claude plugin marketplace update xiaolai` and retry — `plugin install` does not auto-refresh. (The community marketplace doesn't have this caveat.)
-
-## Quick Start
-
-In Claude Code:
-
-```
-/nlpm:ls                    # see what NL artifacts you have
-/nlpm:score                 # score them all
-/nlpm:score agents/         # score just agents
-/nlpm:score --changed       # score only git-changed files
-/nlpm:check                 # check cross-component consistency
-/nlpm:fix                   # auto-fix what's fixable
-/nlpm:trend                 # track score history over time
-/nlpm:test                  # run NL-TDD specs
-```
-
-From CI or a pre-commit hook (no Claude Code required):
-
-```bash
-curl -fsSL -o /usr/local/bin/nlpm-check \
-  https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check
-chmod +x /usr/local/bin/nlpm-check
-nlpm-check .               # exit 1 on high-confidence findings
-```
-
-## For plugin/skill authors — standalone validator
-
-If you author a plugin and want NLPM in your **pre-commit hook, CI, or pre-publish gate**, use the standalone binary at [`bin/nlpm-check`](bin/nlpm-check). It's a single Python 3.11+ file with no external dependencies. It runs the deterministic subset of `/nlpm:check` — including the manifest-vs-disk consistency check that no other validator (Anthropic's official `plugin-validator`, Linux Foundation's `skills-ref`, third-party tools) currently covers.
-
-```bash
-# One-line install
-curl -fsSL -o /usr/local/bin/nlpm-check \
-  https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check
-chmod +x /usr/local/bin/nlpm-check
-
-# Run in your plugin repo
-nlpm-check .
-```
-
-Templates ship in [`templates/`](templates/):
-- `pre-commit-nlpm.sh` — drop-in git pre-commit hook
-- `workflows/nlpm-check.yml` — drop-in GitHub Actions workflow
-
-See [`docs/for-authors.md`](docs/for-authors.md) for the full author guide. See [`analysis/ecosystem-gap.md`](analysis/ecosystem-gap.md) for the research on why this check exists and which other validators do (and don't) cover it.
-
-## Scoring System
-
-Scores start at 100 and go down. Every issue has a fixed penalty. The score is deterministic: same artifact, same penalties, same number.
-
-| Score | Band | Meaning |
-|-------|------|---------|
-| 90-100 | Excellent | Production-ready |
-| 80-89 | Good | Minor gaps |
-| 70-79 | Adequate | Meets threshold, should improve |
-| 60-69 | Weak | Below threshold |
-| <60 | Rewrite | Fundamental problems |
-
-Default pass threshold: 70. Configure in `.claude/nlpm.local.md`.
-
-See `skills/nlpm/scoring/SKILL.md` for the full penalty tables. See `skills/nlpm/rules/SKILL.md` for the 50 Rules of Natural Language Programming.
-
-## What it scores
-
-20+ artifact types across one universal floor and three per-tool overlays. The scorer auto-classifies each artifact by its path (see `agents/scorer.md` step 3 for the tier classifier) and applies the matching rules.
-
-| Tier | Artifacts |
-|------|-----------|
-| Universal (Tier 1, open spec at agentskills.io) | `SKILL.md`, `AGENTS.md` (canonical universal memory file, per nlpm decision) |
-| Claude Code (Tier 2-Claude) | `commands/`, `shared partials`, `agents/`, `skills/`, `hooks/hooks.json`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json`, `CLAUDE.md`, `.claude/rules/`, `.claude/settings.json`, `.lsp.json`, `monitors/monitors.json`, `~/.claude/projects/*/memory/*.md` |
-| Codex CLI (Tier 2-Codex) | `.agents/skills/<n>/SKILL.md`, `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.codex/config.toml` (TOML — `[mcp_servers.*]`, `[hooks.*]`, `[agents]` global settings), `.codex/agents/*.toml` (subagent definitions), `.codex/hooks.json`, `agents/openai.yaml` sidecar, root `AGENTS.md` (hierarchical) |
-| Antigravity (Tier 2-Antigravity, advisory) | `.gemini/skills/`, `.agent/skills/`, `.gemini/commands/<n>.toml`, `.gemini/settings.json` (with embedded `mcpServers` + `hooks`), `gemini-extension.json`, `GEMINI.md` |
-
-## NL-TDD
-
-Write test specs BEFORE writing artifacts:
-
-```
-1. Write spec:    .nlpm-test/my-agent.spec.md
-2. /nlpm:test     -> RED (artifact doesn't exist)
-3. Write artifact: agents/my-agent.md
-4. /nlpm:test     -> check trigger accuracy, output format, score
-5. /nlpm:score    -> verify quality score
-6. Iterate        -> fix until GREEN
-```
-
-See `skills/nlpm/testing/SKILL.md` for the full spec format.
-
-## Configuration
-
-Create `.claude/nlpm.local.md` (or run `/nlpm:init`):
-
-```yaml
----
-strictness: standard
-score_threshold: 70
-rule_overrides:
-  R09: { min_examples: 1 }      # require only 1 example block
-  R05: { threshold: 600 }       # allow skills up to 600 lines
-  R23: { budget: 800 }          # increase rules budget
----
-```
-
-| Level | Threshold | Effect |
-|-------|-----------|--------|
-| Relaxed | 60 | Only flag seriously broken artifacts |
-| Standard | 70 | Flag artifacts that need improvement |
-| Strict | 80 | Flag anything below good quality |
-
-## Continuous Enforcement
-
-NLPM ships a `PostToolUse` hook that fires when you write or edit files. A shell script (`scripts/check-artifact.sh`) classifies the file -- if it's an NL artifact, Claude reminds you to run `/nlpm:score`. Non-NL files produce no output.
-
-This is advisory -- it does not block writes. For blocking enforcement, use a `PreToolUse` hook (see tdd-guardian for an example).
+`$nlpm-score --changed` uses `git diff --name-only HEAD`, classifies only changed NL artifacts, delegates scorer and vague-word passes in parallel, prints the normal score report, and writes a `changed` snapshot to `.codex/nlpm-history.json`.
 
 ## Architecture
 
-```
-commands/           User-facing commands (8 + 3 shared partials)
-  ls.md             Discover artifacts -> dispatches scanner
-  score.md          Score quality -> dispatches scorer + vague-scanner in parallel
-  check.md          Cross-component checks -> dispatches checker
-  fix.md            Auto-fix issues -> dispatches scorer
-  trend.md          Track score history -> dispatches scorer + vague-scanner
-  test.md           Run NL-TDD specs -> dispatches tester
-  init.md           Configure project
-  security-scan.md  Scan plugins for security risks -> dispatches security-scanner
-  shared/
-    discover.md         Artifact path patterns (not user-invocable)
-    classify.md         Type classification rules (not user-invocable)
-    append-history.md   Persist scoring snapshot to .claude/nlpm-history.json with scope marker (not user-invocable)
-
-agents/             Dispatched by commands (6 agents)
-  scanner.md        haiku -- fast artifact discovery
-  scorer.md         sonnet -- 100-point quality scoring
-  checker.md        sonnet -- cross-component consistency
-  vague-scanner.md  haiku -- mechanical vague-word counting
-  tester.md         sonnet -- evaluates artifacts against test specs
-  security-scanner.md sonnet -- security risk detection in executable artifacts
-
-skills/nlpm/        Knowledge base (17 skills)
-
-  Core (loaded by agents):
-  conventions/              Universal NL floor: SKILL.md open spec, AGENTS.md, vague-quantifier list, naming
-  conventions-claude/       Claude Code overlay: .claude/* paths, plugin.json, hook events, CLAUDE.md, tool catalog
-  conventions-codex/        Codex CLI overlay: .codex/config.toml, .codex-plugin/plugin.json, .agents/skills/, openai.yaml sidecar
-  conventions-antigravity/  Antigravity overlay: .gemini/* + .agent/*, GEMINI.md (advisory)
-  patterns/                 NL programming best practices + anti-patterns
-  scoring/                  Penalty tables with rule number cross-references
-  rules/                    The 50 Rules of Natural Language Programming (R01-R50)
-  vocabulary/               Canonical noun/verb registry for R51 drift detection (opt-in)
-  testing/                  NL-TDD spec format, test patterns
-  security/                 Security pattern database for executable artifact scanning
-
-  Writing Reference (loaded on demand):
-  writing-skills/   How to write SKILL.md files
-  writing-agents/   How to write agent definitions
-  writing-rules/    How to write .claude/rules/ files
-  writing-prompts/  Universal prompt engineering guide
-  writing-hooks/    How to write Claude Code hooks
-  writing-plugins/  How to design and build plugins
-  orchestration/    Multi-agent workflow patterns
-
-hooks/
-  hooks.json        PostToolUse advisory (command type + check-artifact.sh)
-
-scripts/
-  check-artifact.sh NL artifact classifier for the PostToolUse hook
-
-.nlpm-test/         Self-test specs (dogfooding NL-TDD)
-
-bin/                Standalone author surface (v0.8.0+)
-  nlpm-check        Pure-Python validator for pre-commit / CI / pre-publish
-  nlpm-badge        shields.io endpoint generator + optional attestation sidecar
-
-tests/              Python unittest suite (81 tests total)
-  test_nlpm_check.py                       bin/nlpm-check
-  test_nlpm_badge.py                       bin/nlpm-badge
-  test_validate_rule_ids.py                auditor/scripts/validate-rule-ids.py
-  test_exemplar_helpers.py                 batch-process.py + rule-health.py exemplar paths
-  test_exemplar_gallery_and_citations.py   build-exemplar-gallery.py + propose-rule-citations.py
-
-templates/          Drop-in author templates
-  pre-commit-nlpm.sh             git pre-commit hook
-  workflows/nlpm-check.yml       GitHub Actions workflow
-
-docs/
-  for-authors.md    Full guide for plugin/skill authors
-
-analysis/
-  ecosystem-gap.md                  Why this validator exists (stable ref)
-  scope-expansion-2026-05.md        Author-surface plan
-  2026-05-11-why-obvious-bugs-persist.md   Original research snapshot
-
-auditor/            Self-evolution pipeline (GitHub Actions + data)
-  audits/           Per-repo audit reports and findings sidecars
-  exemplars/        Teaching artifacts from clean audits + auto-generated gallery (v0.8.17+)
-  case-studies/     Narrative articles from post-merge re-audits
-  disclosures-pending/  Security disclosures queued for manual filing
-  feedback/         Rolling rule-health summary
-  findings.jsonl    Append-only audit findings (joined by fingerprint)
-  disagreements.jsonl  self_false_positive + maintainer_rejected + pr_comments_snapshot
-  logs/events.jsonl Lifecycle events + outcome signals + drift telemetry
-  registry/         Repo tracking database
-  scripts/          25+ pipeline helpers — see "Auditor — Self-Evolution Pipeline"
-  prompts/          Shared rubric and exemplar-writer prompts
-  reports/          Daily pipeline reports
+```text
+.codex-plugin/plugin.json       Codex plugin manifest
+.agents/skills                  link to the canonical skills directory
+.agents/plugins/marketplace.json
+.codex/agents/*.toml            eight role-specific subagent definitions
+.codex/hooks.json               PostToolUse advisory hook
+.codex/config.toml              hooks + multi-agent project configuration
+skills/nlpm/                    one canonical, publishable skill tree
+  {12 command skills}/          explicit $nlpm-* workflows
+  workflow-core/                discovery, classification, history contracts
+  {knowledge skills}/           rules, scoring, conventions, authoring guidance
+scripts/check-artifact.py       fail-open Codex hook implementation
+bin/nlpm-check                  stdlib-only deterministic validator
 ```
 
-## Tips
+Named subagent TOMLs are active when developing this repository. Installed command skills also have a defined fallback: they spawn a generic Codex subagent and pass the bundled role's `developer_instructions`, sandbox policy, and reasoning effort. This keeps the packaged plugin functional on Codex surfaces that do not activate repository-local subagent files from a plugin.
 
-- **Score early, score often.** Run `/nlpm:score` after writing any new artifact.
-- **Use `--changed` for speed.** `score --changed` only scores git-modified files.
-- **Use `/nlpm:trend` before releases.** Catches regressions that individual scoring misses.
-- **Do not chase 100.** 85+ is excellent. The last 5-10 points are diminishing returns.
-- **R01 is the most common penalty.** "appropriate", "relevant", "as needed" each cost -2. Replace with measurable criteria.
-- **Auto-fix handles the mechanical stuff.** Focus your energy on descriptions, examples, and scope notes.
-- **Pre-commit + slash commands together.** Run `nlpm-check` in your pre-commit hook for the deterministic checks; let `/nlpm:score` handle the judgment calls inside Claude Code.
+Runtime state is written only to `.codex/`:
 
-## Troubleshooting
+- `.codex/nlpm.local.md`
+- `.codex/nlpm-history.json`
+- `.codex/nlpm-reports/`
 
-**"Score seems too low"** -- Check which penalties hit. Scoring is deterministic. Vague quantifiers stack up fast.
+On first use, NLPM may read legacy `.claude/nlpm.local.md` or `.claude/nlpm-history.json` once and import valid settings or snapshots. It never writes back to the legacy path.
 
-**"Writing skill didn't load"** -- Use keywords from the skill's description: "write an agent definition", "create a new agent".
+## Standalone validator
 
-**"Check found orphans that aren't really orphans"** -- Writing skills are on-demand (loaded by Claude, not referenced by agents). This is expected.
+`bin/nlpm-check` is a single Python 3.11+ file using only the standard library. It validates manifest paths, skill registration, frontmatter, and hook event names for Codex plugins while retaining static checks for legacy Claude manifests.
 
-**"Trend shows no history"** -- Run `/nlpm:score` first to create the baseline snapshot.
-
-## Case Studies
-
-25+ case studies in [`case-studies/`](case-studies/) from the auditor pipeline. A few representative ones:
-
-- [The frontmatter tax: 19 silent registration failures in a 33,000-star plugin collection](case-studies/2026-04-24-wshobson-agents.md) — `wshobson/agents`, 100 artifacts sampled of 509, 5 PRs batched and agentically merged in 13 seconds. (Companion [learnings debrief](case-studies/2026-04-18-wshobson-agents-learnings.md).)
-- [Four bytes of quoting, approved by two OpenAI engineers](case-studies/2026-04-07-openai-codex-plugin-cc.md) — `openai/codex-plugin-cc`, 93/100 Gold tier, two shell-injection fixes merged by OpenAI contributors in 39 hours.
-- [Auditing kubesphere/kubesphere](case-studies/2026-05-07-kubesphere-kubesphere.md) — 16k-star repo, 18 findings including duplicate sections and broken YAML, surfaced by manifest-vs-disk and cross-component checks the other validators don't run.
-- [When the Linter Met Its Match](case-studies/2026-04-06-how-we-helped-gsd.md) — `gsd-build/get-shit-done`, 80 files scored, 5 PRs accepted, plus the false-positive that improved NLPM itself.
-
-## Effectiveness
-
-As of 2026-05-19 the auditor pipeline has filed 278 PRs across 44 distinct accepting repos, with a 71% acceptance rate (98 merged + 20 applied-separately, 49 rejected, 111 still open). The following data points are the highest-signal:
-
-- **`google-gemini/gemini-skills`** and **`googleworkspace/cli`** — both Google orgs that originally CLA-blocked the pipeline — ended up accepting work: 2 merged and 4 applied-separately respectively, once the CLA gate was satisfied.
-- **`openai/codex-plugin-cc`** has 2 merges — first-party OpenAI org acceptance.
-- **`kubesphere/kubesphere`** (24k+ stars) accepted 5 PRs — the highest-profile downstream.
-- 8 repos (`zubair-trabzada/geo-seo-claude`, `wshobson/agents`, `sickn33/antigravity-awesome-skills`, `kubesphere/kubesphere`, `jeremylongshore/claude-code-plugins-plus-skills`, `Jeffallan/claude-skills`, `hesreallyhim/awesome-claude-code`, `caliber-ai-org/ai-setup`) each hit the per-repo PR cap of 5 — more PRs could ship if the cap were raised.
-- 2 repos have crossed into **rule-adoption** (maintainer credited NLPM in CHANGELOG or systemically backfilled siblings): [`jeremylongshore/claude-code-plugins-plus-skills`](https://github.com/jeremylongshore/claude-code-plugins-plus-skills/blob/main/CHANGELOG.md) and [`sickn33/antigravity-awesome-skills`](https://github.com/sickn33/antigravity-awesome-skills/blob/main/CHANGELOG.md).
-
-## Auditor — Self-Evolution Pipeline
-
-The `auditor/` directory contains a GitHub Actions pipeline that systematically discovers, audits, and contributes to Claude Code repos across GitHub. Two branches run in parallel: bugs become contribute PRs, clean repos become teaching exemplars. Both branches feed back into NLPM's rules.
-
-```
-discover (weekly) → audit
-                      ├─ has bugs ─→ contribute PRs ─→ track merges ─→ write case study
-                      │                                                       ↓
-                      │                                              feedback/log.json
-                      │                                                       ↓
-                      └─ clean (≥90) ─→ write exemplar ─→ gallery ──→ rule-citation PR (weekly, human-gated)
-                                                                              ↓
-                                                                    update NLPM rules → audit better
+```bash
+python3 bin/nlpm-check .
+python3 bin/nlpm-check --json .
+python3 -m unittest tests.test_nlpm_check
 ```
 
-15 workflows in [`.github/workflows/auditor-*.yml`](.github/workflows/): discover, batch-processor, audit, contribute, track, case-study, **exemplar** (v0.8.17+), **cite-exemplars** (v0.8.18+), classify, daily-report, suppressions, refine-rules, docs-diff, rule-review, integration-test. Human-in-the-loop via issue labels at the audit, contribute, exemplar, and rule-refinement decision points.
+Pre-commit and CI templates live in `templates/`.
 
-See [auditor/README.md](auditor/README.md) for the full pipeline documentation and [auditor/SCHEMAS.md](auditor/SCHEMAS.md) for the data contracts.
+## Development
 
-## Prerequisites
+```bash
+python3 -m unittest discover -s tests -p "test_*.py"
+python3 -m unittest tests.test_nlpm_check
+python3 bin/nlpm-check .
+```
 
-- **Slash commands (`/nlpm:*`)**: none. Pure markdown — no Python, no Node.js.
-- **Standalone `bin/nlpm-check`**: Python 3.11+ (stdlib only; no pip install).
-- **Auditor workflows**: `CLAUDE_CODE_OAUTH_TOKEN`, `PAT_TOKEN`, and `OPENAI_API_KEY` GitHub repo secrets.
+Before a release, update `.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json` together. The pre-release gate uses `openai/codex-action@v1`; Auditor workflows require `OPENAI_API_KEY` and any workflow-specific GitHub token.
+
+See [docs/for-authors.md](docs/for-authors.md), [the migration matrix](analysis/codex-migration-matrix.md), and [nlpm.com](https://nlpm.com).
 
 ## License
 

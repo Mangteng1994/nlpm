@@ -64,7 +64,7 @@ Penalties stack. The floor is 0; the ceiling is 100. No bonuses — the default 
 > a MUST. Mismatch is deterministic, high-confidence, and reproducible by
 > single-line diff (frontmatter `name:` vs `basename($(dirname FILE))`).
 > Mark such findings `confidence: high` per the manifest-vs-disk-diff
-> principle in `agents/scorer.md` step 6. Note: this penalty did not
+> principle in `.codex/agents/scorer.toml` step 6. Note: this penalty did not
 > exist before 2026-05-25 — re-scoring past audits will yield slightly
 > lower scores for any corpus containing this defect, but no contribute
 > outcomes are retroactively affected since no PRs were ever opened
@@ -370,7 +370,7 @@ Type-specific penalty rows are deferred until N ≥ 3 examples surface — the e
 
 ### All Artifact Types: Vocabulary Drift (R51 — opt-in, disabled by default)
 
-Applied only when `R51: { enabled: true, vocabulary_skill: <path> }` appears in `.claude/nlpm.local.md`. Without the opt-in, R51 contributes zero penalty regardless of artifact content. The configured `vocabulary_skill` must contain a `registry.yaml` listing canonical and deprecated terms; without it, R51 emits an advisory and contributes zero penalty.
+Applied only when `R51: { enabled: true, vocabulary_skill: <path> }` appears in `.codex/nlpm.local.md`. Without the opt-in, R51 contributes zero penalty regardless of artifact content. The configured `vocabulary_skill` must contain a `registry.yaml` listing canonical and deprecated terms; without it, R51 emits an advisory and contributes zero penalty.
 
 | Rule | Check | Condition | Penalty |
 |------|-------|-----------|---------|
@@ -417,7 +417,7 @@ Applied when linting an entire plugin rather than individual files.
 | 60–69 | Weak | Below threshold; significant findings |
 | <60 | Rewrite | Fundamental problems; recommend rewriting from scratch |
 
-**Default pass threshold:** 70. Configurable in `.claude/nlpm.local.md`.
+**Default pass threshold:** 70. Configurable in `.codex/nlpm.local.md`.
 
 ---
 
@@ -434,11 +434,11 @@ The examples are not needed for routine scoring — the penalty tables above are
 This skill covers the NLPM scoring formula, penalty tables, score bands, and calibration examples. It does NOT cover:
 - Artifact schemas and valid field values → see `nlpm:conventions` (universal) and the tool-specific overlays `nlpm:conventions-claude`, `nlpm:conventions-codex`, `nlpm:conventions-antigravity` (the latter three created in PR-B; see `analysis/multi-tool-design-2026-05.md`)
 - Patterns and anti-patterns catalog → see `nlpm:patterns`
-- How to run the score command → see `commands/score.md`
+- How to run scoring → see `skills/nlpm/score/SKILL.md`
 
 ### Multi-tool scoring (PR-B landed 2026-05-25)
 
-nlpm now scores artifacts across three tool ecosystems — Claude Code, Codex CLI, and Antigravity (which absorbs Gemini CLI on 2026-06-18). The tier classification in `agents/scorer.md` separates open-spec (Tier 1), Tier 1.5 open-spec corpora, and per-tool Tier 2 overlays (2-Claude / 2-Codex / 2-Antigravity).
+nlpm scores artifacts across three tool ecosystems. The tier classification in `.codex/agents/scorer.toml` separates open-spec (Tier 1), Tier 1.5 corpora, and per-tool Tier 2 overlays.
 
 - **Hooks** are scored per tool (Claude / Codex / Antigravity tables above). The three tools' event vocabularies are not 1:1 mappable; no universal translation layer. See `analysis/multi-tool-design-2026-05.md` decision #4.
 - **Codex-specific artifacts** scored: `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `.codex/config.toml`, `agents/openai.yaml` sidecars.

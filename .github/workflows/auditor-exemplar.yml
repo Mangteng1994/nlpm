@@ -1,7 +1,7 @@
 name: Write Exemplar
 
 # Fires on `case-study-clean` label. Reads the existing audit report,
-# clones the target at the audit commit SHA, and asks claude-code-action
+# clones the target at the audit commit SHA, and asks Codex Action
 # to write a teaching artifact under `auditor/exemplars/<slug>.md`.
 #
 # Distinct from `auditor-case-study.yml`, which writes a narrative
@@ -132,7 +132,7 @@ jobs:
             -e "s|{{DATE_ISO}}|${DATE_ISO}|g" \
             auditor/prompts/write-exemplar.md > /tmp/exemplar-prompt.md
           echo "Rendered $(wc -l < /tmp/exemplar-prompt.md) lines"
-          # claude-code-action v1 does NOT accept prompt_file; pass via env+prompt:
+          # The prompt is assembled dynamically, so pass it inline.
           # below. The 2026-05-13 first deploy hit this — every run failed in 4s.
           {
             echo "EXEMPLAR_PROMPT<<__EXEMPLAR_PROMPT_EOF__"
@@ -140,22 +140,18 @@ jobs:
             echo "__EXEMPLAR_PROMPT_EOF__"
           } >> "$GITHUB_ENV"
 
-      - name: Write exemplar with Claude Code
-        uses: anthropics/claude-code-action@v1
+      - name: Write exemplar with Codex
+        uses: openai/codex-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
-          show_full_output: true
-          # Bash is included because Claude reaches for `find` / `wc -l` to
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          # Shell access is included because Codex may use `find` / `wc -l` to
           # survey large target repos before writing — the v0.8.18 bulk-seed
-          # showed 43/56 runs where Claude read files via Bash-disabled tool
+          # showed 43/56 runs where the model read files through a slow path
           # paths and never reached a Write call. With Bash allowed, the
           # discovery loop completes quickly and the Write step is reached.
           # Restrict to harmless read/discover Bash patterns; never let the
           # exemplar writer execute network or mutation calls.
-          claude_args: |
-            --allowedTools Read,Glob,Grep,Write,Bash
-            --disallowedTools "Bash(curl:*)" "Bash(wget:*)" "Bash(git:*)" "Bash(rm:*)" "Bash(mv:*)" "Bash(npm:*)" "Bash(pip:*)" WebFetch WebSearch
+          sandbox: workspace-write
           prompt: ${{ env.EXEMPLAR_PROMPT }}
 
       - name: Validate exemplar
@@ -178,7 +174,7 @@ jobs:
           fi
           # Detect prompt echo
           if grep -q "Step 4: Hard rules for the output" "$EXEMPLAR_PATH"; then
-            echo "ERROR: Claude echoed the prompt instead of writing the exemplar"
+            echo "ERROR: Codex echoed the prompt instead of writing the exemplar"
             rm -f "$EXEMPLAR_PATH"
             exit 1
           fi

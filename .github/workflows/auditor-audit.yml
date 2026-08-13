@@ -264,7 +264,7 @@ jobs:
           done
 
       # ================================================================
-      # DEEP SCORE: full rubric scoring via Claude
+      # DEEP SCORE: full rubric scoring via Codex
       # ================================================================
       # Note: a `Shallow scan — frontmatter check` step previously sat here,
       # gated `if: false` with a TODO to rewrite jq+grep logic in awk.
@@ -334,9 +334,9 @@ jobs:
           rm -f "auditor/audits/${SLUG}.md"
           echo "Removed stale report (if any)"
 
-      - name: Audit with Claude Code
-        id: audit_claude
-        uses: anthropics/claude-code-action@v1
+      - name: Audit with Codex
+        id: audit_codex
+        uses: openai/codex-action@v1
         env:
           SECURITY_RISK: ${{ steps.security.outputs.risk }}
           SECURITY_CRITICAL: ${{ steps.security.outputs.critical }}
@@ -346,10 +346,9 @@ jobs:
           SECURITY_SCRIPTS: ${{ steps.security.outputs.scripts }}
           SECURITY_MCP: ${{ steps.security.outputs.mcp }}
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
-          show_full_output: true
-          claude_args: "--allowedTools Read,Glob,Grep,Write,Edit"
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          sandbox: workspace-write
+          output-file: /tmp/audit-codex-output.md
           prompt: |
             You are an NLPM auditor. Your task: read source files, score them, perform a security scan of executable artifacts, and write a comprehensive audit report.
 
@@ -517,13 +516,13 @@ jobs:
             This sidecar is the machine-readable spine of the audit. A post-step enriches it with fingerprints and timestamps and appends to `auditor/findings.jsonl`. Malformed lines are counted as invalid and reported but not appended — so be precise.
 
       # ================================================================
-      # VALIDATE: ensure Claude wrote real results, not echoed the prompt
+      # VALIDATE: ensure Codex wrote real results, not echoed the prompt
       # ================================================================
       - name: Validate audit report
         env:
           TARGET_REPO: ${{ steps.target.outputs.repo }}
           ISSUE_NUM: ${{ steps.target.outputs.issue }}
-          EXEC_FILE: ${{ steps.audit_claude.outputs.execution_file }}
+          EXEC_FILE: /tmp/audit-codex-output.md
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           SLUG="${TARGET_REPO//\//-}"
@@ -540,7 +539,7 @@ jobs:
             # stuck at `audit-ready` and the batch-processor re-triggers it
             # every cycle — a permanent compute drain (observed:
             # 0xSteph/pentest-ai-agents, #501). Detect the refusal in the
-            # claude-code-action execution log and mark the repo terminal.
+            # Codex final-output log and mark the repo terminal.
             if [ -n "$EXEC_FILE" ] && [ -f "$EXEC_FILE" ] \
                && grep -qiE 'model_refusal|"stop_reason"[[:space:]]*:[[:space:]]*"refusal"|safeguards flagged|cybersecurity topic' "$EXEC_FILE" 2>/dev/null; then
               echo "DETECTED: auditor model safety refusal — marking repo audit-unsupported (terminal)."
@@ -563,7 +562,7 @@ jobs:
               gh issue edit "$ISSUE_NUM" --add-label "audit-unsupported" --remove-label "audit-ready" 2>/dev/null || true
               gh issue close "$ISSUE_NUM" --reason "not planned" 2>/dev/null || true
             else
-              echo "Looking for any audit files Claude may have written..."
+              echo "Looking for any audit files Codex may have written..."
               find . -name "*.md" -newer .git/HEAD -not -path './.github/*' -not -path './target-repo/*' | head -10
             fi
             # Fail loudly either way — previous exit 0 let the aggregate/commit
@@ -578,9 +577,9 @@ jobs:
           echo "First 5 lines:"
           head -5 "$REPORT"
 
-          # Detect prompt echo: if the report contains rubric instructions, Claude echoed the prompt
+          # Detect prompt echo: if the report contains rubric instructions, Codex echoed the prompt
           if grep -q "subtract penalties" "$REPORT" 2>/dev/null; then
-            echo "ERROR: Claude echoed the prompt instead of executing the audit!"
+            echo "ERROR: Codex echoed the prompt instead of executing the audit!"
             echo "Removing invalid report"
             rm -f "$REPORT"
 
@@ -612,7 +611,7 @@ jobs:
       # ================================================================
       # VALIDATE: scorer rule_id discipline (catches LLM mislabel drift)
       # ================================================================
-      # Runs validate-rule-ids.py against the sidecar Claude just wrote and
+      # Runs validate-rule-ids.py against the sidecar Codex just wrote and
       # emits a scorer_drift_check event with the drift count. Does NOT fail
       # the audit — drift is telemetry, not a gate. The 2026-05-13 baseline
       # was 861 drifts across 127 historical sidecars; the v0.8.15 prompt
@@ -683,7 +682,7 @@ jobs:
           SLUG="${TARGET_REPO//\//-}"
           SIDECAR="auditor/audits/${SLUG}.findings.jsonl"
 
-          # If the sidecar is missing, it means Claude didn't emit it (older run or
+          # If the sidecar is missing, it means Codex didn't emit it (older run or
           # prompt echo). Log zero findings and move on — aggregation is idempotent.
           if [ ! -f "$SIDECAR" ]; then
             echo "No sidecar at $SIDECAR — nothing to aggregate."
@@ -709,7 +708,7 @@ jobs:
           while IFS= read -r line; do
             [ -z "$line" ] && continue
 
-            # Skip lines that don't parse as JSON — Claude occasionally emits stray
+            # Skip lines that don't parse as JSON — a model may emit stray
             # commentary or trailing commas. Don't fail the whole aggregation.
             if ! printf '%s' "$line" | jq -e . >/dev/null 2>&1; then
               INVALID=$((INVALID + 1))
@@ -802,15 +801,15 @@ jobs:
             fi
           done
 
-          # Also check if Claude wrote directly to auditor/audits/
+          # Also check if Codex wrote directly to auditor/audits/
           [ -f "auditor/audits/${SLUG}.md" ] || echo "WARNING: No audit report found"
 
           source auditor/scripts/log-event.sh
 
           REPORT="auditor/audits/${SLUG}.md"
 
-          # Debug: show what files Claude created
-          echo "=== Files modified/created by Claude ==="
+          # Debug: show what files Codex created
+          echo "=== Files modified/created by Codex ==="
           find . -name "*.md" -newer .git/HEAD -not -path './.github/*' -not -path './target-repo/*' | head -20
           echo "=== Checking expected report path ==="
           ls -la "auditor/audits/" 2>/dev/null || echo "auditor/audits/ does not exist"

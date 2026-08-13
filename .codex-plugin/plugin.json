@@ -1,7 +1,7 @@
 {
   "name": "nlpm",
-  "version": "1.2.4",
-  "description": "Natural-Language Programming reference knowledge — the 50 Rules, the 100-point scoring rubric, per-tool conventions (Claude Code / Codex CLI / Antigravity), anti-patterns, vocabulary discipline, and authoring guides, as loadable Codex skills. The interactive linting commands remain a Claude Code plugin; the cross-tool deterministic checker ships as a standalone Python binary (bin/nlpm-check).",
+  "version": "2.0.0",
+  "description": "Codex-native Natural-Language Programming Manager with explicit scoring, checking, fixing, testing, reporting, security, vocabulary, and specification-sync skills.",
   "author": {
     "name": "xiaolai"
   },
@@ -21,18 +21,22 @@
     "antigravity",
     "multi-tool"
   ],
-  "skills": "./codex/skills/",
+  "skills": "./skills/nlpm/",
+  "hooks": "./.codex/hooks.json",
   "interface": {
     "displayName": "nlpm",
-    "shortDescription": "Natural-Language Programming reference knowledge — 50 Rules, scoring rubric, per-tool conventions, authoring guides — as Codex skills.",
-    "longDescription": "nlpm's reference-knowledge skills for Codex CLI: the 50 Rules of Natural Language Programming, the 100-point scoring rubric, per-tool conventions for Claude Code / Codex CLI / Antigravity, anti-patterns, the R51 vocabulary discipline framework, and authoring guides for skills, agents, hooks, rules, plugins, and prompts. These are knowledge skills, not commands — load $nlpm-rules and $nlpm-scoring to score an artifact, $nlpm-conventions-codex for the Codex skill layout, etc. The interactive /nlpm:* linting commands orchestrate sub-agents and remain a Claude Code plugin; for tool-agnostic deterministic checks use the standalone bin/nlpm-check.",
+    "shortDescription": "Codex-native scoring, checking, fixing, testing, reporting, and NL artifact authoring workflows.",
+    "longDescription": "NLPM for Codex provides twelve explicit $nlpm-* workflow skills, reusable scoring and convention knowledge, Codex subagent orchestration, advisory edit hooks, vocabulary discipline, security scanning, and the standard-library deterministic checker. Claude Code and Antigravity formats remain supported only as static audit targets.",
     "developerName": "xiaolai",
     "category": "Coding",
     "capabilities": [
-      "Read"
+      "Read",
+      "Write",
+      "Shell",
+      "Web"
     ],
     "defaultPrompt": [
-      "Score this skill against the nlpm rules."
+      "Run $nlpm-score on this project."
     ],
     "websiteURL": "https://github.com/xiaolai/nlpm",
     "screenshots": []

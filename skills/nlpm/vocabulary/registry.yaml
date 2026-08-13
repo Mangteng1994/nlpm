@@ -1,7 +1,7 @@
 # Machine-readable vocabulary registry for NLPM.
 #
-# Read by /nlpm:check and /nlpm:score when R51 is enabled in
-# .claude/nlpm.local.md. The human-readable counterpart is SKILL.md in
+# Read by $nlpm-check and $nlpm-score when R51 is enabled in
+# .codex/nlpm.local.md. The human-readable counterpart is SKILL.md in
 # this directory; that is the canonical source. This file is the
 # parsable export — keep both in sync. When in doubt, SKILL.md wins.
 #
@@ -181,10 +181,10 @@ nouns:
       definition: any NL programming file Claude Code consumes
     - canonical: command
       deprecated: [slash-command]
-      definition: commands/*.md, invoked via /<plugin>:<name>
+      definition: command SKILL.md, invoked via $<plugin>-<name>
     - canonical: agent
       deprecated: [subagent, worker]
-      definition: agents/*.md, invoked via Task with subagent_type
+      definition: .codex/agents/*.toml, invoked via Codex delegation
     - canonical: skill
       deprecated: []
       definition: skills/<plugin>/<name>/SKILL.md, auto-loaded by description match
@@ -221,7 +221,7 @@ nouns:
       definition: points subtracted by a single finding
     - canonical: snapshot
       deprecated: []
-      definition: point-in-time record in .claude/nlpm-history.json
+      definition: point-in-time record in .codex/nlpm-history.json
     - canonical: inventory
       deprecated: [catalog, manifest]
       definition: list of artifacts discovered in a path

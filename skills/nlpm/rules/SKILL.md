@@ -6,7 +6,7 @@ version: 0.2.0
 
 # The Rules of Natural Language Programming
 
-> These rules govern how to write NL artifacts that Claude Code and other LLMs consume. They are enforced by `/nlpm:score` (penalty-based) and referenced by `/nlpm:fix` (auto-repair). When writing any NL artifact, follow these rules.
+> These rules govern NL artifacts consumed by Codex and other LLM tools. They are enforced by `$nlpm-score` and referenced by `$nlpm-fix`.
 
 ---
 
@@ -195,7 +195,7 @@ Good: `**Use specific types instead of any.** Without specific types, TypeScript
 
 **R29. Referenced scripts must exist.** A hook pointing to a missing script silently fails.
 
-**R30. Use `${CLAUDE_PLUGIN_ROOT}` for paths.** Never hardcode absolute paths. They break on other machines.
+**R30. Use the active runtime's plugin-root variable.** Codex plugins use `${PLUGIN_ROOT}`. Static audits of another tool apply that tool's documented variable. Never hardcode absolute paths.
 
 <!-- nlpm-exemplar-citation:begin -->
 > Real-world example: [AgriciDaniel-claude-seo](../../../auditor/exemplars/AgriciDaniel-claude-seo.md), [BayramAnnakov-claude-reflect](../../../auditor/exemplars/BayramAnnakov-claude-reflect.md), [CloudAI-X-claude-workflow-v2](../../../auditor/exemplars/CloudAI-X-claude-workflow-v2.md), [MemPalace-mempalace](../../../auditor/exemplars/MemPalace-mempalace.md), [SukinShetty-Nemp-memory](../../../auditor/exemplars/SukinShetty-Nemp-memory.md), [agenticnotetaking-arscontexta](../../../auditor/exemplars/agenticnotetaking-arscontexta.md), [alexgreensh-token-optimizer](../../../auditor/exemplars/alexgreensh-token-optimizer.md), [data-goblin-power-bi-agentic-development](../../../auditor/exemplars/data-goblin-power-bi-agentic-development.md), [fivetaku-fablize](../../../auditor/exemplars/fivetaku-fablize.md), [jnMetaCode-superpowers-zh](../../../auditor/exemplars/jnMetaCode-superpowers-zh.md), [mem0ai-mem0](../../../auditor/exemplars/mem0ai-mem0.md), [nicknisi-claude-plugins](../../../auditor/exemplars/nicknisi-claude-plugins.md), [openai-codex-plugin-cc](../../../auditor/exemplars/openai-codex-plugin-cc.md), [tanweai-pua](../../../auditor/exemplars/tanweai-pua.md), [viticci-shortcuts-playground-plugin](../../../auditor/exemplars/viticci-shortcuts-playground-plugin.md), [xiaolai-codex-toolkit-for-claude](../../../auditor/exemplars/xiaolai-codex-toolkit-for-claude.md)
@@ -336,7 +336,7 @@ Bad (drift):
 Good:
 > "The checker produces a finding for each manifest inconsistency."
 
-**Opt in by adding to `.claude/nlpm.local.md`:**
+**Opt in by adding to `.codex/nlpm.local.md`:**
 ```yaml
 rule_overrides:
   R51:
