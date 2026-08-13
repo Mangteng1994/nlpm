@@ -7,14 +7,14 @@
     {
       "name": "nlpm",
       "source": {
-        "source": "github",
-        "repo": "Mangteng1994/nlpm"
+        "source": "local",
+        "path": "."
       },
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_USE"
       },
-      "version": "2.0.1",
+      "version": "2.0.2",
       "description": "Codex-native Natural-Language Programming Manager.",
       "category": "developer-tools",
       "interface": {
