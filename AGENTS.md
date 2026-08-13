@@ -96,6 +96,10 @@ Run `python3 -m unittest tests.test_nlpm_check` to verify the binary.
 ## Development
 
 When modifying this plugin:
+- Treat this repository as an owner-managed personal project. When the user
+  requests a commit or push, commit and push directly to `main` unless they
+  explicitly name another branch. Never create a pull request unless the user
+  explicitly requests one.
 - Run `$nlpm-score ./` after changes to verify quality stays above 90
 - Run `$nlpm-check` to verify cross-artifact references
 - Run `$nlpm-test` to verify agent specs pass
