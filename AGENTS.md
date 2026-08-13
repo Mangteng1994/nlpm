@@ -79,8 +79,8 @@ Explicit `$nlpm-*` skills orchestrate Codex subagents. Subagents use the canonic
 
 No build step. Codex skills plugin + single-file Python binary. Install with:
 ```
-codex plugin marketplace add xiaolai/nlpm
-codex plugin add nlpm@xiaolai
+codex plugin marketplace add Mangteng1994/nlpm
+codex plugin add nlpm@mangteng1994
 ```
 
 Test by running `$nlpm-ls` on any project with NL artifacts.

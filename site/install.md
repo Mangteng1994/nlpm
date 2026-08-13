@@ -10,8 +10,8 @@ NLPM is delivered as a Codex plugin. Its runtime, skills, subagent orchestration
 ## Plugin install
 
 ```bash
-codex plugin marketplace add xiaolai/nlpm
-codex plugin add nlpm@xiaolai
+codex plugin marketplace add Mangteng1994/nlpm
+codex plugin add nlpm@mangteng1994
 ```
 
 Start Codex in a repository and invoke a skill explicitly:
@@ -38,7 +38,7 @@ This creates `.codex/nlpm.local.md` and an initial `.codex/nlpm-history.json` sn
 `bin/nlpm-check` is a standard-library-only Python file for deterministic pre-commit and CI checks:
 
 ```bash
-git clone https://github.com/xiaolai/nlpm
+git clone https://github.com/Mangteng1994/nlpm
 python3 nlpm/bin/nlpm-check /path/to/plugin
 ```
 

@@ -1,12 +1,12 @@
 {
   "name": "nlpm",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Codex-native Natural-Language Programming Manager with explicit scoring, checking, fixing, testing, reporting, security, vocabulary, and specification-sync skills.",
   "author": {
-    "name": "xiaolai"
+    "name": "Mangteng1994"
   },
   "homepage": "https://nlpm.com",
-  "repository": "https://github.com/xiaolai/nlpm",
+  "repository": "https://github.com/Mangteng1994/nlpm",
   "license": "ISC",
   "keywords": [
     "nlp",
@@ -27,7 +27,7 @@
     "displayName": "nlpm",
     "shortDescription": "Codex-native scoring, checking, fixing, testing, reporting, and NL artifact authoring workflows.",
     "longDescription": "NLPM for Codex provides twelve explicit $nlpm-* workflow skills, reusable scoring and convention knowledge, Codex subagent orchestration, advisory edit hooks, vocabulary discipline, security scanning, and the standard-library deterministic checker. Claude Code and Antigravity formats remain supported only as static audit targets.",
-    "developerName": "xiaolai",
+    "developerName": "Mangteng1994",
     "category": "Coding",
     "capabilities": [
       "Read",
@@ -38,7 +38,7 @@
     "defaultPrompt": [
       "Run $nlpm-score on this project."
     ],
-    "websiteURL": "https://github.com/xiaolai/nlpm",
+    "websiteURL": "https://github.com/Mangteng1994/nlpm",
     "screenshots": []
   }
 }

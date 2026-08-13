@@ -6,11 +6,11 @@ The runtime and delivery surface is Codex-only. The rubric still recognizes Clau
 
 ## Install
 
-Add the xiaolai marketplace and install the plugin with the Codex CLI:
+Add the Mangteng1994 marketplace and install the plugin with the Codex CLI:
 
 ```bash
-codex plugin marketplace add xiaolai/nlpm
-codex plugin add nlpm@xiaolai
+codex plugin marketplace add Mangteng1994/nlpm
+codex plugin add nlpm@mangteng1994
 ```
 
 For local development, clone the repository and run Codex from its root. Codex discovers the canonical skills through `.agents/skills`, project subagents through `.codex/agents`, and the advisory edit hook through `.codex/hooks.json`.
