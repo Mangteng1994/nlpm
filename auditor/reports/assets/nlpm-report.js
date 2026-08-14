@@ -102,7 +102,7 @@
     renderTrendGraph(trendData);
   } else {
     document.getElementById("trend-graph").innerHTML =
-      `<div style="padding:24px;color:var(--fg-muted);">Need at least 2 snapshots to render a trend. Run <code>/nlpm:score</code> over time to build history.</div>`;
+      `<div style="padding:24px;color:var(--fg-muted);">Need at least 2 snapshots to render a trend. Run <code>$nlpm-score</code> over time to build history.</div>`;
   }
 
   // ------------------------------------------------------------------
@@ -113,7 +113,7 @@
     renderRefsGraph(refs);
   } else {
     document.getElementById("refs-graph").innerHTML =
-      `<div style="padding:24px;color:var(--fg-muted);">No cross-component data — run <code>/nlpm:check</code> first or include its output in the report.</div>`;
+      `<div style="padding:24px;color:var(--fg-muted);">No cross-component data — run <code>$nlpm-check</code> first or include its output in the report.</div>`;
   }
 
   // ------------------------------------------------------------------
@@ -124,7 +124,7 @@
     renderVocabGraph(vocab);
   } else {
     document.getElementById("vocab-graph").innerHTML =
-      `<div style="padding:24px;color:var(--fg-muted);">No vocabulary skill detected (or none parsed). Run <code>/nlpm:vocab-init</code> to bootstrap one.</div>`;
+      `<div style="padding:24px;color:var(--fg-muted);">No vocabulary skill detected (or none parsed). Run <code>$nlpm-vocab-init</code> to bootstrap one.</div>`;
   }
 
   // ------------------------------------------------------------------
@@ -133,7 +133,7 @@
   const driftList = document.getElementById("drift-list");
   const drift = D.vocab_drift?.candidates || [];
   if (drift.length === 0) {
-    driftList.innerHTML = `<p class="muted">No drift candidates. Either the corpus is consistent, or <code>/nlpm:vocab-drift</code> hasn't been run.</p>`;
+    driftList.innerHTML = `<p class="muted">No drift candidates. Either the corpus is consistent, or <code>$nlpm-vocab-drift</code> hasn't been run.</p>`;
   } else {
     driftList.innerHTML = drift.map((d) => `
       <div class="drift-card conf-${d.confidence || "low"}">
