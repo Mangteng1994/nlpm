@@ -12,7 +12,7 @@
       <h1>NLPM Framework Reference</h1>
       <p class="proj">All rules, principles, and vocabulary concepts linked from reports.
         <span class="muted">·</span>
-        <span class="muted">2026-08-12T22:44:01Z</span>
+        <span class="muted">2026-08-13T03:16:00Z</span>
       </p>
     </div>
     <div class="hdr-right">
@@ -179,7 +179,7 @@
 <p>&lt;!-- nlpm-exemplar-citation:end --&gt;</p></section>
 <section class="rule" id="R28"><h3><a href="#R28" class="anchor">#</a> R28 — Field name matches hook type</h3><p><code>&quot;type&quot;: &quot;command&quot;</code> uses <code>&quot;command&quot;: &quot;...&quot;</code>. <code>&quot;type&quot;: &quot;prompt&quot;</code> uses <code>&quot;prompt&quot;: &quot;...&quot;</code>. Mixing them = broken hook.</p></section>
 <section class="rule" id="R29"><h3><a href="#R29" class="anchor">#</a> R29 — Referenced scripts must exist</h3><p>A hook pointing to a missing script silently fails.</p></section>
-<section class="rule" id="R30"><h3><a href="#R30" class="anchor">#</a> R30 — Use `${CLAUDE_PLUGIN_ROOT}` for paths</h3><p>Never hardcode absolute paths. They break on other machines.</p>
+<section class="rule" id="R30"><h3><a href="#R30" class="anchor">#</a> R30 — Use the active runtime&#39;s plugin-root variable</h3><p>Codex plugins use <code>${PLUGIN_ROOT}</code>. Static audits of another tool apply that tool&#39;s documented variable. Never hardcode absolute paths.</p>
 <p>&lt;!-- nlpm-exemplar-citation:begin --&gt;</p>
 <blockquote>
 <p>Real-world example: <a href="../../../auditor/exemplars/AgriciDaniel-claude-seo.md">AgriciDaniel-claude-seo</a>, <a href="../../../auditor/exemplars/BayramAnnakov-claude-reflect.md">BayramAnnakov-claude-reflect</a>, <a href="../../../auditor/exemplars/CloudAI-X-claude-workflow-v2.md">CloudAI-X-claude-workflow-v2</a>, <a href="../../../auditor/exemplars/MemPalace-mempalace.md">MemPalace-mempalace</a>, <a href="../../../auditor/exemplars/SukinShetty-Nemp-memory.md">SukinShetty-Nemp-memory</a>, <a href="../../../auditor/exemplars/agenticnotetaking-arscontexta.md">agenticnotetaking-arscontexta</a>, <a href="../../../auditor/exemplars/alexgreensh-token-optimizer.md">alexgreensh-token-optimizer</a>, <a href="../../../auditor/exemplars/data-goblin-power-bi-agentic-development.md">data-goblin-power-bi-agentic-development</a>, <a href="../../../auditor/exemplars/fivetaku-fablize.md">fivetaku-fablize</a>, <a href="../../../auditor/exemplars/jnMetaCode-superpowers-zh.md">jnMetaCode-superpowers-zh</a>, <a href="../../../auditor/exemplars/mem0ai-mem0.md">mem0ai-mem0</a>, <a href="../../../auditor/exemplars/nicknisi-claude-plugins.md">nicknisi-claude-plugins</a>, <a href="../../../auditor/exemplars/openai-codex-plugin-cc.md">openai-codex-plugin-cc</a>, <a href="../../../auditor/exemplars/tanweai-pua.md">tanweai-pua</a>, <a href="../../../auditor/exemplars/viticci-shortcuts-playground-plugin.md">viticci-shortcuts-playground-plugin</a>, <a href="../../../auditor/exemplars/xiaolai-codex-toolkit-for-claude.md">xiaolai-codex-toolkit-for-claude</a></p>
@@ -295,7 +295,7 @@
 <blockquote>
 <p>&quot;The checker produces a finding for each manifest inconsistency.&quot;</p>
 </blockquote>
-<p><strong>Opt in by adding to <code>.claude/nlpm.local.md</code>:</strong></p>
+<p><strong>Opt in by adding to <code>.codex/nlpm.local.md</code>:</strong></p>
 <pre><code class="lang-yaml">rule_overrides:
   R51:
     enabled: true
@@ -366,7 +366,7 @@
 <table>
 <thead><tr><th>Scope</th><th>Lives in</th><th>What it operates on</th></tr></thead>
 <tbody>
-<tr><td><strong>internal</strong></td><td><code>commands/</code>, <code>agents/</code>, <code>skills/</code>, <code>bin/</code>, <code>scripts/</code>, project CLAUDE.md</td><td>NLPM&#39;s own behavior — scoring, checking, fixing, testing, listing, trending NL artifacts in the current project.</td></tr>
+<tr><td><strong>internal</strong></td><td><code>skills/</code>, <code>.codex/agents/</code>, <code>bin/</code>, <code>scripts/</code>, <code>AGENTS.md</code></td><td>NLPM&#39;s own Codex behavior.</td></tr>
 <tr><td><strong>auditor</strong></td><td><code>.github/workflows/auditor-*.yml</code>, <code>auditor/</code></td><td>The self-evolution pipeline that audits external repos, opens contribution PRs, tracks outcomes, refines rules.</td></tr>
 </tbody></table>
 <p>A verb that appears in both scopes (<code>scan</code>, <code>test</code>, <code>discover</code>) carries the same identity criterion in both — these are sanctioned homonyms. A verb that appears in only one scope (<code>audit</code>, <code>contribute</code>, <code>track</code> in auditor; <code>score</code>, <code>check</code>, <code>fix</code>, <code>ls</code>, <code>trend</code>, <code>init</code> in internal) is scope-bound; using it in the other scope requires either renaming or declaring a second scope-specific definition.</p>
@@ -375,14 +375,14 @@
 <table>
 <thead><tr><th>Canonical verb</th><th>Output</th><th>Judgment?</th><th>Examples in corpus</th></tr></thead>
 <tbody>
-<tr><td><code>score</code></td><td>number + penalty list</td><td>no (deterministic)</td><td><code>commands/score.md</code>, <code>agents/scorer.md</code></td></tr>
-<tr><td><code>check</code></td><td>consistency violation list</td><td>no (deterministic)</td><td><code>commands/check.md</code>, <code>agents/checker.md</code></td></tr>
-<tr><td><code>test</code></td><td>pass/fail against named specs</td><td>no (deterministic)</td><td><code>commands/test.md</code>, <code>agents/tester.md</code></td></tr>
-<tr><td><code>scan</code></td><td>pattern-match findings against a signature database</td><td>no (deterministic)</td><td><code>commands/security-scan.md</code>, <code>agents/vague-scanner.md</code>, <code>agents/security-scanner.md</code></td></tr>
-<tr><td><code>fix</code></td><td>mutated artifact</td><td>no (mechanical)</td><td><code>commands/fix.md</code></td></tr>
-<tr><td><code>ls</code></td><td>inventory of artifacts</td><td>no</td><td><code>commands/ls.md</code>, <code>agents/scanner.md</code></td></tr>
-<tr><td><code>trend</code></td><td>history report</td><td>no</td><td><code>commands/trend.md</code></td></tr>
-<tr><td><code>init</code></td><td>config file</td><td>no</td><td><code>commands/init.md</code></td></tr>
+<tr><td><code>score</code></td><td>number + penalty list</td><td>no (deterministic)</td><td><code>skills/nlpm/score/</code>, <code>.codex/agents/scorer.toml</code></td></tr>
+<tr><td><code>check</code></td><td>consistency violation list</td><td>no (deterministic)</td><td><code>skills/nlpm/check/</code>, <code>.codex/agents/checker.toml</code></td></tr>
+<tr><td><code>test</code></td><td>pass/fail against named specs</td><td>no (deterministic)</td><td><code>skills/nlpm/test/</code>, <code>.codex/agents/tester.toml</code></td></tr>
+<tr><td><code>scan</code></td><td>signature findings</td><td>no (deterministic)</td><td><code>skills/nlpm/security-scan/</code>, <code>.codex/agents/security-scanner.toml</code></td></tr>
+<tr><td><code>fix</code></td><td>mutated artifact</td><td>no (mechanical)</td><td><code>skills/nlpm/fix/</code></td></tr>
+<tr><td><code>ls</code></td><td>artifact inventory</td><td>no</td><td><code>skills/nlpm/ls/</code>, <code>.codex/agents/scanner.toml</code></td></tr>
+<tr><td><code>trend</code></td><td>history report</td><td>no</td><td><code>skills/nlpm/trend/</code></td></tr>
+<tr><td><code>init</code></td><td>config file</td><td>no</td><td><code>skills/nlpm/init/</code></td></tr>
 </tbody></table>
 <p><strong>Deprecated synonyms (do not use in internal scope):</strong></p>
 <ul>
@@ -414,8 +414,8 @@
 <p><strong>Cross-scope homonyms (same meaning in both scopes):</strong></p>
 <ul>
 <li><code>scan</code> — pattern-match against a signature database (used by <code>security-scan</code> command and <code>scan-suppressions.py</code>)</li>
-<li><code>test</code> — pass/fail against named specs (used by <code>/nlpm:test</code> and <code>auditor-integration-test.yml</code>)</li>
-<li><code>discover</code> — produce a candidate list (<code>/nlpm:ls</code> description text and <code>auditor-discover.yml</code>)</li>
+<li><code>test</code> — pass/fail against named specs (used by <code>$nlpm-test</code> and <code>auditor-integration-test.yml</code>)</li>
+<li><code>discover</code> — produce a candidate list (<code>$nlpm-ls</code> and <code>auditor-discover.yml</code>)</li>
 </ul>
 <h5>Verbs proposed but not entered</h5>
 <p>Per the precedence order in <code>analysis/vocabulary-design-principles.md</code> (P6 last; warrant is an entry check, not a veto), proposed terms split into two lists.</p>
@@ -443,12 +443,12 @@
 <thead><tr><th>Canonical noun</th><th>What it is</th><th>Examples</th></tr></thead>
 <tbody>
 <tr><td><code>artifact</code></td><td>any NL programming file Claude Code consumes</td><td>umbrella term</td></tr>
-<tr><td><code>command</code></td><td><code>commands/*.md</code>, invoked via <code>/&lt;plugin&gt;:&lt;command&gt;</code></td><td><code>commands/score.md</code></td></tr>
-<tr><td><code>agent</code></td><td><code>agents/*.md</code>, invoked via Task tool with <code>subagent_type</code></td><td><code>agents/scorer.md</code></td></tr>
+<tr><td><code>command</code></td><td>explicit Codex skill invoked as <code>$&lt;plugin&gt;-&lt;command&gt;</code></td><td><code>skills/nlpm/score/SKILL.md</code></td></tr>
+<tr><td><code>agent</code></td><td><code>.codex/agents/*.toml</code>, invoked through Codex delegation</td><td><code>.codex/agents/scorer.toml</code></td></tr>
 <tr><td><code>skill</code></td><td><code>skills/&lt;plugin&gt;/&lt;name&gt;/SKILL.md</code>, auto-loaded by description match</td><td><code>skills/nlpm/rules/SKILL.md</code></td></tr>
 <tr><td><code>rule</code></td><td>a numbered item (R01–R50) inside the rules skill</td><td>inside <code>skills/nlpm/rules/SKILL.md</code></td></tr>
 <tr><td><code>hook</code></td><td>shell script wired via <code>hooks.json</code></td><td><code>hooks/hooks.json</code></td></tr>
-<tr><td><code>manifest</code></td><td><code>plugin.json</code> or <code>marketplace.json</code></td><td><code>.claude-plugin/plugin.json</code></td></tr>
+<tr><td><code>manifest</code></td><td><code>plugin.json</code> or <code>marketplace.json</code></td><td><code>.codex-plugin/plugin.json</code></td></tr>
 <tr><td><code>frontmatter</code></td><td>YAML block delimited by <code>---</code> at the top of a Markdown file</td><td>every command, agent, skill</td></tr>
 </tbody></table>
 <p><strong>Sanctioned homonyms</strong> (distinct senses, not drift — the drift scanner should not cluster these against the canonical nouns above):</p>
@@ -463,12 +463,12 @@
 <table>
 <thead><tr><th>Role-noun</th><th>Paired verb</th><th>File</th></tr></thead>
 <tbody>
-<tr><td><code>scanner</code></td><td><code>ls</code></td><td><code>agents/scanner.md</code></td></tr>
-<tr><td><code>scorer</code></td><td><code>score</code></td><td><code>agents/scorer.md</code></td></tr>
-<tr><td><code>checker</code></td><td><code>check</code></td><td><code>agents/checker.md</code></td></tr>
-<tr><td><code>tester</code></td><td><code>test</code></td><td><code>agents/tester.md</code></td></tr>
-<tr><td><code>vague-scanner</code></td><td><code>score</code> (sub-step)</td><td><code>agents/vague-scanner.md</code></td></tr>
-<tr><td><code>security-scanner</code></td><td><code>scan</code></td><td><code>agents/security-scanner.md</code></td></tr>
+<tr><td><code>scanner</code></td><td><code>ls</code></td><td><code>.codex/agents/scanner.toml</code></td></tr>
+<tr><td><code>scorer</code></td><td><code>score</code></td><td><code>.codex/agents/scorer.toml</code></td></tr>
+<tr><td><code>checker</code></td><td><code>check</code></td><td><code>.codex/agents/checker.toml</code></td></tr>
+<tr><td><code>tester</code></td><td><code>test</code></td><td><code>.codex/agents/tester.toml</code></td></tr>
+<tr><td><code>vague-scanner</code></td><td><code>score</code> (sub-step)</td><td><code>.codex/agents/vague-scanner.toml</code></td></tr>
+<tr><td><code>security-scanner</code></td><td><code>scan</code></td><td><code>.codex/agents/security-scanner.toml</code></td></tr>
 </tbody></table>
 <p>These are <strong>not top-level verbs in their own right</strong> (P3). They are role-names for sub-step agents. Treat them as nouns naming the worker, not as operations on artifacts.</p>
 <h5>Output-class nouns (produced by verbs)</h5>
@@ -479,7 +479,7 @@
 <tr><td><code>finding</code></td><td><code>score</code>, <code>check</code>, <code>scan</code></td><td>one problem detected; carries a fingerprint in auditor scope</td></tr>
 <tr><td><code>violation</code></td><td><code>check</code></td><td>a finding specifically from cross-reference checking</td></tr>
 <tr><td><code>penalty</code></td><td><code>score</code></td><td>the points subtracted by a single finding</td></tr>
-<tr><td><code>snapshot</code></td><td><code>score</code>, <code>trend</code></td><td>a point-in-time record appended to <code>.claude/nlpm-history.json</code></td></tr>
+<tr><td><code>snapshot</code></td><td><code>score</code>, <code>trend</code></td><td>a point-in-time record appended to <code>.codex/nlpm-history.json</code></td></tr>
 <tr><td><code>inventory</code></td><td><code>ls</code></td><td>the list of artifacts discovered in a path</td></tr>
 <tr><td><code>report</code></td><td><code>audit</code>, <code>report</code>, <code>trend</code></td><td>a roll-up document</td></tr>
 <tr><td><code>spec</code></td><td><code>test</code></td><td>a <code>.nlpm-test/*.spec.md</code> file defining expected behavior</td></tr>
@@ -523,7 +523,7 @@
 <thead><tr><th>Item</th><th>Why deferred</th><th>What unblocks it</th></tr></thead>
 <tbody>
 <tr><td>Per-rule warrant tags on R01–R50</td><td>Requires reading every rule + judging which warrant it earns its place by. User warrant data lives in <code>rule-health.py</code> outputs.</td><td>A separate <code>auditor-refine-rules</code> follow-up pass that combines rule-health data with this principle set.</td></tr>
-<tr><td>Adding <code>triage</code> as a <code>/nlpm:triage</code> command</td><td>P4 closure gap is real but <code>triage</code> has zero literary warrant today. User warrant is the missing evidence.</td><td>A practitioner reaching for the word unprompted in actual NLPM use.</td></tr>
+<tr><td>Adding <code>triage</code> as a <code>$nlpm-triage</code> skill</td><td>P4 closure gap is real but <code>triage</code> has zero literary warrant today. User warrant is the missing evidence.</td><td>A practitioner reaching for the word unprompted in actual NLPM use.</td></tr>
 <tr><td>Resolving the agent-name-vs-command-name shadowing (<code>scanner</code>/<code>ls</code>, <code>scorer</code>/<code>score</code>)</td><td>Already documented above as a class boundary; no rename proposed.</td><td>A confirmed case of practitioner confusion. None observed today.</td></tr>
 <tr><td>(resolved 2026-05-19) Workflow filename convention</td><td>Declared as sanctioned split. See &quot;Auditor workflow filename convention&quot; below.</td><td>—</td></tr>
 </tbody></table>
@@ -552,7 +552,7 @@
 <tr><td>60–69</td><td>Weak</td><td>Below threshold; significant findings</td></tr>
 <tr><td>&lt;60</td><td>Rewrite</td><td>Fundamental problems; recommend rewriting from scratch</td></tr>
 </tbody></table>
-<p><strong>Default pass threshold:</strong> 70. Configurable in <code>.claude/nlpm.local.md</code>.</p>
+<p><strong>Default pass threshold:</strong> 70. Configurable in <code>.codex/nlpm.local.md</code>.</p>
 <p>---</p></section>
 <section id="severity-levels"><h3><a href="#severity-levels" class="anchor">#</a> Severity levels</h3><table><thead><tr><th>Severity</th><th>Local scorer</th><th>Auditor schema</th></tr></thead><tbody><tr><td><strong>HIGH</strong></td><td>penalty ≥ 10 points</td><td>scorer reproduced the breakage during the scoring pass; <code>confidence: high</code>, requires concrete <code>evidence</code>. Only HIGH findings reach the contribute step.</td></tr><tr><td><strong>MEDIUM</strong></td><td>penalty 5–9 points</td><td>default confidence; no reproducer required.</td></tr><tr><td><strong>LOW</strong></td><td>penalty &lt; 5 points</td><td>weakest signal; kept for our own learning but not for PRs.</td></tr></tbody></table></section>
     </section>
@@ -619,7 +619,7 @@
 ├── CLAUDE.md           # one line: @AGENTS.md
 ├── GEMINI.md           # one line: @AGENTS.md  (only if Gemini-native @-import works)
 └── .gemini/settings.json  # set context.fileName: [&quot;AGENTS.md&quot;]</code></pre>
-<p>This is exactly how nlpm itself is structured (<code>CLAUDE.md</code> → <code>@AGENTS.md</code>).</p>
+<p>This compatibility shim is appropriate for multi-runtime repositories. NLPM&#39;s own distributable runtime is Codex-only and therefore ships <code>AGENTS.md</code> without Claude or Gemini memory shims.</p>
 <p><strong>Body conventions</strong> (universal):</p>
 <ul>
 <li>Open with a one-line project description.</li>
@@ -669,7 +669,7 @@
 <p><strong>Portable paths:</strong> Within a plugin, always reference files via the tool&#39;s plugin-root environment variable — <code>${CLAUDE_PLUGIN_ROOT}</code> in Claude Code, <code>${PLUGIN_ROOT}</code> in Codex (Codex additionally sets <code>CLAUDE_PLUGIN_ROOT</code> / <code>CLAUDE_PLUGIN_DATA</code> for compatibility with existing plugin hooks). Hardcoded absolute paths break portability.</p>
 <p>Tool-specific naming details (e.g., the exact <code>CLAUDE_PLUGIN_ROOT</code> semantics) live in the per-tool overlays.</p>
 <p>---</p></section>
-<section class="artifact-type" id="artifact-rule-overrides-claude-nlpm-local-md-or-equivalent"><h3><a href="#artifact-rule-overrides-claude-nlpm-local-md-or-equivalent" class="anchor">#</a> Rule Overrides (`.claude/nlpm.local.md` or equivalent)</h3><p>The override system is universal. The configuration file path is per-tool:</p>
+<section class="artifact-type" id="artifact-rule-overrides-codex-nlpm-local-md-or-static-tool-equivalent"><h3><a href="#artifact-rule-overrides-codex-nlpm-local-md-or-static-tool-equivalent" class="anchor">#</a> Rule Overrides (`.codex/nlpm.local.md` or static tool equivalent)</h3><p>The override system is universal. The configuration file path is per-tool:</p>
 <table>
 <thead><tr><th>Tool</th><th>Config path</th></tr></thead>
 <tbody>
@@ -741,7 +741,7 @@ rule_overrides:
     <p class="muted">
       Generated by <code>bin/nlpm-build-docs</code> from <code>skills/nlpm/*/SKILL.md</code>,
       <code>analysis/vocabulary-design-principles.md</code>, and
-      <code>agents/vocab-drift-scanner.md</code>. Reload the source markdown and
+      <code>.codex/agents/vocab-drift-scanner.toml</code>. Reload the source and
       re-run the script to refresh.
     </p>
   </footer>
