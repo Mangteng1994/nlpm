@@ -8,6 +8,8 @@ on:
 permissions:
   contents: write
   issues: write
+  pull-requests: write
+  issues: write
   actions: write  # needed to dispatch auditor-case-study.yml (GITHUB_TOKEN label events don't trigger other workflows)
 
 concurrency:

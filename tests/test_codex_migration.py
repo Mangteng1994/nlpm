@@ -201,7 +201,7 @@ class PackageAndAutomationTests(unittest.TestCase):
 
     def test_manifest_paths_exist_and_all_publishable_skills_are_registered(self) -> None:
         manifest = json.loads(read(".codex-plugin/plugin.json"))
-        self.assertEqual("2.0.3", manifest["version"])
+        self.assertEqual("2.0.4", manifest["version"])
         for key in ("skills", "hooks"):
             target = (ROOT / manifest[key]).resolve()
             self.assertTrue(target.exists(), f"missing manifest target {key}: {target}")
@@ -214,7 +214,7 @@ class PackageAndAutomationTests(unittest.TestCase):
 
     def test_marketplace_and_project_config_parse(self) -> None:
         marketplace = json.loads(read(".agents/plugins/marketplace.json"))
-        self.assertEqual("2.0.3", marketplace["plugins"][0]["version"])
+        self.assertEqual("2.0.4", marketplace["plugins"][0]["version"])
         with (ROOT / ".codex" / "config.toml").open("rb") as handle:
             config = tomllib.load(handle)
         self.assertTrue(config["features"]["hooks"])
@@ -237,6 +237,16 @@ class PackageAndAutomationTests(unittest.TestCase):
             "claude_args:",
         ):
             self.assertNotIn(forbidden, workflow_text)
+
+    def test_auditor_pr_writers_have_pull_request_permission(self) -> None:
+        for workflow in (ROOT / ".github" / "workflows").glob("auditor-*.yml"):
+            text = workflow.read_text(encoding="utf-8")
+            if "commit-via-pr.sh" not in text:
+                continue
+            with self.subTest(workflow=workflow.name):
+                permissions = text.split("permissions:\n", 1)[1].split("\n\n", 1)[0]
+                self.assertIn("issues: write", permissions)
+                self.assertIn("pull-requests: write", permissions)
 
     def test_user_docs_are_codex_only(self) -> None:
         docs = "\n".join(
