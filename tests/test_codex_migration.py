@@ -201,7 +201,7 @@ class PackageAndAutomationTests(unittest.TestCase):
 
     def test_manifest_paths_exist_and_all_publishable_skills_are_registered(self) -> None:
         manifest = json.loads(read(".codex-plugin/plugin.json"))
-        self.assertEqual("2.0.2", manifest["version"])
+        self.assertEqual("2.0.3", manifest["version"])
         for key in ("skills", "hooks"):
             target = (ROOT / manifest[key]).resolve()
             self.assertTrue(target.exists(), f"missing manifest target {key}: {target}")
@@ -214,7 +214,7 @@ class PackageAndAutomationTests(unittest.TestCase):
 
     def test_marketplace_and_project_config_parse(self) -> None:
         marketplace = json.loads(read(".agents/plugins/marketplace.json"))
-        self.assertEqual("2.0.2", marketplace["plugins"][0]["version"])
+        self.assertEqual("2.0.3", marketplace["plugins"][0]["version"])
         with (ROOT / ".codex" / "config.toml").open("rb") as handle:
             config = tomllib.load(handle)
         self.assertTrue(config["features"]["hooks"])

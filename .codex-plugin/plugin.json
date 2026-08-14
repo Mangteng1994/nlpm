@@ -1,6 +1,6 @@
 {
   "name": "nlpm",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Codex-native Natural-Language Programming Manager with explicit scoring, checking, fixing, testing, reporting, security, vocabulary, and specification-sync skills.",
   "author": {
     "name": "Mangteng1994"

@@ -39,8 +39,9 @@
 #
 # Behavior:
 #   - No-op (exit 0) if nothing is staged.
-#   - Otherwise: branch off origin/main, commit as nlpm-auditor[bot],
-#     push the branch (3 retries), open a PR labeled `auditor-bot`,
+#   - Otherwise: ensure the repository-level `auditor-bot` label exists,
+#     branch off origin/main, commit as nlpm-auditor[bot], push the branch
+#     (3 retries), open a PR labeled `auditor-bot`,
 #     enable auto-merge (merge-commit method).
 #
 # Concurrency:
@@ -84,6 +85,38 @@ if [ -z "${PAT_TOKEN:-}" ]; then
   echo "::warning::commit-via-pr: PAT_TOKEN missing — using GH_TOKEN. Bot PR will not trigger workflows; the gate will not run on it."
 fi
 
+LABEL="auditor-bot"
+
+# The label is used by both this producer and unstick-bot-prs.sh. Repositories
+# created from a template or restored from backup can lack it; create it before
+# committing so a missing label never leaves an orphaned bot branch. A second
+# lookup handles the harmless race where another scheduled workflow creates it
+# between our first lookup and the create call.
+ensure_auditor_bot_label() {
+  if GH_TOKEN="$TOKEN" gh label list --repo "$GITHUB_REPOSITORY" \
+      --search "$LABEL" --limit 100 --json name --jq '.[].name' \
+      | grep -Fxq "$LABEL"; then
+    return 0
+  fi
+
+  echo "commit-via-pr: creating missing repository label '$LABEL'"
+  if ! GH_TOKEN="$TOKEN" gh label create "$LABEL" --repo "$GITHUB_REPOSITORY" \
+      --color "5319E7" --description "Automated auditor workflow pull requests"; then
+    echo "commit-via-pr: label creation did not complete; checking for a concurrent creator" >&2
+  fi
+
+  if GH_TOKEN="$TOKEN" gh label list --repo "$GITHUB_REPOSITORY" \
+      --search "$LABEL" --limit 100 --json name --jq '.[].name' \
+      | grep -Fxq "$LABEL"; then
+    return 0
+  fi
+
+  echo "::error::commit-via-pr: required label '$LABEL' is missing and could not be created" >&2
+  exit 1
+}
+
+ensure_auditor_bot_label
+
 # --- commit the staged tree on top of current HEAD as the bot identity.
 #     Actions/checkout leaves us at origin/main, so this commit is
 #     correctly parented on main. ---
@@ -121,7 +154,7 @@ PR_URL=$(GH_TOKEN="$TOKEN" gh pr create \
   --repo "$GITHUB_REPOSITORY" \
   --base main --head "$BRANCH" \
   --title "$MSG" --body "$BODY" \
-  --label "auditor-bot")
+  --label "$LABEL")
 echo "commit-via-pr: opened $PR_URL"
 
 # Auto-merge: lands as soon as required checks (if any) pass. When no
