@@ -245,6 +245,12 @@ class PackageAndAutomationTests(unittest.TestCase):
                 continue
             with self.subTest(workflow=workflow.name):
                 permissions = text.split("permissions:\n", 1)[1].split("\n\n", 1)[0]
+                permission_keys = [
+                    line.strip().split(":", 1)[0]
+                    for line in permissions.splitlines()
+                    if line.startswith("  ") and ":" in line
+                ]
+                self.assertEqual(len(permission_keys), len(set(permission_keys)))
                 self.assertIn("issues: write", permissions)
                 self.assertIn("pull-requests: write", permissions)
 

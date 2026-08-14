@@ -9,7 +9,6 @@ permissions:
   contents: write   # daily report commits report file to repo
   issues: write
   pull-requests: write
-  issues: read      # read-only — counts open issues by label; no creation/edit needed
 
 concurrency:
   group: nlpm-daily-report
