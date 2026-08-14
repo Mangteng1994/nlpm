@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T01:13:06Z",
+  "generated_at": "2026-08-14T22:49:22Z",
   "since": null,
   "summary": {
     "total_repos": 288,
@@ -529,7 +529,7 @@
     },
     {
       "repo": "nicobailon/visual-explainer",
-      "status": "contributed",
+      "status": "tracked",
       "stars": 7692,
       "score": 66,
       "security": "CLEAR",
@@ -5475,6 +5475,15 @@
       "day": "2026-08-13",
       "counts": {
         "status_check": 1
+      }
+    },
+    {
+      "day": "2026-08-14",
+      "counts": {
+        "finding_outcome": 3,
+        "status_check": 6,
+        "dashboard_rendered": 1,
+        "report_generated": 2
       }
     }
   ],
