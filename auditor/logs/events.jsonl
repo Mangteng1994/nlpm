@@ -3884,3 +3884,4 @@
 {"timestamp":"2026-08-15T20:21:50Z","workflow":"track","event":"finding_outcome","run_id":"31906478711","run_number":18,"data":{"pr":"0xNyk/council-of-high-intelligence#51","pr_state":"merged","fingerprints":["sha256:5392ac4a4198a2cab522ca99be364a93d1bb864de4f14855e5a70b8e318c2c46"],"rule_ids":["BUG-asymmetric-cross-reference"]}}
 {"timestamp":"2026-08-15T20:32:14Z","workflow":"track","event":"status_check","run_id":"31906478711","run_number":18,"data":{"contributed":54,"tracked":39,"case_study_ready":43,"rule_adopted":2}}
 {"timestamp":"2026-08-15T22:26:45Z","workflow":"daily-report","event":"report_generated","run_id":"31912138509","run_number":7,"data":{"total_repos":288}}
+{"timestamp":"2026-08-15T22:47:29Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"31913046978","run_number":7,"data":{"repos":288,"findings":5328,"advisories":22}}
