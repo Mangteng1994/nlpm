@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T22:49:22Z",
+  "generated_at": "2026-08-15T22:47:28Z",
   "since": null,
   "summary": {
     "total_repos": 288,
@@ -61,7 +61,7 @@
     },
     {
       "repo": "0xNyk/council-of-high-intelligence",
-      "status": "contributed",
+      "status": "complete",
       "stars": 3333,
       "score": 71,
       "security": "REVIEW",
@@ -5482,8 +5482,17 @@
       "counts": {
         "finding_outcome": 3,
         "status_check": 6,
-        "dashboard_rendered": 1,
+        "dashboard_rendered": 2,
         "report_generated": 2
+      }
+    },
+    {
+      "day": "2026-08-15",
+      "counts": {
+        "status_check": 5,
+        "no_narrative": 1,
+        "finding_outcome": 3,
+        "report_generated": 1
       }
     }
   ],
