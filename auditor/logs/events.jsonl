@@ -3886,3 +3886,5 @@
 {"timestamp":"2026-08-15T22:26:45Z","workflow":"daily-report","event":"report_generated","run_id":"31912138509","run_number":7,"data":{"total_repos":288}}
 {"timestamp":"2026-08-15T22:47:29Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"31913046978","run_number":7,"data":{"repos":288,"findings":5328,"advisories":22}}
 {"timestamp":"2026-08-16T01:27:00Z","workflow":"track","event":"status_check","run_id":"31919188711","run_number":19,"data":{"contributed":54,"tracked":39,"case_study_ready":43,"rule_adopted":2}}
+{"timestamp":"2026-08-16T01:46:37Z","workflow":"suppressions","event":"search_failed","run_id":"31920331317","run_number":1,"data":{"reason":"gh api search returned non-zero — partial or empty results"}}
+{"timestamp":"2026-08-16T01:46:37Z","workflow":"suppressions","event":"scan_complete","run_id":"31920331317","run_number":1,"data":{"candidates":0,"emitted":0,"skipped_self":0,"skipped_dup":0,"skipped_no_overrides":0,"search_ok":false}}
