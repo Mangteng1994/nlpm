@@ -3577,6 +3577,19 @@
           "stale_90d_emitted": false
         },
         {
+          "number": 180,
+          "state": "MERGED",
+          "mergedAt": "2026-04-25T07:57:21Z",
+          "closedAt": "2026-04-25T07:57:22Z",
+          "title": "fix(skills): correct writers-pattern sync/export signature across platforms",
+          "updatedAt": "2026-04-25T07:57:22Z",
+          "createdAt": "2026-04-20T18:31:02Z",
+          "outcome": "merged",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
           "number": 181,
           "state": "MERGED",
           "mergedAt": "2026-04-25T07:57:26Z",
@@ -3719,7 +3732,21 @@
       "pipeline_prs": [
         3578
       ],
-      "prs": [],
+      "prs": [
+        {
+          "number": 3578,
+          "state": "MERGED",
+          "mergedAt": "2026-05-06T06:44:57Z",
+          "closedAt": "2026-05-06T06:44:57Z",
+          "title": "docs(agents): add YAML frontmatter to AGENTS.md documentation files",
+          "updatedAt": "2026-05-06T06:44:57Z",
+          "createdAt": "2026-04-22T18:28:09Z",
+          "outcome": "merged",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "rule_adopted": false,
       "score": 74,
       "security": "REVIEW",
@@ -4704,7 +4731,21 @@
       "pipeline_prs": [
         175
       ],
-      "prs": [],
+      "prs": [
+        {
+          "number": 175,
+          "state": "MERGED",
+          "mergedAt": "2026-07-29T20:13:19Z",
+          "closedAt": "2026-07-29T20:13:19Z",
+          "title": "fix: split malformed curl instruction into a fenced code block",
+          "updatedAt": "2026-07-29T20:13:19Z",
+          "createdAt": "2026-07-20T18:44:05Z",
+          "outcome": "merged",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "rule_adopted": false,
       "score": 90,
       "security": "REVIEW",
@@ -8593,6 +8634,19 @@
           "title": "fix(security): make Chromium --no-sandbox conditional on env var",
           "updatedAt": "2026-04-20T12:09:44Z",
           "createdAt": "2026-04-07T06:11:37Z",
+          "outcome": "rejected",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 92,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-04-20T12:09:32Z",
+          "title": "docs(security): warn against building inline exec strings from untrusted input",
+          "updatedAt": "2026-04-20T12:09:32Z",
+          "createdAt": "2026-04-07T06:12:13Z",
           "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
