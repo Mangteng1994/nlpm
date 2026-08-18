@@ -3916,3 +3916,4 @@
 {"timestamp":"2026-08-17T22:50:06Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"32077783122","run_number":9,"data":{"repos":288,"findings":5328,"advisories":22}}
 {"timestamp":"2026-08-18T01:22:24Z","workflow":"track","event":"status_check","run_id":"32087336107","run_number":31,"data":{"contributed":54,"tracked":39,"case_study_ready":44,"rule_adopted":2}}
 {"timestamp":"2026-08-18T04:43:57Z","workflow":"track","event":"status_check","run_id":"32099674067","run_number":32,"data":{"contributed":54,"tracked":39,"case_study_ready":44,"rule_adopted":2}}
+{"timestamp":"2026-08-18T08:45:03Z","workflow":"case-study","event":"no_narrative","run_id":"32117930961","run_number":3,"data":{"repo":"sangrokjung/claude-forge","reason":"thin narrative: score=82, security=REVIEW, merged=0, applied_separately=0, rejected=0, rule_adopted=False"}}
