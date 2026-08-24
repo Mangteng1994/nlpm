@@ -550,6 +550,19 @@
       ],
       "prs": [
         {
+          "number": 15,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add allowed-tools declaration to parallel command files",
+          "updatedAt": "2026-04-22T00:33:47Z",
+          "createdAt": "2026-04-22T00:33:47Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": true
+        },
+        {
           "number": 16,
           "state": "OPEN",
           "mergedAt": null,
