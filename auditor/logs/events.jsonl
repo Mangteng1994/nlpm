@@ -3986,3 +3986,4 @@
 {"timestamp":"2026-08-24T20:29:45Z","workflow":"track","event":"finding_outcome","run_id":"32774154417","run_number":72,"data":{"pr":"CloudAI-X/claude-workflow-v2#15","pr_state":"stale_90d","fingerprints":[],"rule_ids":[]}}
 {"timestamp":"2026-08-24T20:40:46Z","workflow":"track","event":"status_check","run_id":"32774154417","run_number":72,"data":{"contributed":51,"tracked":40,"case_study_ready":44,"rule_adopted":2}}
 {"timestamp":"2026-08-24T22:30:58Z","workflow":"daily-report","event":"report_generated","run_id":"32785011853","run_number":16,"data":{"total_repos":288}}
+{"timestamp":"2026-08-24T22:53:34Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"32786801405","run_number":16,"data":{"repos":288,"findings":5328,"advisories":22}}
