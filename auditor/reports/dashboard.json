@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T22:47:29Z",
+  "generated_at": "2026-08-24T22:53:34Z",
   "since": null,
   "summary": {
     "total_repos": 288,
@@ -13,7 +13,7 @@
   "repo_rows": [
     {
       "repo": "kwakseongjae/oh-my-design",
-      "status": "contributed",
+      "status": "complete",
       "stars": 303,
       "score": 86,
       "security": "REVIEW",
@@ -5566,6 +5566,17 @@
         "status_check": 6,
         "scan_complete": 1,
         "proposals_prepared": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-08-24",
+      "counts": {
+        "status_check": 5,
+        "no_narrative": 1,
+        "search_complete": 1,
+        "finding_outcome": 6,
         "report_generated": 1
       }
     }
