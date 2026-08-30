@@ -4020,3 +4020,4 @@
 {"timestamp":"2026-08-30T04:06:50Z","workflow":"track","event":"status_check","run_id":"33291360107","run_number":93,"data":{"contributed":51,"tracked":40,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-08-30T05:00:45Z","workflow":"suppressions","event":"scan_complete","run_id":"33293728103","run_number":3,"data":{"candidates":0,"emitted":0,"skipped_self":0,"skipped_dup":0,"skipped_no_overrides":0,"search_ok":true}}
 {"timestamp":"2026-08-30T09:59:36Z","workflow":"track","event":"status_check","run_id":"33304945799","run_number":94,"data":{"contributed":51,"tracked":40,"case_study_ready":44,"rule_adopted":1}}
+{"timestamp":"2026-08-30T14:22:08Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"33316653089","run_number":4,"data":{"proposals":6,"skipped_existing_open":0}}
