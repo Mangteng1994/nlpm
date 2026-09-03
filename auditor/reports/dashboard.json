@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T00:24:04Z",
+  "generated_at": "2026-09-03T00:30:04Z",
   "since": null,
   "summary": {
     "total_repos": 288,
@@ -3277,7 +3277,7 @@
     },
     {
       "repo": "timescale/pg-aiguide",
-      "status": "contributed",
+      "status": "complete",
       "stars": 1680,
       "score": 94,
       "security": "REVIEW",
@@ -5644,6 +5644,15 @@
         "dashboard_rendered": 1,
         "status_check": 4,
         "finding_outcome": 1
+      }
+    },
+    {
+      "day": "2026-09-02",
+      "counts": {
+        "dashboard_rendered": 1,
+        "status_check": 3,
+        "no_narrative": 1,
+        "report_generated": 1
       }
     }
   ],
