@@ -310,26 +310,26 @@
       "prs": [
         {
           "number": 19,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-10T14:54:40Z",
           "title": "fix: remove --break-system-packages silent fallback in install.sh",
-          "updatedAt": "2026-04-20T18:24:54Z",
+          "updatedAt": "2026-09-10T14:54:40Z",
           "createdAt": "2026-04-20T18:24:54Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
         },
         {
           "number": 20,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-09-10T14:54:35Z",
           "title": "fix: replace curl-pipe-sh guidance with plugin install command in install.sh",
-          "updatedAt": "2026-04-20T18:25:34Z",
+          "updatedAt": "2026-09-10T14:54:35Z",
           "createdAt": "2026-04-20T18:25:34Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": true
@@ -339,7 +339,7 @@
       "score": 99,
       "security": "REVIEW",
       "stars": 2377,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "batched"
     },
     "AgriciDaniel/claude-blog": {
