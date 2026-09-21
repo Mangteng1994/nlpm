@@ -4183,3 +4183,4 @@
 {"timestamp":"2026-09-21T00:24:11Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"35547581418","run_number":43,"data":{"repos":288,"findings":5328,"advisories":22}}
 {"timestamp":"2026-09-21T03:46:24Z","workflow":"track","event":"status_check","run_id":"35558051662","run_number":193,"data":{"contributed":49,"tracked":41,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-09-21T09:49:11Z","workflow":"track","event":"status_check","run_id":"35584452075","run_number":194,"data":{"contributed":49,"tracked":41,"case_study_ready":44,"rule_adopted":1}}
+{"timestamp":"2026-09-21T12:11:36Z","workflow":"discover","event":"search_complete","run_id":"35597911236","run_number":7,"data":{"candidates":165,"new":60,"worthy":12,"oversized":18}}
