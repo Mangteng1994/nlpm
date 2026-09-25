@@ -1087,7 +1087,7 @@
           "rule_ids": [
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
@@ -6308,7 +6308,7 @@
           "rule_ids": [
             "BUG-missing-frontmatter"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 25,
@@ -6325,7 +6325,7 @@
           "rule_ids": [
             "SEC-external-http-mcp"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
