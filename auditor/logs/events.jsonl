@@ -4216,3 +4216,4 @@
 {"timestamp":"2026-09-25T23:13:47Z","workflow":"track","event":"finding_outcome","run_id":"36199671024","run_number":212,"data":{"pr":"mlunato47/claude-grc-plugin#7","pr_state":"stale_90d","fingerprints":["sha256:e9da87e94e42a36d59d9fce230d39d3239a0941c6b93049afb3e4e3fe48c0ba3"],"rule_ids":["SEC-unstable-api"]}}
 {"timestamp":"2026-09-25T23:18:11Z","workflow":"track","event":"status_check","run_id":"36199671024","run_number":212,"data":{"contributed":49,"tracked":41,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-09-26T00:26:56Z","workflow":"daily-report","event":"report_generated","run_id":"36204874949","run_number":48,"data":{"total_repos":288}}
+{"timestamp":"2026-09-26T00:45:48Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"36206021955","run_number":48,"data":{"repos":288,"findings":5328,"advisories":22}}
