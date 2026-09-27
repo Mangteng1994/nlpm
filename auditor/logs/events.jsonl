@@ -4228,3 +4228,5 @@
 {"timestamp":"2026-09-27T04:57:55Z","workflow":"suppressions","event":"scan_complete","run_id":"36295816811","run_number":7,"data":{"candidates":2,"emitted":4,"skipped_self":0,"skipped_dup":0,"skipped_no_overrides":0,"search_ok":true}}
 {"timestamp":"2026-09-27T10:08:05Z","workflow":"track","event":"status_check","run_id":"36310930651","run_number":219,"data":{"contributed":49,"tracked":41,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-09-27T14:38:44Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"36326632172","run_number":8,"data":{"proposals":7,"skipped_existing_open":0}}
+{"timestamp":"2026-09-27T16:30:53Z","workflow":"track","event":"finding_outcome","run_id":"36333442106","run_number":220,"data":{"pr":"Ibrahim-3d/orchestrator-supaconductor#15","pr_state":"closed_unmerged","fingerprints":["sha256:f36a66cb582161ec87932ad56839892f3c49cde957950226ab0daa0036546f4c"],"rule_ids":["SEC-outbound-network-call"]}}
+{"timestamp":"2026-09-27T16:41:09Z","workflow":"track","event":"status_check","run_id":"36333442106","run_number":220,"data":{"contributed":48,"tracked":42,"case_study_ready":44,"rule_adopted":1}}
