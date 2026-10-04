@@ -4277,3 +4277,4 @@
 {"timestamp":"2026-10-04T05:30:18Z","workflow":"suppressions","event":"scan_complete","run_id":"37180075376","run_number":8,"data":{"candidates":0,"emitted":0,"skipped_self":0,"skipped_dup":0,"skipped_no_overrides":0,"search_ok":false}}
 {"timestamp":"2026-10-04T13:54:12Z","workflow":"track","event":"status_check","run_id":"37206624490","run_number":243,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-10-04T14:43:52Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"37210311436","run_number":9,"data":{"proposals":7,"skipped_existing_open":0}}
+{"timestamp":"2026-10-04T19:24:39Z","workflow":"track","event":"status_check","run_id":"37227457936","run_number":244,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
