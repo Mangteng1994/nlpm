@@ -1767,7 +1767,7 @@
             "BUG-undeclared-tool",
             "BUG-undeclared-tool"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 7,
@@ -1784,7 +1784,7 @@
           "rule_ids": [
             "CC-duplicate-agent-name"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         },
         {
           "number": 8,
@@ -1801,7 +1801,7 @@
           "rule_ids": [
             "CC-stale-count"
           ],
-          "stale_90d_emitted": false
+          "stale_90d_emitted": true
         }
       ],
       "rule_adopted": false,
