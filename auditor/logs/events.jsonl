@@ -4319,3 +4319,4 @@
 {"timestamp":"2026-10-11T04:30:19Z","workflow":"track","event":"status_check","run_id":"38111215076","run_number":264,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-10-11T05:23:20Z","workflow":"suppressions","event":"scan_complete","run_id":"38114610689","run_number":9,"data":{"candidates":2,"emitted":4,"skipped_self":0,"skipped_dup":0,"skipped_no_overrides":0,"search_ok":true}}
 {"timestamp":"2026-10-11T14:53:39Z","workflow":"track","event":"status_check","run_id":"38148194488","run_number":265,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
+{"timestamp":"2026-10-11T15:31:26Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"38151595920","run_number":10,"data":{"proposals":7,"skipped_existing_open":0}}
