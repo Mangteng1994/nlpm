@@ -4315,3 +4315,4 @@
 {"timestamp":"2026-10-10T19:59:36Z","workflow":"track","event":"status_check","run_id":"38081281760","run_number":262,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-10-10T23:27:29Z","workflow":"track","event":"status_check","run_id":"38094463234","run_number":263,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-10-11T00:45:04Z","workflow":"daily-report","event":"report_generated","run_id":"38099469801","run_number":63,"data":{"total_repos":288}}
+{"timestamp":"2026-10-11T01:07:57Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"38100783926","run_number":63,"data":{"repos":288,"findings":5328,"advisories":22}}
