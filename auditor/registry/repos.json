@@ -3784,19 +3784,6 @@
           "stale_90d_emitted": false
         },
         {
-          "number": 67,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-05-09T15:02:38Z",
-          "title": "fix(security): pin root devDependencies to exact versions",
-          "updatedAt": "2026-05-09T15:02:38Z",
-          "createdAt": "2026-04-21T00:36:37Z",
-          "outcome": "rejected",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
           "number": 68,
           "state": "CLOSED",
           "mergedAt": null,
