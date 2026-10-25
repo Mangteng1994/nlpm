@@ -4413,3 +4413,4 @@
 {"timestamp":"2026-10-25T13:39:24Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"40198562586","run_number":12,"data":{"proposals":7,"skipped_existing_open":0}}
 {"timestamp":"2026-10-25T15:49:04Z","workflow":"track","event":"status_check","run_id":"40207847908","run_number":323,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-10-25T18:56:32Z","workflow":"track","event":"status_check","run_id":"40222674655","run_number":324,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
+{"timestamp":"2026-10-25T22:30:53Z","workflow":"track","event":"status_check","run_id":"40239607324","run_number":325,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
