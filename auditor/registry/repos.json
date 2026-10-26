@@ -646,6 +646,19 @@
           "stale_90d_emitted": true
         },
         {
+          "number": 185,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing allowed-tools to 5 commands that need tool access",
+          "updatedAt": "2026-04-21T18:29:29Z",
+          "createdAt": "2026-04-21T18:29:29Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": true
+        },
+        {
           "number": 186,
           "state": "OPEN",
           "mergedAt": null,
@@ -3208,6 +3221,19 @@
       ],
       "prs": [
         {
+          "number": 7,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-08-12T01:18:30Z",
+          "title": "fix: correct skills/ros1 frontmatter name to match directory",
+          "updatedAt": "2026-08-12T01:18:30Z",
+          "createdAt": "2026-07-07T09:42:29Z",
+          "outcome": "applied_separately",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
           "number": 8,
           "state": "CLOSED",
           "mergedAt": null,
@@ -4804,6 +4830,23 @@
         760
       ],
       "prs": [
+        {
+          "number": 757,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-05-01T02:21:35Z",
+          "title": "fix: correct gws docs +write flags in recipe-post-mortem-setup",
+          "updatedAt": "2026-05-01T02:21:35Z",
+          "createdAt": "2026-04-25T12:19:19Z",
+          "outcome": "applied_separately",
+          "fingerprints": [
+            "sha256:7a2087bd83faf7caf5c8954c5d0055864b2f2c656c5ee608f120b2695e87a6ff"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
         {
           "number": 758,
           "state": "CLOSED",
@@ -8143,6 +8186,19 @@
           ],
           "stale_90d_emitted": false,
           "fingerprints_backfilled": true
+        },
+        {
+          "number": 538,
+          "state": "MERGED",
+          "mergedAt": "2026-04-20T17:57:42Z",
+          "closedAt": "2026-04-20T17:57:42Z",
+          "title": "fix(security-engineer): correct risk label in ethical-hacking-methodology",
+          "updatedAt": "2026-04-20T17:57:42Z",
+          "createdAt": "2026-04-20T12:41:25Z",
+          "outcome": "merged",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
         }
       ],
       "rule_adopted": false,
