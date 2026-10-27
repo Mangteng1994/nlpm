@@ -4427,3 +4427,4 @@
 {"timestamp":"2026-10-26T23:45:20Z","workflow":"track","event":"finding_outcome","run_id":"40420807589","run_number":329,"data":{"pr":"sickn33/antigravity-awesome-skills#538","pr_state":"merged","fingerprints":[],"rule_ids":[]}}
 {"timestamp":"2026-10-26T23:47:33Z","workflow":"track","event":"status_check","run_id":"40420807589","run_number":329,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-10-27T01:18:36Z","workflow":"daily-report","event":"report_generated","run_id":"40431783811","run_number":79,"data":{"total_repos":288}}
+{"timestamp":"2026-10-27T01:34:04Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"40433320163","run_number":79,"data":{"repos":288,"findings":5328,"advisories":22}}
