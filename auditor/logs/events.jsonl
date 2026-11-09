@@ -4504,3 +4504,4 @@
 {"timestamp":"2026-11-08T15:53:26Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"42497039923","run_number":14,"data":{"proposals":7,"skipped_existing_open":0}}
 {"timestamp":"2026-11-08T20:23:43Z","workflow":"track","event":"status_check","run_id":"42519013277","run_number":371,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-11-09T01:31:29Z","workflow":"daily-report","event":"report_generated","run_id":"42545995671","run_number":92,"data":{"total_repos":288}}
+{"timestamp":"2026-11-09T01:50:10Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"42547626308","run_number":92,"data":{"repos":288,"findings":5328,"advisories":22}}
