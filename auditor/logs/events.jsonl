@@ -4529,3 +4529,4 @@
 {"timestamp":"2026-11-13T19:28:56Z","workflow":"track","event":"status_check","run_id":"43490527716","run_number":384,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-11-14T00:53:10Z","workflow":"track","event":"status_check","run_id":"43535809045","run_number":385,"data":{"contributed":47,"tracked":43,"case_study_ready":44,"rule_adopted":1}}
 {"timestamp":"2026-11-14T02:05:37Z","workflow":"daily-report","event":"report_generated","run_id":"43544327349","run_number":97,"data":{"total_repos":288}}
+{"timestamp":"2026-11-14T02:36:11Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"43547207997","run_number":97,"data":{"repos":288,"findings":5328,"advisories":22}}
